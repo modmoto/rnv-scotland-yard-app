@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import GameSessionOverview from "./GameSessionOverview";
 
 export default class GameSessionListController extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
+    static navigationOptions = () => ({
         title: 'Game sessions',
     });
 
@@ -26,9 +26,10 @@ export default class GameSessionListController extends React.Component {
         );
     }
 
-    _renderItem = ({item}) => (
-        <GameSessionOverview gameSession={item} navigation={this.props.navigation}/>
-    );
+    _renderItem = ({item}) => {
+        const { navigation } = this.props;
+        return <GameSessionOverview gameSession={item} navigation={navigation}/>
+    };
 
     _keyExtractor = (item, index) => item.id;
 
@@ -44,4 +45,5 @@ export default class GameSessionListController extends React.Component {
 
 GameSessionListController.propTypes = {
     fetchGameSessions: PropTypes.func.isRequired,
+    navigation: PropTypes.func.isRequired,
 };

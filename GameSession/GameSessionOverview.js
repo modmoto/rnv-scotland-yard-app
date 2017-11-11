@@ -4,7 +4,7 @@ import {Button, StyleSheet, Text, View} from "react-native";
 
 export default class GameSessionOverview extends React.Component {
     render() {
-        const { gameSession } = this.props;
+        const { gameSession, navigation} = this.props;
         return (
 
         <View style={styles.container}>
@@ -12,7 +12,7 @@ export default class GameSessionOverview extends React.Component {
             <Text>{gameSession.mrXId ? 1 : 0}/1 MrX</Text>
             <Text>{gameSession.policeOfficerIds.length}/6 Police Officers</Text>
             <Button
-                onPress={() => this.props.navigation.navigate('GameSessionDetails', { gameSessionTransfer: gameSession })}
+                onPress={() => navigation.navigate('GameSessionDetails', { gameSessionTransfer: gameSession })}
                 title="Go to details"
             />
         </View>

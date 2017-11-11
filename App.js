@@ -6,7 +6,7 @@ import {StackNavigator} from 'react-navigation';
 import GameSessionDetailPage from "./GameSession/GameSessionDetailPage";
 
 const HomeScreen = ({navigation}) => (
-        <GameSessionListController fetchGameSessions={fetchGameSessions}/>
+        <GameSessionListController fetchGameSessions={fetchGameSessions} navigation={navigation}/>
 );
 
 const RootNavigator = StackNavigator({
