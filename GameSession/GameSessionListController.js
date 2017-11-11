@@ -1,17 +1,19 @@
 import React from 'react';
-import {FlatList, Text} from "react-native";
+import {FlatList} from "react-native";
 import PropTypes from 'prop-types';
 import GameSessionOverview from "./GameSessionOverview";
 
 export default class GameSessionListController extends React.Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Game sessions',
+    });
 
     constructor(props) {
         super(props);
 
         this.state = {
             gameSessions: []
-        }
-
+        };
     }
 
     render() {
@@ -25,7 +27,7 @@ export default class GameSessionListController extends React.Component {
     }
 
     _renderItem = ({item}) => (
-        <GameSessionOverview gameSession={item} onPress={() => this.props.navigateToGameSession}/>
+        <GameSessionOverview gameSession={item} navigation={this.props.navigation}/>
     );
 
     _keyExtractor = (item, index) => item.id;
@@ -42,5 +44,4 @@ export default class GameSessionListController extends React.Component {
 
 GameSessionListController.propTypes = {
     fetchGameSessions: PropTypes.func.isRequired,
-    navigateToGameSession: PropTypes.func.isRequired,
 };
