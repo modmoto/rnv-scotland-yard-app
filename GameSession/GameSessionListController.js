@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList} from "react-native";
 import PropTypes from 'prop-types';
 import GameSessionOverview from "./GameSessionOverview";
+import {fetchGameSessions} from "../Backend/RestAdapter";
 
 export default class GameSessionListController extends React.Component {
     static navigationOptions = () => ({
@@ -33,17 +34,14 @@ export default class GameSessionListController extends React.Component {
 
     _keyExtractor = (item, index) => item.id;
 
-
     async componentDidMount() {
-        let sessions = await this.props.fetchGameSessions();
+        let sessions = await fetchGameSessions();
         this.setState({
             gameSessions: sessions
         })
-
     }
 }
 
 GameSessionListController.propTypes = {
-    fetchGameSessions: PropTypes.func.isRequired,
     navigation: PropTypes.object.isRequired,
 };

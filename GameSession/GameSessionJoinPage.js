@@ -45,7 +45,8 @@ export default class GameSessionJoinPage extends React.Component {
         const {navigation, gameSession} = this.props.navigation.state.params;
 
         navigation.navigate('GameSessionDetailPage', {
-            gameSession: gameSession
+            gameSession: gameSession,
+            navigation: navigation
         });
     }
 }

@@ -1,9 +1,10 @@
 import React from 'react';
 import {Button, FlatList, Text, View} from "react-native";
 import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
+import MapController from "../Backend/MapController";
 
 export default class GameSessionDetailPage extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
+    static navigationOptions = ({navigation}) => ({
         title: navigation.state.params.gameSession.name,
     });
 
@@ -18,7 +19,7 @@ export default class GameSessionDetailPage extends React.Component {
 
 
     render() {
-        const { policeOfficers, MrX } = this.state;
+        const {policeOfficers, MrX} = this.state;
         return (
             <View>
                 <Text>MrX:</Text>
@@ -28,13 +29,21 @@ export default class GameSessionDetailPage extends React.Component {
                           keyExtractor={this._keyExtractor}
                           renderItem={this._renderItem}
                 />
-                <Button title={'Start Game'} onPress={() => {}}/>
+                <Button title={'Start Game'} onPress={() => this.navigateToMapController()}/>
             </View>
         );
     }
 
+    navigateToMapController() {
+        const {navigation, gameSession} = this.props.navigation.state.params;
+
+        navigation.navigate('MapController', {
+            gameSession: gameSession
+        });
+    }
+
     async componentDidMount() {
-        const { gameSession } = this.props.navigation.state.params;
+        const {gameSession} = this.props.navigation.state.params;
         let officers = await fetchPoliceOfficers(gameSession.id);
         let mrX = await fetchMrX(gameSession.id);
         this.setState({
