@@ -12,7 +12,7 @@ export default class GameSessionOverview extends React.Component {
             <Text>{gameSession.mrXId ? 1 : 0}/1 MrX</Text>
             <Text>{gameSession.policeOfficerIds.length}/6 Police Officers</Text>
             <Button
-                onPress={() => navigate('GameSessionDetails', { gameSessionTransfer: gameSession })}
+                onPress={() => navigate('GameSessionDetails', { gameSession: gameSession })}
                 title="Go to details"
             />
         </View>
