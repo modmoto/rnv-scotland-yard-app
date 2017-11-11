@@ -1,21 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, StyleSheet, Text, View} from "react-native";
+import {Button, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
 export default class GameSessionOverview extends React.Component {
     render() {
         const { gameSession, navigate} = this.props;
         return (
 
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => navigate('GameSessionDetails', { gameSession: gameSession })}>
             <Text>{gameSession.name}</Text>
             <Text>{gameSession.mrXId ? 1 : 0}/1 MrX</Text>
-            <Text>{gameSession.policeOfficerIds.length}/6 Police Officers</Text>
-            <Button
-                onPress={() => navigate('GameSessionDetails', { gameSession: gameSession })}
-                title="Go to details"
-            />
-        </View>
+            <Text>{gameSession.policeOfficerIds.length}/{gameSession.maxPoliceOfficers} Police Officers</Text>
+        </TouchableOpacity>
     )}
 }
 
