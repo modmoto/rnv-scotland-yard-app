@@ -17,10 +17,18 @@ export default class GameSessionListController extends React.Component {
         return (
             <FlatList
                 data={this.state.gameSessions}
-                renderItem={({item: gameSession}) => <Text>{gameSession.name}</Text>}
+                keyExtractor={this._keyExtractor}
+                renderItem={this._renderItem}
             />
         );
     }
+
+    _renderItem = ({item}) => (
+        <Text>{item.name}</Text>
+    );
+
+    _keyExtractor = (item, index) => item.id;
+
 
     async componentDidMount() {
         let sessions = await this.props.fetchGameSessions();
