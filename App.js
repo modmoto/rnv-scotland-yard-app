@@ -1,12 +1,12 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
 import {fetchGameSessions} from "./Backend/RestAdapter";
 import GameSessionListController from "./GameSession/GameSessionListController";
 import {StackNavigator} from 'react-navigation';
 import GameSessionDetailPage from "./GameSession/GameSessionDetailPage";
+import GameSessionJoinPage from "./GameSession/GameSessionJoinPage";
 
 const HomeScreen = ({navigation}) => (
-        <GameSessionListController fetchGameSessions={fetchGameSessions} navigate={navigation.navigate}/>
+        <GameSessionListController fetchGameSessions={fetchGameSessions} navigation={navigation}/>
 );
 
 const RootNavigator = StackNavigator({
@@ -16,8 +16,11 @@ const RootNavigator = StackNavigator({
             headerTitle: 'Available Games',
         },
     },
-    GameSessionDetails: {
+    GameSessionDetailPage: {
         screen: GameSessionDetailPage,
+    },
+    GameSessionJoinPage: {
+        screen: GameSessionJoinPage,
     },
 });
 

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "rnv-scotland-yard-app",
+    "playerName": "rnv-scotland-yard-app",
     "description": "An empty new project",
     "slug": "rnv-scotland-yard-app",
     "privacy": "public",

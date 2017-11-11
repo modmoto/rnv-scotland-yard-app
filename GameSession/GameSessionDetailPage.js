@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, Text, View} from "react-native";
+import {Button, FlatList, Text, View} from "react-native";
 import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
 
 export default class GameSessionDetailPage extends React.Component {
@@ -22,12 +22,13 @@ export default class GameSessionDetailPage extends React.Component {
         return (
             <View>
                 <Text>MrX:</Text>
-                <Text>{MrX.name}</Text>
+                <Text>{MrX.playerName}</Text>
                 <Text>Police Officers:</Text>
                 <FlatList data={policeOfficers}
                           keyExtractor={this._keyExtractor}
                           renderItem={this._renderItem}
                 />
+                <Button title={'Start Game'}/>
             </View>
         );
     }
@@ -43,7 +44,7 @@ export default class GameSessionDetailPage extends React.Component {
     }
 
     _renderItem = ({item}) => {
-        return <Text>{item.name}</Text>
+        return <Text>{item.playerName}</Text>
     };
 
     _keyExtractor = (item, index) => item.id;
