@@ -1,24 +1,38 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import {fetchGameSessions} from "./Backend/RestAdapter";
 import GameSessionListController from "./GameSession/GameSessionListController";
+import { StackNavigator } from 'react-navigation';
 
-export default class App extends React.Component {
-    render() {
-        return (
-            <View style={styles.container}>
-                <GameSessionListController fetchGameSessions={fetchGameSessions}/>
-            </View>
-        );
-    }
-}
+const HomeScreen = ({ navigation }) => (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Button
+            onPress={() => navigation.navigate('Details')}
+            title="Go to details"
+        />
+        <GameSessionListController fetchGameSessions={fetchGameSessions} navigateToGameSession={() => navigation}/>
+    </View>
+);
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 30
+const DetailsScreen = () => (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+    </View>
+);
+
+const RootNavigator = StackNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+            headerTitle: 'Available Games',
+        },
+    },
+    Details: {
+        screen: DetailsScreen,
+        navigationOptions: {
+            headerTitle: 'Details',
+        },
     },
 });
+
+export default RootNavigator;
