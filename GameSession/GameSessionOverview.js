@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Text, View} from "react-native";
 
-export default function GameSessionOverview({gameSession}) {
+export default function GameSessionOverview({gameSession, onPress}) {
     return (
-        <View>
+        <View onPress={onPress}>
             <Text>{gameSession.name}</Text>
             <Text>{gameSession.mrXId ? 1 : 0}/1 MrX</Text>
             <Text>{gameSession.policeOfficerIds.length}/6 Police Officers</Text>
@@ -14,4 +14,5 @@ export default function GameSessionOverview({gameSession}) {
 
 GameSessionOverview.propTypes = {
     gameSession: PropTypes.object.isRequired,
+    onPress: PropTypes.func.isRequired,
 };

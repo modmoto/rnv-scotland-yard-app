@@ -25,7 +25,7 @@ export default class GameSessionListController extends React.Component {
     }
 
     _renderItem = ({item}) => (
-        <GameSessionOverview gameSession={item}/>
+        <GameSessionOverview gameSession={item} onPress={this.props.navigateToGameSession}/>
     );
 
     _keyExtractor = (item, index) => item.id;
@@ -42,4 +42,5 @@ export default class GameSessionListController extends React.Component {
 
 GameSessionListController.propTypes = {
     fetchGameSessions: PropTypes.func.isRequired,
+    navigateToGameSession: PropTypes.func.isRequired,
 };
