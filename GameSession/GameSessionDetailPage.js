@@ -3,12 +3,13 @@ import {StyleSheet, Text, View} from "react-native";
 
 export default class GameSessionDetailPage extends React.Component {
     static navigationOptions = ({ navigation }) => ({
-        title: `Chat with ${navigation.state.params.user}`,
+        title: navigation.state.params.gameSessionTransfer.name,
     });
 
     render() {
+        const { gameSessionTransfer: gameSession } = this.props.navigation.state.params;
         return (
-            <Text>lololsss{this.props.gameSession}</Text>
+            <Text>{gameSession.id}</Text>
         );
     }
 }
