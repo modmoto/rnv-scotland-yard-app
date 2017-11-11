@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, FlatList, Text, View} from "react-native";
 import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
 import MapController from "../Backend/MapController";
+import { NavigationActions } from 'react-navigation'
 
 export default class GameSessionDetailPage extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -35,11 +36,14 @@ export default class GameSessionDetailPage extends React.Component {
     }
 
     navigateToMapController() {
-        const {navigation, gameSession} = this.props.navigation.state.params;
-
-        navigation.navigate('MapController', {
-            gameSession: gameSession
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'MapController'})
+            ]
         });
+
+        this.props.navigation.dispatch(resetAction)
     }
 
     async componentDidMount() {
