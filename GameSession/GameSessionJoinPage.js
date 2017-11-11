@@ -21,7 +21,6 @@ export default class GameSessionJoinPage extends React.Component {
             <View>
                 <Text>What is your name?</Text>
                 <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                     onChangeText={(text) => this.setState({playerName: text})}
                     value={this.state.playerName}
                 />

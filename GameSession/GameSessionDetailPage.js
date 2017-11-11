@@ -28,7 +28,7 @@ export default class GameSessionDetailPage extends React.Component {
                           keyExtractor={this._keyExtractor}
                           renderItem={this._renderItem}
                 />
-                <Button title={'Start Game'}/>
+                <Button title={'Start Game'} onPress={() => {}}/>
             </View>
         );
     }
