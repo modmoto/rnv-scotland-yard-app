@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, FlatList, Text, TextInput, View} from "react-native";
-import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
 
 export default class GameSessionJoinPage extends React.Component {
     static navigationOptions = ({navigation}) => ({
