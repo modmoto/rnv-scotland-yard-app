@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, Text} from "react-native";
 import PropTypes from 'prop-types';
+import GameSessionOverview from "./GameSessionOverview";
 
 export default class GameSessionListController extends React.Component {
 
@@ -24,7 +25,7 @@ export default class GameSessionListController extends React.Component {
     }
 
     _renderItem = ({item}) => (
-        <Text>{item.name}</Text>
+        <GameSessionOverview gameSession={item}/>
     );
 
     _keyExtractor = (item, index) => item.id;

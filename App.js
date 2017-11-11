@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import GameSessionListController from "./GameSessionListController";
 import {fetchGameSessions} from "./Backend/RestAdapter";
+import GameSessionListController from "./GameSession/GameSessionListController";
 
 export default class App extends React.Component {
     render() {
