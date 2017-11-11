@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, FlatList, Text, TextInput, View} from "react-native";
+import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 
 export default class GameSessionJoinPage extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -14,7 +15,6 @@ export default class GameSessionJoinPage extends React.Component {
 
     render() {
         const {playerName} = this.state;
-        const {navigation, gameSession} = this.props.navigation.state.params;
 
         return (
             <View>
@@ -24,16 +24,28 @@ export default class GameSessionJoinPage extends React.Component {
                     value={this.state.playerName}
                 />
                 <Text>What do you want to play?</Text>
-                <Button title={'MrX'} onPress={() => navigation.navigate('GameSessionDetailPage', {
-                    name: playerName,
-                    gameSession: gameSession
-                })}/>
+                <Button title={'MrX'} onPress={() => this.createMrXAndNavigateToDetailPage(playerName)}/>
                 <Button title={'Police Officer'}
-                        onPress={() => navigation.navigate('GameSessionDetailPage', {
-                            name: playerName,
-                            gameSession: gameSession
-                        })}/>
+                        onPress={() => this.createPoliceOfficerAndNavigateToDetailPage(playerName)}/>
             </View>
         );
+    }
+
+    createPoliceOfficerAndNavigateToDetailPage(playerName) {
+        postPoliceOfficer(this.props.navigation.state.params.gameSession.id, {name: playerName}).done();
+        this.navigateToDetailPage();
+    }
+
+    createMrXAndNavigateToDetailPage(playerName) {
+        postMrX(this.props.navigation.state.params.gameSession.id, {name: playerName}).done();
+        this.navigateToDetailPage();
+    }
+
+    navigateToDetailPage() {
+        const {navigation, gameSession} = this.props.navigation.state.params;
+
+        navigation.navigate('GameSessionDetailPage', {
+            gameSession: gameSession
+        });
     }
 }

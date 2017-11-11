@@ -1,5 +1,26 @@
 const BackendUrl = 'http://localhost:5000';
 
+export async function fetchGameSessions() {
+    return await fetchJson('/game-sessions');
+}
+
+export async function fetchPoliceOfficers(sessionId) {
+    return await fetchJson('/game-sessions/' + sessionId + '/police-officers');
+}
+
+export async function fetchMrX(sessionId) {
+    return await fetchJson('/game-sessions/' + sessionId + '/mr-x');
+}
+
+export async function postMrX(sessionId, mrx) {
+    return await sendJson('POST', '/game-sessions/' + sessionId + '/mr-x', mrx);
+}
+
+export async function postPoliceOfficer(sessionId, policeOfficer) {
+    return await sendJson('POST', '/game-sessions/' + sessionId + '/police-officers', policeOfficer);
+}
+
+
 function fetchJson(path) {
     const url = `${BackendUrl}${path}`;
 
@@ -13,17 +34,6 @@ function fetchJson(path) {
             console.error('parsing failed during get', exception));
 }
 
-export async function fetchGameSessions() {
-    return await fetchJson('/game-sessions');
-}
-
-export async function fetchPoliceOfficers(sessionId) {
-    return await fetchJson('/game-sessions/' + sessionId + '/police-officers');
-}
-export async function fetchMrX(sessionId) {
-    return await fetchJson('/game-sessions/' + sessionId + '/mr-x');
-}
-
 export function sendJson(method, path, body) {
     const url = `${BackendUrl}${path}`;
 
@@ -32,7 +42,8 @@ export function sendJson(method, path, body) {
         body: JSON.stringify(body),
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': '81ef63c8-7d9d-44e3-a06d-328eedd88676'
         }
     }).then(response => response.json())
       .catch(exception =>
