@@ -22,7 +22,7 @@ export default class GameSessionDetailPage extends React.Component {
         return (
             <View>
                 <Text>MrX:</Text>
-                <Text>{MrX.playerName}</Text>
+                <Text>{MrX.name}</Text>
                 <Text>Police Officers:</Text>
                 <FlatList data={policeOfficers}
                           keyExtractor={this._keyExtractor}
@@ -44,7 +44,7 @@ export default class GameSessionDetailPage extends React.Component {
     }
 
     _renderItem = ({item}) => {
-        return <Text>{item.playerName}</Text>
+        return <Text>{item.name}</Text>
     };
 
     _keyExtractor = (item, index) => item.id;
