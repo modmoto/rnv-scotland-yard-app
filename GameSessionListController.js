@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList, Text} from "react-native";
-import {fetchGameSessions} from "./Backend/GameSessionAdapter";
+import PropTypes from 'prop-types';
 
 export default class GameSessionListController extends React.Component {
 
@@ -23,10 +23,14 @@ export default class GameSessionListController extends React.Component {
     }
 
     async componentDidMount() {
-        let sessions = await fetchGameSessions();
+        let sessions = await this.props.fetchGameSessions();
         this.setState({
             gameSessions: sessions
         })
 
     }
 }
+
+GameSessionListController.propTypes = {
+    fetchGameSessions: PropTypes.func.isRequired,
+};

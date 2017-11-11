@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import GameSessionListController from "./GameSessionListController";
+import {fetchGameSessions} from "./Backend/RestAdapter";
 
 export default class App extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <GameSessionListController/>
+                <GameSessionListController fetchGameSessions={fetchGameSessions}/>
             </View>
         );
     }
