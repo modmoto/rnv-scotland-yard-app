@@ -31,13 +31,13 @@ export default class GameSessionJoinPage extends React.Component {
         );
     }
 
-    createPoliceOfficerAndNavigateToDetailPage(playerName) {
-        postPoliceOfficer(this.props.navigation.state.params.gameSession.id, {name: playerName}).done();
+    async createPoliceOfficerAndNavigateToDetailPage(playerName) {
+        await postPoliceOfficer(this.props.navigation.state.params.gameSession.id, {name: playerName});
         this.navigateToDetailPage();
     }
 
-    createMrXAndNavigateToDetailPage(playerName) {
-        postMrX(this.props.navigation.state.params.gameSession.id, {name: playerName}).done();
+    async createMrXAndNavigateToDetailPage(playerName) {
+        await postMrX(this.props.navigation.state.params.gameSession.id, {name: playerName});
         this.navigateToDetailPage();
     }
 
