@@ -17,6 +17,13 @@ export async function fetchGameSessions() {
     return await fetchJson('/game-sessions');
 }
 
+export async function fetchPoliceOfficers(sessionId) {
+    return await fetchJson('/game-sessions/' + sessionId + '/police-officers');
+}
+export async function fetchMrX(sessionId) {
+    return await fetchJson('/game-sessions/' + sessionId + '/mr-x');
+}
+
 export function sendJson(method, path, body) {
     const url = `${BackendUrl}${path}`;
 
