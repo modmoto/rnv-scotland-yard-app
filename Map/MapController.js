@@ -72,7 +72,11 @@ export default class MapController extends React.Component {
                 <MapView style={styles.map}
                          region={this.state.region}
                          onRegionChange={() => this.onRegionChange}>
-                            {this.mergeStationsAndPlayers}
+                            {this.mergeStationsAndPlayers().map(location =>
+                                <MapView.Marker pinColor={location.pinColor}
+                                                coordinate={location.coordinate}
+                                                title={location.title}
+                                />)}
                 </MapView>
             </View>
         )
@@ -87,19 +91,23 @@ export default class MapController extends React.Component {
                             title={station.name}
             />
         ));
-        let policeOfficerMarkers = policeOfficers.map(policeOfficer => (
-            <MapView.Marker pinColor={'#0044bb'}
-                            coordinate={policeOfficer.currentLocation.geoLocation}
-                            title={policeOfficer.name}
-            />
-        ));
-        let mrXMarkers = [
+        let officersWithLocation = policeOfficers.filter(policeOfficer => policeOfficer.currentLocation);
+        let policeOfficerMarkers = officersWithLocation.map((policeOfficer) => {
+                return <MapView.Marker pinColor={'#0044bb'}
+                                coordinate={policeOfficer.currentLocation.geoLocation}
+                                title={policeOfficer.name}
+                />}
+        );
+        if (mrX) {
+            let mrXMarkers = [
             <MapView.Marker pinColor={'#222222'}
                             coordinate={mrX.lastKnownLocation.geoLocation}
                             title={mrX.LastKnownLocation.name}
             />];
-
-        let concatenatedList = stationMarkers.concat(policeOfficerMarkers).concat(mrXMarkers);
+            let concatenatedList = stationMarkers.concat(policeOfficerMarkers).concat(mrxMarkers);
+            return concatenatedList;
+        }
+        let concatenatedList = stationMarkers.concat(policeOfficerMarkers);
         return concatenatedList;
     }
 
