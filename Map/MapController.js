@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Platform} from "react-native";
 import {Constants, Location, Permissions} from 'expo';
 import {MapView} from "expo";
+import {fetchStations} from "../Backend/RestAdapter";
 
 export default class MapController extends React.Component {
     static navigationOptions = ({
@@ -13,24 +14,8 @@ export default class MapController extends React.Component {
         super(props);
 
         this.state = {
-            region: {
-                latitude: 0,
-                longitude: 0,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-
-            },
-            markers: [
-                {
-                    title: 'tit',
-                    latlng: {
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                    },
-                    description: 'desc'
-                }
-            ]
-
+            region: null,
+            stations: []
         }
     }
 
@@ -39,22 +24,22 @@ export default class MapController extends React.Component {
     }
 
     async componentWillMount() {
-        if (Platform.OS === 'android' && !Constants.isDevice) {
-            this.setState({
-                errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-            });
-        } else {
-            let location = await this._getLocationAsync();
+        let location = await this._getLocationAsync();
+        this.setState({
+            region: {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+            }
+        });
+    }
 
-            this.setState({
-                region: {
-                    latitude: location.coords.latitude,
-                    longitude: location.coords.longitude,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421
-                }
-            })
-        }
+    async componentWillUpdate() {
+        let stations = await fetchStations({longitude: 8.432203, latitude: 49.00625 }, 1000);
+        this.setState({
+            stations: stations
+        });
     }
 
     _getLocationAsync = async () => {
@@ -75,19 +60,16 @@ export default class MapController extends React.Component {
                          region={this.state.region}
                          onRegionChange={() => this.onRegionChange}
                 >
-                    {this.state.markers.map(marker => (
+                    {this.state.stations.map(station => (
                         <MapView.Marker
-                            coordinate={marker.latlng}
-                            title={marker.title}
-                            description={marker.description}
+                            coordinate={station.geoLocation}
+                            title={station.name}
                         />
                     ))}
                 </MapView>
             </View>
         )
     }
-
-
 }
 
 const styles = StyleSheet.create({

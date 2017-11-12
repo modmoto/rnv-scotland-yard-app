@@ -12,6 +12,10 @@ export async function fetchMrX(sessionId) {
     return await fetchJson('/game-sessions/' + sessionId + '/mr-x');
 }
 
+export async function fetchStations(geoPoint, distance) {
+    return await fetchJson(`/stations?Longitude=${geoPoint.longitude}&Latitude=${geoPoint.latitude}&Distance=${distance}`);
+}
+
 export async function postMrX(sessionId, mrx) {
     return await sendJson('POST', '/game-sessions/' + sessionId + '/mr-x', mrx);
 }
