@@ -36,8 +36,8 @@ export default class MapController extends React.Component {
             region: {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
+                latitudeDelta: 0.0122,
+                longitudeDelta: 0.0071
             },
             mrX: mrX,
             policeOfficers: policeOfficers
@@ -83,6 +83,7 @@ export default class MapController extends React.Component {
 
         let stationsMapped = stations.map(station => (
             <MapView.Marker
+                key={station.id}
                 coordinate={station.geoLocation}
                 title={station.name}
             />
@@ -90,6 +91,7 @@ export default class MapController extends React.Component {
         let policeOfficersMapped = policeOfficers.filter(p => p.currentLocation)
             .map(policeOfficer => (
             <MapView.Marker
+                key={policeOfficer.id}
                 pinColor={'#0044bb'}
                 coordinate={policeOfficer.currentLocation.geoLocation}
                 title={policeOfficer.name}
@@ -98,18 +100,18 @@ export default class MapController extends React.Component {
         ));
         if (mrX) {
             if (mrX.lastKnownLocation) {
-                let mrxMapped = [{mrX}].map(mrx => (<MapView.Marker pinColor={'#222222'}
-                                                                    coordinate={mrX.lastKnownLocation.geoLocation}
-                                                                    title={mrx.lastKnownLocation.name}
-                />));
+                let mrxMapped = [<MapView.Marker
+                    key={mrX.id}
+                    pinColor={'#222222'}
+                    coordinate={mrX.lastKnownLocation.geoLocation}
+                    title={mrX.lastKnownLocation.name}
+                />];
 
                 return policeOfficersMapped.concat(mrxMapped).concat(stationsMapped);
             }
         }
         return policeOfficersMapped.concat(stationsMapped);
     }
-
-    _keyExtractor = (item, index) => item.id;
 }
 
 const styles = StyleSheet.create({
