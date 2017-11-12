@@ -36,10 +36,11 @@ export default class GameSessionDetailPage extends React.Component {
     }
 
     navigateToMapController() {
+        const {gameSession} = this.props.navigation.state.params;
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'MapController'})
+                NavigationActions.navigate({ routeName: 'MapController' , params: { gameSession: gameSession }})
             ]
         });
 

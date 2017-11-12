@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Platform} from "react-native";
 import {Constants, Location, Permissions} from 'expo';
 import {MapView} from "expo";
-import {fetchStations} from "../Backend/RestAdapter";
+import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
 
 export default class MapController extends React.Component {
     static navigationOptions = ({
@@ -15,7 +15,9 @@ export default class MapController extends React.Component {
 
         this.state = {
             region: null,
-            stations: []
+            stations: [],
+            mrX: null,
+            policeOfficers: []
         }
     }
 
@@ -24,21 +26,29 @@ export default class MapController extends React.Component {
     }
 
     async componentDidMount() {
+        const {gameSession} = this.props.navigation.state.params;
+
         let location = await this._getLocationAsync();
+        let mrX = await fetchMrX(gameSession.id);
+        let policeOfficers = await fetchPoliceOfficers(gameSession.id);
+
         this.setState({
             region: {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421
-            }
+            },
+            mrX: mrX,
+            policeOfficers: policeOfficers
         });
     }
 
     async componentDidUpdate(previousProps, previousState) {
         const {region} = this.state;
         if (region && previousState.region !== region) {
-            let stations = await fetchStations(region, 1000);
+            // TODO do this 10 000 somehow better
+            let stations = await fetchStations(region, 10000);
             this.setState({
                 stations: stations
             });
@@ -61,17 +71,36 @@ export default class MapController extends React.Component {
             <View style={styles.container}>
                 <MapView style={styles.map}
                          region={this.state.region}
-                         onRegionChange={() => this.onRegionChange}
-                >
-                    {this.state.stations.map(station => (
-                        <MapView.Marker
-                            coordinate={station.geoLocation}
-                            title={station.name}
-                        />
-                    ))}
+                         onRegionChange={() => this.onRegionChange}>
+                            {this.mergeStationsAndPlayers}
                 </MapView>
             </View>
         )
+    }
+
+    mergeStationsAndPlayers() {
+        const {stations, mrX, policeOfficers} = this.state;
+
+        let stationMarkers = stations.map(station => (
+            <MapView.Marker pinColor={'#aaaa00'}
+                            coordinate={station.geoLocation}
+                            title={station.name}
+            />
+        ));
+        let policeOfficerMarkers = policeOfficers.map(policeOfficer => (
+            <MapView.Marker pinColor={'#0044bb'}
+                            coordinate={policeOfficer.currentLocation.geoLocation}
+                            title={policeOfficer.name}
+            />
+        ));
+        let mrXMarkers = [
+            <MapView.Marker pinColor={'#222222'}
+                            coordinate={mrX.lastKnownLocation.geoLocation}
+                            title={mrX.LastKnownLocation.name}
+            />];
+
+        let concatenatedList = stationMarkers.concat(policeOfficerMarkers).concat(mrXMarkers);
+        return concatenatedList;
     }
 
     _keyExtractor = (item, index) => item.id;
