@@ -3,7 +3,7 @@ import GameSessionListController from "./GameSession/GameSessionListController";
 import {StackNavigator} from 'react-navigation';
 import GameSessionDetailPage from "./GameSession/GameSessionDetailPage";
 import GameSessionJoinPage from "./GameSession/GameSessionJoinPage";
-import MapController from "./Backend/MapController";
+import MapController from "./Map/MapController";
 
 const RootNavigator = StackNavigator({
     GameSessionListController: {

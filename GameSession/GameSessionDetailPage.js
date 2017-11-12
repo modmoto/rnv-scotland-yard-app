@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, FlatList, Text, View} from "react-native";
 import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
-import MapController from "../Backend/MapController";
+import MapController from "../Map/MapController";
 import { NavigationActions } from 'react-navigation'
 
 export default class GameSessionDetailPage extends React.Component {
