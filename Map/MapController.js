@@ -23,7 +23,7 @@ export default class MapController extends React.Component {
         this.setState({region: region});
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         let location = await this._getLocationAsync();
         this.setState({
             region: {
@@ -35,11 +35,14 @@ export default class MapController extends React.Component {
         });
     }
 
-    async componentWillUpdate() {
-        let stations = await fetchStations({longitude: 8.432203, latitude: 49.00625 }, 1000);
-        this.setState({
-            stations: stations
-        });
+    async componentDidUpdate(previousProps, previousState) {
+        const {region} = this.state;
+        if (region && previousState.region !== region) {
+            let stations = await fetchStations(region, 1000);
+            this.setState({
+                stations: stations
+            });
+        }
     }
 
     _getLocationAsync = async () => {
@@ -70,6 +73,8 @@ export default class MapController extends React.Component {
             </View>
         )
     }
+
+    _keyExtractor = (item, index) => item.id;
 }
 
 const styles = StyleSheet.create({
