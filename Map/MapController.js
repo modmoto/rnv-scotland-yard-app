@@ -72,43 +72,41 @@ export default class MapController extends React.Component {
                 <MapView style={styles.map}
                          region={this.state.region}
                          onRegionChange={() => this.onRegionChange}>
-                            {this.mergeStationsAndPlayers().map(location =>
-                                <MapView.Marker pinColor={location.pinColor}
-                                                coordinate={location.coordinate}
-                                                title={location.title}
-                                />)}
+                            {this.getStationsAsMarker()}
                 </MapView>
             </View>
         )
     }
 
-    mergeStationsAndPlayers() {
+    getStationsAsMarker() {
         const {stations, mrX, policeOfficers} = this.state;
 
-        let stationMarkers = stations.map(station => (
-            <MapView.Marker pinColor={'#aaaa00'}
-                            coordinate={station.geoLocation}
-                            title={station.name}
+        let stationsMapped = stations.map(station => (
+            <MapView.Marker
+                coordinate={station.geoLocation}
+                title={station.name}
             />
         ));
-        let officersWithLocation = policeOfficers.filter(policeOfficer => policeOfficer.currentLocation);
-        let policeOfficerMarkers = officersWithLocation.map((policeOfficer) => {
-                return <MapView.Marker pinColor={'#0044bb'}
-                                coordinate={policeOfficer.currentLocation.geoLocation}
-                                title={policeOfficer.name}
-                />}
-        );
+        let policeOfficersMapped = policeOfficers.filter(p => p.currentLocation)
+            .map(policeOfficer => (
+            <MapView.Marker
+                pinColor={'#0044bb'}
+                coordinate={policeOfficer.currentLocation.geoLocation}
+                title={policeOfficer.name}
+                description={policeOfficer.currentLocation.name}
+            />
+        ));
         if (mrX) {
-            let mrXMarkers = [
-            <MapView.Marker pinColor={'#222222'}
-                            coordinate={mrX.lastKnownLocation.geoLocation}
-                            title={mrX.LastKnownLocation.name}
-            />];
-            let concatenatedList = stationMarkers.concat(policeOfficerMarkers).concat(mrxMarkers);
-            return concatenatedList;
+            if (mrX.lastKnownLocation) {
+                let mrxMapped = [{mrX}].map(mrx => (<MapView.Marker pinColor={'#222222'}
+                                                                    coordinate={mrX.lastKnownLocation.geoLocation}
+                                                                    title={mrx.lastKnownLocation.name}
+                />));
+
+                return policeOfficersMapped.concat(mrxMapped).concat(stationsMapped);
+            }
         }
-        let concatenatedList = stationMarkers.concat(policeOfficerMarkers);
-        return concatenatedList;
+        return policeOfficersMapped.concat(stationsMapped);
     }
 
     _keyExtractor = (item, index) => item.id;
