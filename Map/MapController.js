@@ -42,13 +42,15 @@ export default class MapController extends React.Component {
             mrX: mrX,
             policeOfficers: policeOfficers
         });
+
+        this.refs.map.fitToElements(true);
     }
 
     async componentDidUpdate(previousProps, previousState) {
         const {region} = this.state;
         if (region && previousState.region !== region) {
             // TODO do this 10 000 somehow better
-            let stations = await fetchStations(region, 10000);
+            let stations = await fetchStations(region, 2000);
             this.setState({
                 stations: stations
             });
@@ -69,8 +71,8 @@ export default class MapController extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <MapView style={styles.map}
-                         region={this.state.region}
+                <MapView ref="map"
+                         style={styles.map}
                          onRegionChange={() => this.onRegionChange}>
                             {this.getStationsAsMarker()}
                 </MapView>
@@ -81,13 +83,13 @@ export default class MapController extends React.Component {
     getStationsAsMarker() {
         const {stations, mrX, policeOfficers} = this.state;
 
-        let stationsMapped = stations.map(station => (
+        /*let stationsMapped = stations.map(station => (
             <MapView.Marker
                 key={station.id}
                 coordinate={station.geoLocation}
                 title={station.name}
             />
-        ));
+        ));*/
         let policeOfficersMapped = policeOfficers.filter(p => p.currentLocation)
             .map(policeOfficer => (
             <MapView.Marker
@@ -107,10 +109,10 @@ export default class MapController extends React.Component {
                     title={mrX.lastKnownLocation.name}
                 />];
 
-                return policeOfficersMapped.concat(mrxMapped).concat(stationsMapped);
+                return policeOfficersMapped.concat(mrxMapped);
             }
         }
-        return policeOfficersMapped.concat(stationsMapped);
+        return policeOfficersMapped;
     }
 }
 
