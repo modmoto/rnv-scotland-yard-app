@@ -1,13 +1,13 @@
 import React from 'react';
-import GameSessionListController from "./GameSession/GameSessionListController";
 import {StackNavigator} from 'react-navigation';
 import GameSessionDetailPage from "./GameSession/GameSessionDetailPage";
 import GameSessionJoinPage from "./GameSession/GameSessionJoinPage";
-import MapController from "./Map/MapController";
+import MapPage from "./Map/MapPage";
+import GameSessionOverviewListPage from "./GameSession/GameSessionOverviewListPage";
 
 const RootNavigator = StackNavigator({
-    GameSessionListController: {
-        screen: GameSessionListController,
+    GameSessionOverviewPage: {
+        screen: GameSessionOverviewListPage,
     },
     GameSessionDetailPage: {
         screen: GameSessionDetailPage,
@@ -15,8 +15,8 @@ const RootNavigator = StackNavigator({
     GameSessionJoinPage: {
         screen: GameSessionJoinPage,
     },
-    MapController: {
-        screen: MapController,
+    MapPage: {
+        screen: MapPage,
     },
 });
 

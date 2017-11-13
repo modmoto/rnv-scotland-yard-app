@@ -4,7 +4,7 @@ import {Location, Permissions} from 'expo';
 import {MapView} from "expo";
 import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
 
-export default class MapController extends React.Component {
+export default class MapPage extends React.Component {
     static navigationOptions = ({
             header: null
         }

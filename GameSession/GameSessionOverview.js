@@ -8,8 +8,7 @@ export default class GameSessionOverview extends React.Component {
         return (
 
             <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('GameSessionJoinPage', {
-                gameSession: gameSession,
-                navigation: navigation
+                gameSession: gameSession
             })}>
                 <Text>{gameSession.name}</Text>
                 <Text>{gameSession.mrXId ? 1 : 0}/1 MrX</Text>
