@@ -9,7 +9,11 @@ export default class GameSessionJoinPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {playerName: ''};
+        this.state = {
+            playerName: '',
+            playerRole: '',
+            playerId: ''
+        };
     }
 
 
@@ -32,21 +36,34 @@ export default class GameSessionJoinPage extends React.Component {
     }
 
     async createPoliceOfficerAndNavigateToDetailPage(playerName) {
-        await postPoliceOfficer(this.props.navigation.state.params.gameSession.id, {name: playerName});
+        let officer = await postPoliceOfficer(this.props.navigation.state.params.gameSession.id, {name: playerName});
+        this.setState({
+            playerRole: 'mrX',
+            playerId: officer.id
+        });
         this.navigateToDetailPage();
     }
 
     async createMrXAndNavigateToDetailPage(playerName) {
-        await postMrX(this.props.navigation.state.params.gameSession.id, {name: playerName});
+        let mrX = await postMrX(this.props.navigation.state.params.gameSession.id, {name: playerName});
+        this.setState({
+            playerRole: 'mrX',
+            playerId: mrX.id
+        });
         this.navigateToDetailPage();
     }
 
     navigateToDetailPage() {
         const {navigation, gameSession} = this.props.navigation.state.params;
+        const {playerId, playerRole} = this.state;
 
         navigation.navigate('GameSessionDetailPage', {
             gameSession: gameSession,
-            navigation: navigation
+            navigation: navigation,
+            player: {
+                playerId: playerId,
+                playerRole: playerRole
+            }
         });
     }
 }

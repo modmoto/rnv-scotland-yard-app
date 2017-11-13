@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Platform} from "react-native";
-import {Constants, Location, Permissions} from 'expo';
+import {Location, Permissions} from 'expo';
 import {MapView} from "expo";
 import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
 
@@ -12,9 +12,10 @@ export default class MapController extends React.Component {
 
     constructor(props) {
         super(props);
-
+        const {gameSession, player} = this.props.navigation.state.params;
         this.state = {
-            region: null,
+            player: player,
+            gameSession: gameSession,
             stations: [],
             mrX: null,
             policeOfficers: []
@@ -26,30 +27,32 @@ export default class MapController extends React.Component {
     }
 
     async componentDidMount() {
-        const {gameSession} = this.props.navigation.state.params;
+        const {player, gameSession} = this.state;
 
         let location = await this._getLocationAsync();
         let mrX = await fetchMrX(gameSession.id);
         let policeOfficers = await fetchPoliceOfficers(gameSession.id);
 
         this.setState({
-            region: {
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: 0.0122,
-                longitudeDelta: 0.0071
-            },
             mrX: mrX,
-            policeOfficers: policeOfficers
+            policeOfficers: policeOfficers,
+            player: {
+                ...player,
+                location: {
+                    longitude: location.coords.longitude,
+                    latitude: location.coords.latitude
+                }
+            }
         });
 
         this.refs.map.fitToElements(true);
     }
 
     async componentDidUpdate(previousProps, previousState) {
-        const {region} = this.state;
-        if (region && previousState.region !== region) {
+        const {player} = this.state;
+        if (player && previousState.player !== player) {
             // TODO do this 10 000 somehow better
+            let region = player.location;
             let stations = await fetchStations(region, 2000);
             this.setState({
                 stations: stations
@@ -74,14 +77,14 @@ export default class MapController extends React.Component {
                 <MapView ref="map"
                          style={styles.map}
                          onRegionChange={() => this.onRegionChange}>
-                            {this.getStationsAsMarker()}
+                    {this.getStationsAsMarker()}
                 </MapView>
             </View>
         )
     }
 
     getStationsAsMarker() {
-        const {stations, mrX, policeOfficers} = this.state;
+        const {stations, mrX, policeOfficers, player} = this.state;
 
         /*let stationsMapped = stations.map(station => (
             <MapView.Marker
@@ -90,16 +93,16 @@ export default class MapController extends React.Component {
                 title={station.name}
             />
         ));*/
-        let policeOfficersMapped = policeOfficers.filter(p => p.currentLocation)
+        let markersMapped = policeOfficers.filter(p => p.currentLocation)
             .map(policeOfficer => (
-            <MapView.Marker
-                key={policeOfficer.id}
-                pinColor={'#0044bb'}
-                coordinate={policeOfficer.currentLocation.geoLocation}
-                title={policeOfficer.name}
-                description={policeOfficer.currentLocation.name}
-            />
-        ));
+                <MapView.Marker
+                    key={policeOfficer.id}
+                    pinColor={'#0044bb'}
+                    coordinate={policeOfficer.currentLocation.geoLocation}
+                    title={policeOfficer.name}
+                    description={policeOfficer.currentLocation.name}
+                />
+            ));
         if (mrX) {
             if (mrX.lastKnownLocation) {
                 let mrxMapped = [<MapView.Marker
@@ -109,10 +112,23 @@ export default class MapController extends React.Component {
                     title={mrX.lastKnownLocation.name}
                 />];
 
-                return policeOfficersMapped.concat(mrxMapped);
+                markersMapped = markersMapped.concat(mrxMapped);
             }
         }
-        return policeOfficersMapped;
+
+        if (player) {
+            if (player.location) {
+                let playerMapped = [<MapView.Marker
+                    key={"Player_" + player.id}
+                    pinColor={'#11bb22'}
+                    coordinate={player.location}
+                    title="Me"
+                />];
+
+                markersMapped = markersMapped.concat(playerMapped);
+            }
+        }
+        return markersMapped;
     }
 }
 
