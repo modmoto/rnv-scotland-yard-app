@@ -40,7 +40,7 @@ export default class GameSessionDetailScreen extends React.Component {
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'MapPage' ,
+                NavigationActions.navigate({ routeName: 'MapScreen' ,
                     params: {
                         gameSession: gameSession,
                         player: player

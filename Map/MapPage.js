@@ -3,8 +3,11 @@ import {View, StyleSheet, Platform} from "react-native";
 import {Location, Permissions} from 'expo';
 import {MapView} from "expo";
 import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
+import ActionButton from 'react-native-action-button';
+import Icon from "expo/src/Icon";
+import FloatingActionButton from "./FloatingActionButton";
 
-export default class MapPage extends React.Component {
+export default class MapScreen extends React.Component {
     static navigationOptions = ({
             header: null
         }
@@ -79,6 +82,7 @@ export default class MapPage extends React.Component {
                          onRegionChange={() => this.onRegionChange}>
                     {this.getStationsAsMarker()}
                 </MapView>
+                <FloatingActionButton/>
             </View>
         )
     }
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        bottom: 0,
+        bottom: 100,
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
@@ -148,5 +152,6 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
+        zIndex: 1
     },
 });
