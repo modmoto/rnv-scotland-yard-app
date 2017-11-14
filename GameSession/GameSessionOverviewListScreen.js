@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import GameSessionOverview from "./GameSessionOverview";
 import {fetchGameSessions} from "../Backend/RestAdapter";
 
-export default class GameSessionOverviewListPage extends React.Component {
+export default class GameSessionOverviewListScreen extends React.Component {
     static navigationOptions = () => ({
         title: 'Game sessions',
     });
@@ -42,6 +42,6 @@ export default class GameSessionOverviewListPage extends React.Component {
     }
 }
 
-GameSessionOverviewListPage.propTypes = {
+GameSessionOverviewListScreen.propTypes = {
     navigation: PropTypes.object.isRequired,
 };

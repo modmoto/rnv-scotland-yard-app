@@ -25,23 +25,22 @@ export async function postPoliceOfficer(sessionId, policeOfficer) {
 }
 
 
-function fetchJson(path) {
+async function fetchJson(path) {
     const url = `${BackendUrl}${path}`;
 
-    return fetch(url, {
+    let response = await fetch(url, {
         method: 'GET',
         headers: {
             'Authorization': '81ef63c8-7d9d-44e3-a06d-328eedd88676'
-        }})
-        .then(response => response.json())
-        .catch(exception =>
-            console.error('parsing failed during get', exception));
+        }});
+    let object = await response.json();
+    return object;
 }
 
-export function sendJson(method, path, body) {
+async function sendJson(method, path, body) {
     const url = `${BackendUrl}${path}`;
 
-    return fetch(url, {
+    let response = await fetch(url, {
         method: method,
         body: JSON.stringify(body),
         headers: {
@@ -49,8 +48,7 @@ export function sendJson(method, path, body) {
             'Content-Type': 'application/json',
             'Authorization': '81ef63c8-7d9d-44e3-a06d-328eedd88676'
         }
-    }).then(response => response.json())
-      .catch(exception =>
-            console.error('parsing failed during send', exception)
-    );
+    });
+    let object = await response.json();
+    return object;
 }

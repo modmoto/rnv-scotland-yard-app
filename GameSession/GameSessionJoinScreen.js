@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, FlatList, Text, TextInput, View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 
-export default class GameSessionJoinPage extends React.Component {
+export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         title: navigation.state.params.gameSession.name,
     });

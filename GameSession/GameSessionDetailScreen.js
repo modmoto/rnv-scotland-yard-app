@@ -4,7 +4,7 @@ import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
 import MapController from "../Map/MapPage";
 import { NavigationActions } from 'react-navigation'
 
-export default class GameSessionDetailPage extends React.Component {
+export default class GameSessionDetailScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         title: navigation.state.params.gameSession.name,
     });

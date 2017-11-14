@@ -1,19 +1,19 @@
 import React from 'react';
 import {StackNavigator} from 'react-navigation';
-import GameSessionDetailPage from "./GameSession/GameSessionDetailPage";
-import GameSessionJoinPage from "./GameSession/GameSessionJoinPage";
+import GameSessionDetailScreen from "./GameSession/GameSessionDetailScreen";
+import GameSessionJoinScreen from "./GameSession/GameSessionJoinScreen";
 import MapPage from "./Map/MapPage";
-import GameSessionOverviewListPage from "./GameSession/GameSessionOverviewListPage";
+import GameSessionOverviewListScreen from "./GameSession/GameSessionOverviewListScreen";
 
 const RootNavigator = StackNavigator({
-    GameSessionOverviewPage: {
-        screen: GameSessionOverviewListPage,
+    GameSessionOverviewListScreen: {
+        screen: GameSessionOverviewListScreen,
     },
     GameSessionDetailPage: {
-        screen: GameSessionDetailPage,
+        screen: GameSessionDetailScreen,
     },
     GameSessionJoinPage: {
-        screen: GameSessionJoinPage,
+        screen: GameSessionJoinScreen,
     },
     MapPage: {
         screen: MapPage,

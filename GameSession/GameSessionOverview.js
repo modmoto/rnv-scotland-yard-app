@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
-export default class GameSessionOverview extends React.Component {
+export default class GameSessionOverviewListElement extends React.Component {
     render() {
         const {gameSession, navigation} = this.props;
         return (
@@ -18,7 +18,7 @@ export default class GameSessionOverview extends React.Component {
     }
 }
 
-GameSessionOverview.propTypes = {
+GameSessionOverviewListElement.propTypes = {
     gameSession: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
 };
