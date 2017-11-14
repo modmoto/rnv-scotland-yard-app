@@ -11,7 +11,7 @@ export default class FloatingActionButton extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View style={styles.container} icon={<Icon name="ticket" style={styles.actionButtonIcon}/>}>
                 <ActionButton buttonColor="rgba(231,76,60,1)">
                     <ActionButton.Item buttonColor='#9b59b6' title="New Task"
                                        onPress={() => console.log("notes tapped!")}>
