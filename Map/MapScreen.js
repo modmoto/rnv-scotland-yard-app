@@ -49,19 +49,11 @@ export default class MapScreen extends React.Component {
             }
         });
 
-        this.mapPlayersAsMarkers();
-    }
+        let playersMapped = this.mapPlayersAsMarkers();
 
-    async componentDidUpdate(previousProps, previousState) {
-        const {player} = this.state;
-        if (player && previousState.player !== player) {
-            // TODO do this 10 000 somehow better
-            /*let region = player.location;
-            let stations = await fetchStations(region, 2000);
-            this.setState({
-                stations: stations
-            });*/
-        }
+        this.setState({
+            markersMapped: playersMapped
+        });
     }
 
     render() {
@@ -81,16 +73,9 @@ export default class MapScreen extends React.Component {
     }
 
     mapPlayersAsMarkers() {
-        const { mrX, policeOfficers } = this.state;
+        const {mrX, policeOfficers} = this.state;
 
-        /*let stationsMapped = stations.map(station => (
-            <MapView.Marker
-                key={station.id}
-                coordinate={station.geoLocation}
-                title={station.name}
-            />
-        ));*/
-        let markersMapped = policeOfficers.filter(p => p.currentLocation)
+        let markersMapped = policeOfficers
             .map(policeOfficer => (
                 <MapView.Marker
                     key={policeOfficer.id}
@@ -101,21 +86,29 @@ export default class MapScreen extends React.Component {
                 />
             ));
         if (mrX) {
-            if (mrX.lastKnownLocation) {
-                let mrxMapped = [<MapView.Marker
-                    key={mrX.id}
-                    pinColor={'#222222'}
-                    coordinate={mrX.lastKnownLocation.geoLocation}
-                    title={mrX.lastKnownLocation.name}
-                />];
+            let mrxMapped = [<MapView.Marker
+                key={mrX.id}
+                pinColor={'#222222'}
+                coordinate={mrX.lastKnownLocation.geoLocation}
+                title={mrX.lastKnownLocation.name}
+            />];
 
-                markersMapped = markersMapped.concat(mrxMapped);
-            }
+            markersMapped = markersMapped.concat(mrxMapped);
         }
 
-        this.setState ({
-            markersMapped: markersMapped
-        });
+        return markersMapped;
+    }
+
+    mapStationssAsMarkers() {
+        const {stations} = this.state;
+
+        return stations.map(station => (
+            <MapView.Marker
+                key={station.id}
+                coordinate={station.geoLocation}
+                title={station.name}
+            />
+        ));
     }
 }
 
