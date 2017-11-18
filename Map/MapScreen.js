@@ -49,7 +49,7 @@ export default class MapScreen extends React.Component {
             }
         });
 
-        this.mapStationsAsMarkers();
+        this.mapPlayersAsMarkers();
     }
 
     async componentDidUpdate(previousProps, previousState) {
@@ -63,17 +63,6 @@ export default class MapScreen extends React.Component {
             });*/
         }
     }
-
-    _getLocationAsync = async () => {
-        let {status} = await Permissions.askAsync(Permissions.LOCATION);
-        if (status !== 'granted') {
-            this.setState({
-                errorMessage: 'Permission to access location was denied',
-            });
-        }
-
-        return await Location.getCurrentPositionAsync({});
-    };
 
     render() {
         return (
@@ -91,8 +80,8 @@ export default class MapScreen extends React.Component {
         )
     }
 
-    mapStationsAsMarkers() {
-        const {stations, mrX, policeOfficers, player} = this.state;
+    mapPlayersAsMarkers() {
+        const { mrX, policeOfficers } = this.state;
 
         /*let stationsMapped = stations.map(station => (
             <MapView.Marker
@@ -121,19 +110,6 @@ export default class MapScreen extends React.Component {
                 />];
 
                 markersMapped = markersMapped.concat(mrxMapped);
-            }
-        }
-
-        if (player) {
-            if (player.location) {
-                let playerMapped = [<MapView.Marker
-                    key={"Player_" + player.id}
-                    pinColor={'#11bb22'}
-                    coordinate={player.location}
-                    title="Me"
-                />];
-
-                markersMapped = markersMapped.concat(playerMapped);
             }
         }
 

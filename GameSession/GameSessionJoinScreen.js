@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, FlatList, Text, TextInput, View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
+import {getLocationAsync} from "../Location/LocationHelpers";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -36,7 +37,11 @@ export default class GameSessionJoinScreen extends React.Component {
     }
 
     async createPoliceOfficerAndNavigateToDetailPage(playerName) {
-        let officer = await postPoliceOfficer(this.props.navigation.state.params.gameSession.id, {name: playerName});
+        let playerLocation = await getLocationAsync();
+        let officer = await postPoliceOfficer(this.props.navigation.state.params.gameSession.id, {
+            name: playerName,
+            startLocation: playerLocation.coords
+        });
         this.setState({
             playerRole: 'mrX',
             playerId: officer.id
@@ -45,7 +50,11 @@ export default class GameSessionJoinScreen extends React.Component {
     }
 
     async createMrXAndNavigateToDetailPage(playerName) {
-        let mrX = await postMrX(this.props.navigation.state.params.gameSession.id, {name: playerName});
+        let playerLocation = await getLocationAsync();
+        let mrX = await await postMrX(this.props.navigation.state.params.gameSession.id, {
+            name: playerName,
+            startLocation: playerLocation.coords
+        });
         this.setState({
             playerRole: 'mrX',
             playerId: mrX.id
