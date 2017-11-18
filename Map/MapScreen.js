@@ -20,7 +20,8 @@ export default class MapScreen extends React.Component {
             stations: [],
             mrX: null,
             policeOfficers: [],
-            markersMapped: []
+            markersMapped: [],
+            region: null
         }
     }
 
@@ -29,9 +30,14 @@ export default class MapScreen extends React.Component {
     }
 
     async componentDidMount() {
+        await this.loadMapElements();
+
+        this.refs.map.fitToElements(true);
+    }
+
+    async loadMapElements() {
         const {player, gameSession} = this.state;
 
-        let location = await this._getLocationAsync();
         let mrX = await fetchMrX(gameSession.id);
         let policeOfficers = await fetchPoliceOfficers(gameSession.id);
 
@@ -39,28 +45,22 @@ export default class MapScreen extends React.Component {
             mrX: mrX,
             policeOfficers: policeOfficers,
             player: {
-                ...player,
-                location: {
-                    longitude: location.coords.longitude,
-                    latitude: location.coords.latitude
-                }
+                ...player
             }
         });
 
         this.mapStationsAsMarkers();
-
-        this.refs.map.fitToElements(true);
     }
 
     async componentDidUpdate(previousProps, previousState) {
         const {player} = this.state;
         if (player && previousState.player !== player) {
             // TODO do this 10 000 somehow better
-            let region = player.location;
+            /*let region = player.location;
             let stations = await fetchStations(region, 2000);
             this.setState({
                 stations: stations
-            });
+            });*/
         }
     }
 
@@ -85,7 +85,7 @@ export default class MapScreen extends React.Component {
                 </MapView>
 
                 <Button title={'Refresh'}
-                        onPress={() => this.mapStationsAsMarkers()}/>
+                        onPress={async () => await this.loadMapElements()}/>
                 {/*<FloatingActionButton/>*/}
             </View>
         )
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        bottom: 100,
+        bottom: 0,
         justifyContent: 'flex-end',
         alignItems: 'center',
     },
@@ -159,6 +159,6 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        zIndex: 1
+        zIndex: -1
     },
 });
