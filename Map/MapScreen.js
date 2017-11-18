@@ -1,11 +1,9 @@
 import React from 'react';
-import {View, StyleSheet, Platform} from "react-native";
+import {View, StyleSheet, Platform, Button} from "react-native";
 import {Location, Permissions} from 'expo';
 import {MapView} from "expo";
 import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
-import ActionButton from 'react-native-action-button';
-import Icon from "expo/src/Icon";
-import FloatingActionButton from "./FloatingActionButton";
+import FloatingActionButton from "./TicketBuyFAB";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -21,7 +19,8 @@ export default class MapScreen extends React.Component {
             gameSession: gameSession,
             stations: [],
             mrX: null,
-            policeOfficers: []
+            policeOfficers: [],
+            markersMapped: []
         }
     }
 
@@ -47,6 +46,8 @@ export default class MapScreen extends React.Component {
                 }
             }
         });
+
+        this.mapStationsAsMarkers();
 
         this.refs.map.fitToElements(true);
     }
@@ -80,14 +81,17 @@ export default class MapScreen extends React.Component {
                 <MapView ref="map"
                          style={styles.map}
                          onRegionChange={() => this.onRegionChange}>
-                    {this.getStationsAsMarker()}
+                    {this.state.markersMapped}
                 </MapView>
-                <FloatingActionButton/>
+
+                <Button title={'Refresh'}
+                        onPress={() => this.mapStationsAsMarkers()}/>
+                {/*<FloatingActionButton/>*/}
             </View>
         )
     }
 
-    getStationsAsMarker() {
+    mapStationsAsMarkers() {
         const {stations, mrX, policeOfficers, player} = this.state;
 
         /*let stationsMapped = stations.map(station => (
@@ -132,7 +136,10 @@ export default class MapScreen extends React.Component {
                 markersMapped = markersMapped.concat(playerMapped);
             }
         }
-        return markersMapped;
+
+        this.setState ({
+            markersMapped: markersMapped
+        });
     }
 }
 

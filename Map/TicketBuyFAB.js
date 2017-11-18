@@ -6,7 +6,7 @@ import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapt
 import ActionButton from 'react-native-action-button';
 import Icon from "expo/src/Icon";
 
-export default class FloatingActionButton extends React.Component {
+export default class TicketBuyFAB extends React.Component {
 
 
     render() {
