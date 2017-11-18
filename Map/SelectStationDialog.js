@@ -22,7 +22,8 @@ export default class SelectStationDialog extends React.Component{
     }
 
     renderListItem = ({item}) => {
-        return <StationOverview station={item}/>;
+        const { onStationPressed } = this.props;
+        return <StationOverview station={item} onPressed={onStationPressed}/>;
     };
 
     keyExtractor = (item, index) => item.id;
@@ -31,4 +32,5 @@ export default class SelectStationDialog extends React.Component{
 
 SelectStationDialog.propTypes = {
     selectableStations: PropTypes.array.isRequired,
+    onStationPressed: PropTypes.func.isRequired,
 };

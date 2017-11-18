@@ -122,11 +122,16 @@ export default class MapScreen extends React.Component {
             animationDuration: 200,
             ScaleAnimation: new ScaleAnimation(),
             children: (
-                <SelectStationDialog selectableStations={[{name: "jeah", id:"jaja"}, {name: "jeah2", id:"jajad"}]}/>
+                <SelectStationDialog onStationPressed={(station) => this.stationSelected(station, type)} selectableStations={[{name: "jeah", id:"jaja"}, {name: "jeah2", id:"jajad"}]}/>
             ),
         }, () => {
             console.log('callback - show');
         });
+    }
+
+    stationSelected(station, type) {
+        // send new move
+        console.log(station.name + type);
     }
 }
 
