@@ -1,8 +1,10 @@
 import React from 'react';
-import {View, StyleSheet, Button} from "react-native";
+import {View, StyleSheet, Button, Text} from "react-native";
 import {MapView} from "expo";
 import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./TicketBuyFAB";
+import DialogManager, { ScaleAnimation } from 'react-native-dialog-component';
+import SelectStationDialog from "./SelectStationDialog";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -53,6 +55,8 @@ export default class MapScreen extends React.Component {
         this.setState({
             markersMapped: playersMapped
         });
+
+        this.refs.map.fitToElements(true);
     }
 
     render() {
@@ -66,7 +70,7 @@ export default class MapScreen extends React.Component {
 
                 <Button title={'Refresh'}
                         onPress={async () => await this.loadMapElements()}/>
-                <TicketBuyFAB />
+                <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>
             </View>
         )
     }
@@ -108,6 +112,21 @@ export default class MapScreen extends React.Component {
                 title={station.name}
             />
         ));
+    }
+
+    openMovementDialogFor(type) {
+        //get stations
+        DialogManager.show({
+            title: 'Select Station for ' + type,
+            titleAlign: 'center',
+            animationDuration: 200,
+            ScaleAnimation: new ScaleAnimation(),
+            children: (
+                <SelectStationDialog selectableStations={[{name: "jeah", id:"jaja"}, {name: "jeah2", id:"jajad"}]}/>
+            ),
+        }, () => {
+            console.log('callback - show');
+        });
     }
 }
 
