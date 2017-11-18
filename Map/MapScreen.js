@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, StyleSheet, Platform, Button} from "react-native";
-import {Location, Permissions} from 'expo';
+import {View, StyleSheet, Button} from "react-native";
 import {MapView} from "expo";
 import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
-import FloatingActionButton from "./TicketBuyFAB";
+import TicketBuyFAB from "./TicketBuyFAB";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -67,7 +66,7 @@ export default class MapScreen extends React.Component {
 
                 <Button title={'Refresh'}
                         onPress={async () => await this.loadMapElements()}/>
-                {/*<FloatingActionButton/>*/}
+                <TicketBuyFAB />
             </View>
         )
     }
