@@ -4,13 +4,9 @@ import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function GetOutOfVehicleFAB({onItemPressed, iconType}) {
-    if (iconType === 'Taxi') iconType = 'taxi';
-    if (iconType === 'Bus') iconType = 'bus';
-    if (iconType === 'Metro') iconType = 'train';
-
+export default function GetOutOfVehicleFAB({onItemPressed}) {
     return (
-        <ActionButton icon={<Icon name={iconType} style={styles.actionButtonIcon}/>}
+        <ActionButton icon={<Icon name="sign-out" style={styles.actionButtonIcon}/>}
                       buttonColor="rgba(100, 100, 100,1)"
                       onPress={onItemPressed}>
         </ActionButton>
@@ -19,14 +15,14 @@ export default function GetOutOfVehicleFAB({onItemPressed, iconType}) {
 
 const styles = StyleSheet.create({
     actionButtonIcon: {
-        fontSize: 20,
+        fontSize: 25,
         height: 25,
+        left: 2,
         color: 'white',
         zIndex: 11
     }
 });
 
 GetOutOfVehicleFAB.propTypes = {
-    onItemPressed: PropTypes.func.isRequired,
-    iconType: PropTypes.string.isRequired,
+    onItemPressed: PropTypes.func.isRequired
 };

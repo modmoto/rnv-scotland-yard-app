@@ -72,8 +72,7 @@ export default class MapScreen extends React.Component {
 
                 <Button title={'Refresh'}
                         onPress={async () => await this.loadMapElements()}/>
-                {(playerIsInVehicle) ? <GetOutOfVehicleFAB iconType={playerDrivingType.toLowerCase()}
-                                                           onItemPressed={() => this.openCompleteMovementDialog()}/> :
+                {(playerIsInVehicle) ? <GetOutOfVehicleFAB onItemPressed={() => this.openCompleteMovementDialog()}/> :
                     <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>}
 
             </View>
@@ -130,9 +129,7 @@ export default class MapScreen extends React.Component {
                 <SelectStationDialog onStationPressed={(station) => this.startStationSelected(station, type)}
                                      selectableStations={[{name: "jeah", id: "jaja"}, {name: "jeah2", id: "jajad"}]}/>
             ),
-        }, () => {
-            console.log('callback - show');
-        });
+        }, () => {});
     }
 
     startStationSelected(station, type) {
@@ -140,6 +137,8 @@ export default class MapScreen extends React.Component {
             playerIsInVehicle: true,
             playerDrivingType: type,
         });
+
+        DialogManager.dismiss(() => {});
     }
 
     endStationSelected(station) {
@@ -149,12 +148,14 @@ export default class MapScreen extends React.Component {
             playerDrivingType: null,
         });
 
+        DialogManager.dismiss(() => {});
         console.log(station.name + " " + playerDrivingType);
     }
 
     openCompleteMovementDialog() {
+        const { playerDrivingType } = this.state;
         DialogManager.show({
-            title: 'Where do you get out?',
+            title: 'Leave ' + playerDrivingType + '  at wich station?',
             titleAlign: 'center',
             animationDuration: 200,
             ScaleAnimation: new ScaleAnimation(),
@@ -162,9 +163,7 @@ export default class MapScreen extends React.Component {
                 <SelectStationDialog onStationPressed={(station) => this.endStationSelected(station)}
                                      selectableStations={[{name: "jeah", id: "jaja"}, {name: "jeah2", id: "jajad"}]}/>
             ),
-        }, () => {
-            console.log('callback - show');
-        });
+        }, () => {});
     }
 }
 
