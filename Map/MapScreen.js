@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, StyleSheet, Button, Text} from "react-native";
 import {MapView} from "expo";
-import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
+import {fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./TicketBuyFAB";
 import DialogManager, {ScaleAnimation} from 'react-native-dialog-component';
 import SelectStationDialog from "./SelectStationDialog";
 import GetOutOfVehicleFAB from "./GetOutOfVehicleFAB";
+import {getLocationAsync} from "../Location/LocationHelpers";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -118,7 +119,8 @@ export default class MapScreen extends React.Component {
         ));
     }
 
-    openMovementDialogFor(type) {
+    async openMovementDialogFor(type) {
+        let stations = await this.getStationsNearToPlayer();
         //get stations
         DialogManager.show({
             title: 'Select Station for ' + type,
@@ -127,7 +129,7 @@ export default class MapScreen extends React.Component {
             ScaleAnimation: new ScaleAnimation(),
             children: (
                 <SelectStationDialog onStationPressed={(station) => this.startStationSelected(station, type)}
-                                     selectableStations={[{name: "jeah", id: "jaja"}, {name: "jeah2", id: "jajad"}]}/>
+                                     selectableStations={stations}/>
             ),
         }, () => {});
     }
@@ -141,18 +143,25 @@ export default class MapScreen extends React.Component {
         DialogManager.dismiss(() => {});
     }
 
-    endStationSelected(station) {
-        const { playerDrivingType } = this.state;
+    async endStationSelected(station) {
+        const { playerDrivingType, player, gameSession } = this.state;
         this.setState({
             playerIsInVehicle: false,
             playerDrivingType: null,
         });
 
+        let move = {
+            StationId: station.stationId,
+            VehicleType: playerDrivingType
+        };
+
+        await postPlayerMove(gameSession.id, player.id, move);
+
         DialogManager.dismiss(() => {});
-        console.log(station.name + " " + playerDrivingType);
     }
 
-    openCompleteMovementDialog() {
+    async openCompleteMovementDialog() {
+        let stations = await this.getStationsNearToPlayer();
         const { playerDrivingType } = this.state;
         DialogManager.show({
             title: 'Leave ' + playerDrivingType + '  at wich station?',
@@ -161,9 +170,14 @@ export default class MapScreen extends React.Component {
             ScaleAnimation: new ScaleAnimation(),
             children: (
                 <SelectStationDialog onStationPressed={(station) => this.endStationSelected(station)}
-                                     selectableStations={[{name: "jeah", id: "jaja"}, {name: "jeah2", id: "jajad"}]}/>
+                                     selectableStations={stations}/>
             ),
         }, () => {});
+    }
+
+    async getStationsNearToPlayer() {
+        let playerLocation = await getLocationAsync();
+        return await fetchStations(playerLocation.coords, 1000);
     }
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, View} from "react-native";
+import {FlatList, Text, View} from "react-native";
 import DialogContent from "react-native-dialog-component/src/components/DialogContent";
 import PropTypes from 'prop-types';
 import StationOverview from "./StationOverview";
@@ -11,11 +11,13 @@ export default class SelectStationDialog extends React.Component{
         return (
             <DialogContent>
                 <View>
-                    <FlatList
+                    {selectableStations.length === 0 ? <Text>No Station nearby</Text> :
+                        <FlatList
                         data={selectableStations}
                         keyExtractor={this.keyExtractor}
                         renderItem={this.renderListItem}
-                    />
+                    />}
+
                 </View>
             </DialogContent>
         )

@@ -69,7 +69,7 @@ export default class GameSessionJoinScreen extends React.Component {
         this.props.navigation.navigate('GameSessionDetailPage', {
             gameSession: gameSession,
             player: {
-                playerId: playerId,
+                id: playerId,
                 playerRole: playerRole
             }
         });

@@ -24,6 +24,10 @@ export async function postPoliceOfficer(sessionId, policeOfficer) {
     return await sendJson('POST', '/game-sessions/' + sessionId + '/police-officers', policeOfficer);
 }
 
+export async function postPlayerMove(sessionId, playerId, move) {
+    return await sendJson('POST', '/game-sessions/' + sessionId + '/players/' + playerId + 'move', move);
+}
+
 
 async function fetchJson(path) {
     const url = `${BackendUrl}${path}`;
