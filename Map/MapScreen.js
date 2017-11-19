@@ -3,8 +3,9 @@ import {View, StyleSheet, Button, Text} from "react-native";
 import {MapView} from "expo";
 import {fetchMrX, fetchPoliceOfficers, fetchStations} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./TicketBuyFAB";
-import DialogManager, { ScaleAnimation } from 'react-native-dialog-component';
+import DialogManager, {ScaleAnimation} from 'react-native-dialog-component';
 import SelectStationDialog from "./SelectStationDialog";
+import GetOutOfVehicleFAB from "./GetOutOfVehicleFAB";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -60,6 +61,7 @@ export default class MapScreen extends React.Component {
     }
 
     render() {
+        const {playerIsInVehicle, playerDrivingType} = this.state;
         return (
             <View style={styles.container}>
                 <MapView ref="map"
@@ -70,7 +72,10 @@ export default class MapScreen extends React.Component {
 
                 <Button title={'Refresh'}
                         onPress={async () => await this.loadMapElements()}/>
-                <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>
+                {(playerIsInVehicle) ? <GetOutOfVehicleFAB iconType={playerDrivingType.toLowerCase()}
+                                                           onItemPressed={() => this.openCompleteMovementDialog()}/> :
+                    <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>}
+
             </View>
         )
     }
@@ -122,16 +127,44 @@ export default class MapScreen extends React.Component {
             animationDuration: 200,
             ScaleAnimation: new ScaleAnimation(),
             children: (
-                <SelectStationDialog onStationPressed={(station) => this.stationSelected(station, type)} selectableStations={[{name: "jeah", id:"jaja"}, {name: "jeah2", id:"jajad"}]}/>
+                <SelectStationDialog onStationPressed={(station) => this.startStationSelected(station, type)}
+                                     selectableStations={[{name: "jeah", id: "jaja"}, {name: "jeah2", id: "jajad"}]}/>
             ),
         }, () => {
             console.log('callback - show');
         });
     }
 
-    stationSelected(station, type) {
-        // send new move
-        console.log(station.name + type);
+    startStationSelected(station, type) {
+        this.setState({
+            playerIsInVehicle: true,
+            playerDrivingType: type,
+        });
+    }
+
+    endStationSelected(station) {
+        const { playerDrivingType } = this.state;
+        this.setState({
+            playerIsInVehicle: false,
+            playerDrivingType: null,
+        });
+
+        console.log(station.name + " " + playerDrivingType);
+    }
+
+    openCompleteMovementDialog() {
+        DialogManager.show({
+            title: 'Where do you get out?',
+            titleAlign: 'center',
+            animationDuration: 200,
+            ScaleAnimation: new ScaleAnimation(),
+            children: (
+                <SelectStationDialog onStationPressed={(station) => this.endStationSelected(station)}
+                                     selectableStations={[{name: "jeah", id: "jaja"}, {name: "jeah2", id: "jajad"}]}/>
+            ),
+        }, () => {
+            console.log('callback - show');
+        });
     }
 }
 

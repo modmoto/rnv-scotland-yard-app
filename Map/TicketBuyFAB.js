@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function TicketBuyFAB({onItemPressed}){
     return (
-        <ActionButton buttonColor="rgba(200, 200, 200,1)">
+        <ActionButton icon={ <Icon name="ticket" style={styles.actionButtonIcon} />}  buttonColor="rgba(200, 200, 200,1)">
             <ActionButton.Item buttonColor='#9b59b6' onPress={() => onItemPressed("Train")}>
                 <Icon name="train" style={styles.actionButtonIcon} />
             </ActionButton.Item>
