@@ -147,7 +147,6 @@ export default class MapScreen extends React.Component {
         const { playerDrivingType, player, gameSession } = this.state;
         this.setState({
             playerIsInVehicle: false,
-            playerDrivingType: null,
         });
 
         let move = {
@@ -164,7 +163,7 @@ export default class MapScreen extends React.Component {
         let stations = await this.getStationsNearToPlayer();
         const { playerDrivingType } = this.state;
         DialogManager.show({
-            title: 'Leave ' + playerDrivingType + '  at wich station?',
+            title: 'Leave ' + playerDrivingType + '  at which station?',
             titleAlign: 'center',
             animationDuration: 200,
             ScaleAnimation: new ScaleAnimation(),

@@ -25,7 +25,7 @@ export async function postPoliceOfficer(sessionId, policeOfficer) {
 }
 
 export async function postPlayerMove(sessionId, playerId, move) {
-    return await sendJson('POST', '/game-sessions/' + sessionId + '/players/' + playerId + 'move', move);
+    return await sendJson('POST', '/game-sessions/' + sessionId + '/players/' + playerId + '/move', move);
 }
 
 
