@@ -155,6 +155,7 @@ export default class MapScreen extends React.Component {
         };
 
         await postPlayerMove(gameSession.id, player.id, move);
+        await this.loadMapElements();
 
         DialogManager.dismiss(() => {});
     }
