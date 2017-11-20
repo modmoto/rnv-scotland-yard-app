@@ -28,7 +28,7 @@ export default class SelectStationDialog extends React.Component{
         return <StationOverview station={item} onPressed={onStationPressed}/>;
     };
 
-    keyExtractor = (item, index) => item.id;
+    keyExtractor = (item, index) => item.stationId;
 }
 
 
