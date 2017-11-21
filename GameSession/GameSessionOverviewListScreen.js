@@ -1,8 +1,9 @@
 import React from 'react';
-import {FlatList} from "react-native";
+import {FlatList, View} from "react-native";
 import PropTypes from 'prop-types';
 import GameSessionOverview from "./GameSessionOverview";
 import {fetchGameSessions} from "../Backend/RestAdapter";
+import CreateFab from "./CreateFab";
 
 export default class GameSessionOverviewListScreen extends React.Component {
     static navigationOptions = () => ({
@@ -19,11 +20,14 @@ export default class GameSessionOverviewListScreen extends React.Component {
 
     render() {
         return (
-            <FlatList
-                data={this.state.gameSessions}
-                keyExtractor={this._keyExtractor}
-                renderItem={this._renderItem}
-            />
+            <View>
+                <FlatList
+                    data={this.state.gameSessions}
+                    keyExtractor={this._keyExtractor}
+                    renderItem={this._renderItem}
+                />
+                <CreateFab onItemPressed={() => this.props.navigation.navigate('GameSessionCreateScreen')}/>
+            </View>
         );
     }
 

@@ -28,6 +28,10 @@ export async function postPlayerMove(sessionId, playerId, move) {
     return await sendJson('POST', '/game-sessions/' + sessionId + '/players/' + playerId + '/move', move);
 }
 
+export async function postGameSession(gameSession) {
+    return await sendJson('POST', '/game-sessions/', gameSession);
+}
+
 
 async function fetchJson(path) {
     const url = `${BackendUrl}${path}`;

@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, FlatList, Text, TextInput, View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
+import CreateFab from "./CreateFab";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -16,7 +17,6 @@ export default class GameSessionJoinScreen extends React.Component {
             playerId: ''
         };
     }
-
 
     render() {
         const {playerName} = this.state;
@@ -66,7 +66,7 @@ export default class GameSessionJoinScreen extends React.Component {
         const {gameSession} = this.props.navigation.state.params;
         const {playerId, playerRole} = this.state;
 
-        this.props.navigation.navigate('GameSessionDetailPage', {
+        this.props.navigation.navigate('GameSessionDetailScreen', {
             gameSession: gameSession,
             player: {
                 id: playerId,

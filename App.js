@@ -4,13 +4,17 @@ import GameSessionDetailScreen from "./GameSession/GameSessionDetailScreen";
 import GameSessionJoinScreen from "./GameSession/GameSessionJoinScreen";
 import MapScreen from "./Map/MapScreen";
 import GameSessionOverviewListScreen from "./GameSession/GameSessionOverviewListScreen";
+import GameSessionCreateScreen from "./GameSession/GameSessionCreateScreen";
 
 const RootNavigator = StackNavigator({
     GameSessionOverviewListScreen: {
         screen: GameSessionOverviewListScreen,
     },
-    GameSessionDetailPage: {
+    GameSessionDetailScreen: {
         screen: GameSessionDetailScreen,
+    },
+    GameSessionCreateScreen: {
+        screen: GameSessionCreateScreen,
     },
     GameSessionJoinPage: {
         screen: GameSessionJoinScreen,
