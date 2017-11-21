@@ -28,12 +28,12 @@ export default class GameSessionCreateScreen extends React.Component {
                     value={gameSessionName}
                 />
 
-                <Button title={'Create GameSession'} onPress={() => this.createGameSessionAndNavigateToJoinPage(gameSessionName, maxPlayers)}/>
+                <Button title={'Create GameSession'} onPress={() => this.createGameSessionAndNavigateToJoinPage()}/>
             </View>
         );
     }
 
-    async createGameSessionAndNavigateToJoinPage(playerName) {
+    async createGameSessionAndNavigateToJoinPage() {
         const {gameSessionName, maxPlayers} = this.state;
 
         let gameSession = await postGameSession({
