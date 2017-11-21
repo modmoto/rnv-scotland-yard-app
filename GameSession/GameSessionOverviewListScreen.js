@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, StyleSheet, View} from "react-native";
+import {FlatList, RefreshControl, StyleSheet, View} from "react-native";
 import PropTypes from 'prop-types';
 import GameSessionOverview from "./GameSessionOverview";
 import {fetchGameSessions} from "../Backend/RestAdapter";
@@ -14,14 +14,26 @@ export default class GameSessionOverviewListScreen extends React.Component {
         super(props);
 
         this.state = {
-            gameSessions: []
+            gameSessions: [],
+            refreshing: false,
         };
+    }
+
+    async _onRefresh() {
+        this.setState({refreshing: true});
+        await this.loadGameSessions();
+        this.setState({refreshing: false});
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <FlatList
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={() => this._onRefresh()}
+                        />}
                     data={this.state.gameSessions}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
@@ -40,6 +52,10 @@ export default class GameSessionOverviewListScreen extends React.Component {
     _keyExtractor = (item, index) => item.id;
 
     async componentDidMount() {
+        await this._onRefresh();
+    }
+
+    async loadGameSessions() {
         let sessions = await fetchGameSessions();
         this.setState({
             gameSessions: sessions
