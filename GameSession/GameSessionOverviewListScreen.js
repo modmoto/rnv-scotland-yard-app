@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, View} from "react-native";
+import {FlatList, StyleSheet, View} from "react-native";
 import PropTypes from 'prop-types';
 import GameSessionOverview from "./GameSessionOverview";
 import {fetchGameSessions} from "../Backend/RestAdapter";
@@ -20,19 +20,20 @@ export default class GameSessionOverviewListScreen extends React.Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <FlatList
                     data={this.state.gameSessions}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderItem}
                 />
+
                 <CreateFab onItemPressed={() => this.props.navigation.navigate('GameSessionCreateScreen')}/>
             </View>
         );
     }
 
     _renderItem = ({item}) => {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         return <GameSessionOverview gameSession={item} navigation={navigation}/>
     };
 
@@ -49,3 +50,13 @@ export default class GameSessionOverviewListScreen extends React.Component {
 GameSessionOverviewListScreen.propTypes = {
     navigation: PropTypes.object.isRequired,
 };
+
+const styles = StyleSheet.create({
+    container: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    }
+});

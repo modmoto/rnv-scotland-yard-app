@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, FlatList, Text, TextInput, View} from "react-native";
+import {Button, FlatList, Picker, Text, TextInput, View} from "react-native";
 import {postGameSession, postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
 
@@ -12,7 +12,7 @@ export default class GameSessionCreateScreen extends React.Component {
         super(props);
         this.state = {
             gameSessionName: '',
-            maxPlayers: 4,
+            maxPlayers: '4',
         };
     }
 
@@ -28,6 +28,17 @@ export default class GameSessionCreateScreen extends React.Component {
                     value={gameSessionName}
                 />
 
+                <Text>How Many Police Officer should be playable?</Text>
+                <Picker
+                    selectedValue={maxPlayers}
+                    onValueChange={(itemValue, itemIndex) => this.setState({maxPlayers: itemValue})}>
+                    <Picker.Item label="3" value="3"/>
+                    <Picker.Item label="4" value="4"/>
+                    <Picker.Item label="5" value="5"/>
+                    <Picker.Item label="6" value="6"/>
+                    <Picker.Item label="7" value="7"/>
+                    <Picker.Item label="8" value="8"/>
+                </Picker>
                 <Button title={'Create GameSession'} onPress={() => this.createGameSessionAndNavigateToJoinPage()}/>
             </View>
         );
