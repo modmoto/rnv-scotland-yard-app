@@ -7,6 +7,8 @@ import DialogManager, {ScaleAnimation} from 'react-native-dialog-component';
 import SelectStationDialog from "./SelectStationDialog";
 import GetOutOfVehicleFAB from "./GetOutOfVehicleFAB";
 import {getLocationAsync} from "../Location/LocationHelpers";
+import BottomButtonBar from "./BottomButtonBar";
+import BottomToolbar from "react-native-bottom-toolbar";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -71,11 +73,9 @@ export default class MapScreen extends React.Component {
                     {this.state.markersMapped}
                 </MapView>
 
-                <Button title={'Refresh'}
-                        onPress={async () => await this.loadMapElements()}/>
                 {(playerIsInVehicle) ? <GetOutOfVehicleFAB onItemPressed={() => this.openCompleteMovementDialog()}/> :
                     <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>}
-
+                <BottomButtonBar onItemPressed={(item) => this.handleMenuClicks(item)}/>
             </View>
         )
     }
@@ -154,7 +154,7 @@ export default class MapScreen extends React.Component {
             dismissOnTouchOutside: false,
             ScaleAnimation: new ScaleAnimation(),
             children: (
-                <ActivityIndicator />
+                <ActivityIndicator/>
             ),
         }, () => {
         });
@@ -195,6 +195,19 @@ export default class MapScreen extends React.Component {
         let playerLocation = await getLocationAsync();
         return await fetchStations(playerLocation.coords, 700);
     }
+
+    async handleMenuClicks(item) {
+        switch (item) {
+            case 'MrX':
+                break;
+            case 'LeaveSession':
+                break;
+            case 'Refresh':
+                await this.loadMapElements();
+                break;
+            default:
+        }
+    }
 }
 
 const styles = StyleSheet.create({
@@ -212,5 +225,5 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 0,
         zIndex: -1
-    },
+    }
 });
