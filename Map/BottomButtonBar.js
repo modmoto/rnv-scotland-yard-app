@@ -11,7 +11,7 @@ export default function BottomButtonBar({onItemPressed}) {
             <BottomToolbar.Action
                 title='GoBack'
                 iconName="arrow-left"
-                onPress={() => onItemPressed('GoBack')}
+                onPress={() => onItemPressed('LeaveSession')}
             />
             <BottomToolbar.Action
                 title='ShowStations'

@@ -9,6 +9,7 @@ import GetOutOfVehicleFAB from "./GetOutOfVehicleFAB";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import BottomButtonBar from "./BottomButtonBar";
 import BottomToolbar from "react-native-bottom-toolbar";
+import GameSessionOverviewListScreen from "../GameSession/GameSessionOverviewListScreen";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -54,36 +55,64 @@ export default class MapScreen extends React.Component {
             }
         });
 
-        let playersMapped = this.mapPlayersAsMarkers();
-
-        this.setState({
-            markersMapped: playersMapped
-        });
+        this.updateMapMarkers();
 
         this.refs.map.fitToElements(true);
     }
 
+    updateMapMarkers() {
+        let playersMapped = this.mapMapElementsAsMarkers();
+
+        this.setState({
+            markersMapped: playersMapped
+        });
+    }
+
     render() {
-        const {playerIsInVehicle, playerDrivingType} = this.state;
+        const {playerIsInVehicle, playerDrivingType, markersMapped} = this.state;
+
         return (
             <View style={styles.container}>
                 <MapView ref="map"
                          style={styles.map}
                          onRegionChange={() => this.onRegionChange}>
-                    {this.state.markersMapped}
+                    {markersMapped}
                 </MapView>
 
                 {(playerIsInVehicle) ? <GetOutOfVehicleFAB onItemPressed={() => this.openCompleteMovementDialog()}/> :
                     <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>}
-                <BottomButtonBar onItemPressed={(item) => this.handleMenuClicks(item)}/>
+                <BottomButtonBar onItemPressed={(item) => this.handleBottomMenuClicks(item)}/>
             </View>
         )
     }
 
-    mapPlayersAsMarkers() {
-        const {mrX, policeOfficers} = this.state;
+    mapMapElementsAsMarkers() {
+        const {mrX, policeOfficers, stations} = this.state;
 
-        let markersMapped = policeOfficers
+        let stationsMapped = this.mapStationssAsMarkers(stations);
+
+        let markersMapped = this.mapOfficersAsMarkers(policeOfficers);
+        if (mrX) {
+            let mrxMapped = this.mapMrXAsMarker(mrX);
+
+            markersMapped = stationsMapped.concat(markersMapped).concat(mrxMapped);
+            return markersMapped;
+        }
+
+        return stationsMapped.concat(markersMapped);
+    }
+
+    mapMrXAsMarker(mrX) {
+        return [<MapView.Marker
+            key={mrX.id}
+            pinColor={'#222222'}
+            coordinate={mrX.lastKnownLocation.geoLocation}
+            title={mrX.lastKnownLocation.name}
+        />];
+    }
+
+    mapOfficersAsMarkers(policeOfficers) {
+        return policeOfficers
             .map(policeOfficer => (
                 <MapView.Marker
                     key={policeOfficer.id}
@@ -93,26 +122,12 @@ export default class MapScreen extends React.Component {
                     description={policeOfficer.currentLocation.name}
                 />
             ));
-        if (mrX) {
-            let mrxMapped = [<MapView.Marker
-                key={mrX.id}
-                pinColor={'#222222'}
-                coordinate={mrX.lastKnownLocation.geoLocation}
-                title={mrX.lastKnownLocation.name}
-            />];
-
-            markersMapped = markersMapped.concat(mrxMapped);
-        }
-
-        return markersMapped;
     }
 
-    mapStationssAsMarkers() {
-        const {stations} = this.state;
-
+    mapStationssAsMarkers(stations) {
         return stations.map(station => (
             <MapView.Marker
-                key={station.id}
+                key={station.stationId}
                 coordinate={station.geoLocation}
                 title={station.name}
             />
@@ -196,17 +211,40 @@ export default class MapScreen extends React.Component {
         return await fetchStations(playerLocation.coords, 700);
     }
 
-    async handleMenuClicks(item) {
+    async handleBottomMenuClicks(item) {
         switch (item) {
+            case 'ShowStations':
+                await this.toggleStations();
+                break;
             case 'MrX':
                 break;
             case 'LeaveSession':
+                this.props.navigation.navigate('GameSessionOverviewListScreen');
                 break;
             case 'Refresh':
                 await this.loadMapElements();
                 break;
             default:
         }
+    }
+
+    async toggleStations() {
+        const {stations} = this.state;
+        if (stations.length === 0) {
+            let playerLocation = await getLocationAsync();
+            // TODO do this 2000 somehow better
+            let stationsFetched = await fetchStations(playerLocation.coords, 2000);
+            this.setState({
+                stations: stationsFetched
+            });
+        } else {
+            this.setState({
+                stations: []
+            });
+        }
+
+        this.updateMapMarkers();
+        this.forceUpdate();
     }
 }
 
