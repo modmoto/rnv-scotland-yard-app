@@ -1,5 +1,5 @@
-const BackendUrl = 'http://localhost:5000';
-//const BackendUrl = 'http://rnvscotlandyardrestapi.azurewebsites.net';
+//const BackendUrl = 'http://localhost:5000';
+const BackendUrl = 'http://rnvscotlandyardrestapi.azurewebsites.net';
 
 export async function fetchGameSessions() {
     return await fetchJson('/game-sessions');
