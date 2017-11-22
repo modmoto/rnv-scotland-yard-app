@@ -7,7 +7,7 @@ import BottomToolbar from "react-native-bottom-toolbar";
 
 export default function BottomButtonBar({onItemPressed}) {
     return (
-        <BottomToolbar font="font-awesome" wrapperStyle={styles.bottomBar}>
+        <BottomToolbar size={20} font={"font-awesome"} wrapperStyle={styles.bottomBar}>
             <BottomToolbar.Action
                 title='GoBack'
                 iconName="arrow-left"
