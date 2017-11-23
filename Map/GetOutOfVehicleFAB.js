@@ -4,7 +4,7 @@ import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function  GetOutOfVehicleFAB({onItemPressed}) {
+export default function GetOutOfVehicleFAB({onItemPressed}) {
     return (
         <ActionButton offsetY={77}
                       icon={<Icon name="sign-out" style={styles.actionButtonIcon}/>}

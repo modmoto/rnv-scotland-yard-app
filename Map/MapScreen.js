@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Button, Text, ActivityIndicator} from "react-native";
 import {MapView} from "expo";
-import {fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
+import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./TicketBuyFAB";
 import DialogManager, {ScaleAnimation} from 'react-native-dialog-component';
 import SelectStationDialog from "./SelectStationDialog";
@@ -10,6 +10,8 @@ import {getLocationAsync} from "../Location/LocationHelpers";
 import BottomButtonBar from "./BottomButtonBar";
 import BottomToolbar from "react-native-bottom-toolbar";
 import GameSessionOverviewListScreen from "../GameSession/GameSessionOverviewListScreen";
+import GameFinishedDialog from "./GameFinishedDialog";
+import {NavigationActions} from "react-navigation";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -36,13 +38,20 @@ export default class MapScreen extends React.Component {
     }
 
     async componentDidMount() {
-        await this.loadMapElements();
+        await this.updateMapState();
 
         this.refs.map.fitToElements(true);
     }
 
-    async loadMapElements() {
+    async updateMapState() {
         const {player, gameSession} = this.state;
+
+
+        let gameSessionUpdated = await fetchGameSession(gameSession.id);
+
+        if (gameSessionUpdated.gameSessionWinner !== 'None') {
+            this.openGameFinishedDialog(gameSessionUpdated.gameSessionWinner, gameSessionUpdated.playerWinningName);
+        }
 
         let mrX = await fetchMrX(gameSession.id);
         let policeOfficers = await fetchPoliceOfficers(gameSession.id);
@@ -185,7 +194,7 @@ export default class MapScreen extends React.Component {
         };
 
         await postPlayerMove(gameSession.id, player.id, move);
-        await this.loadMapElements();
+        await this.updateMapState();
         DialogManager.dismiss(() => {
         });
     }
@@ -201,6 +210,20 @@ export default class MapScreen extends React.Component {
                 <SelectStationDialog onRefresh={() => this.getStationsNearToPlayer()}
                                      onStationPressed={(station) => this.endStationSelected(station)}
                 />
+            ),
+        }, () => {
+        });
+    }
+
+    openGameFinishedDialog(gameSessionWinner, playerWinningName) {
+        DialogManager.show({
+            title: 'Game finished! ' + playerWinningName + ' as ' + gameSessionWinner + ' won!',
+            titleAlign: 'center',
+            animationDuration: 200,
+            dismissOnTouchOutside: false,
+            ScaleAnimation: new ScaleAnimation(),
+            children: (
+                <GameFinishedDialog onOkButtonPressed={() => this.navigateToHomeScreenAfterFinishingGame()}/>
             ),
         }, () => {
         });
@@ -222,10 +245,23 @@ export default class MapScreen extends React.Component {
                 this.props.navigation.navigate('GameSessionOverviewListScreen');
                 break;
             case 'Refresh':
-                await this.loadMapElements();
+                await this.updateMapState();
                 break;
             default:
         }
+    }
+
+    navigateToHomeScreenAfterFinishingGame() {
+        DialogManager.dismiss(() => {
+        });
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'GameSessionOverviewListScreen' })
+            ]
+        });
+
+        this.props.navigation.dispatch(resetAction);
     }
 
     async toggleStations() {
@@ -244,7 +280,6 @@ export default class MapScreen extends React.Component {
         }
 
         this.updateMapMarkers();
-        this.forceUpdate();
     }
 }
 
