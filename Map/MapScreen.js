@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Button, Text, ActivityIndicator} from "react-native";
+import {View, StyleSheet, ActivityIndicator} from "react-native";
 import {MapView} from "expo";
 import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./TicketBuyFAB";
@@ -8,7 +8,6 @@ import SelectStationDialog from "./SelectStationDialog";
 import GetOutOfVehicleFAB from "./GetOutOfVehicleFAB";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import BottomButtonBar from "./BottomButtonBar";
-import BottomToolbar from "react-native-bottom-toolbar";
 import GameSessionOverviewListScreen from "../GameSession/GameSessionOverviewListScreen";
 import GameFinishedDialog from "./GameFinishedDialog";
 import {NavigationActions} from "react-navigation";

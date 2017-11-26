@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, FlatList, Text, TextInput, View} from "react-native";
+import {Text, TextInput, View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
+import Button from "../StyledComponents/Button";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({

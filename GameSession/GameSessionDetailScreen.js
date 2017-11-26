@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, FlatList, Text, View} from "react-native";
+import {FlatList, Text, View} from "react-native";
 import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
 import { NavigationActions } from 'react-navigation'
+import Button from "../StyledComponents/Button";
 
 export default class GameSessionDetailScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -16,7 +17,6 @@ export default class GameSessionDetailScreen extends React.Component {
             MrX: {name: '-'}
         }
     }
-
 
     render() {
         const {policeOfficers, MrX} = this.state;
