@@ -32,7 +32,7 @@ export default class GameSessionDetailScreen extends React.Component {
                           keyExtractor={this._keyExtractor}
                           renderItem={this._renderItem}
                 />
-                <Button title={'Start Game'} onPress={() => this.navigateToMapController()}/>
+                <Button title={'Starte Spiel'} onPress={() => this.navigateToMapController()}/>
             </ScrollView>
         );
     }
@@ -86,7 +86,7 @@ function PoliceOfficerOverview({policeOfficer, index}) {
             <Text style={styles.PoliceOfficerLabel}>Police Officer</Text>
             <View style={styles.smallContainer}>
                 <Text style={styles.PoliceOfficerName}>{policeOfficer.name}</Text>
-                <Icon name="user-circle-o" size={verticalScale(30)} color="#ccc"/>
+                <Icon name="user-circle-o" size={verticalScale(30)} color={COLORS.IconColor()}/>
             </View>
         </View>
     )
@@ -94,7 +94,7 @@ function PoliceOfficerOverview({policeOfficer, index}) {
 
 function MrxOverview({MrX}) {
     let backgroundColor = {
-        backgroundColor: '#333',
+        backgroundColor: COLORS.MrXColor(),
     };
 
     return (
@@ -103,7 +103,7 @@ function MrxOverview({MrX}) {
                 <Text style={styles.MrxLabel}>MrX:</Text>
                 <View style={styles.smallContainer}>
                     <Text style={styles.MrxName}>{MrX.name}</Text>
-                    <Icon name="user-secret" size={verticalScale(30)} color="#ccc"/>
+                    <Icon name="user-secret" size={verticalScale(30)} color={COLORS.IconColor()}/>
                 </View>
             </View>
         </View>

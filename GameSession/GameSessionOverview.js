@@ -26,12 +26,12 @@ export default class GameSessionOverviewListElement extends React.Component {
 
 function MrXActiveIcon() {
     return (
-        <Icon name="user-secret" size={verticalScale(20)} color="#000000"/>)
+        <Icon name="user-secret" size={verticalScale(20)} color={COLORS.MrXColor()}/>)
 }
 
 function MrXInActiveIcon() {
     return (
-        <Icon name="user-secret" size={verticalScale(20)} color="#bbbbbb"/>)
+        <Icon name="user-secret" size={verticalScale(20)} color={COLORS.InactiveColor()}/>)
 }
 
 function PoliceOfficerActiveIcon({index}) {
@@ -39,9 +39,9 @@ function PoliceOfficerActiveIcon({index}) {
         <Icon key={index} name="user-circle-o" size={verticalScale(20)} color={COLORS.playerColors()[index]}/>)
 }
 
-function PoliceOfficerInActiveIcon(index) {
+function PoliceOfficerInActiveIcon() {
     return (
-        <Icon key={index} name="user-circle-o" size={verticalScale(20)} color="#bbbbbb"/>)
+        <Icon name="user-circle-o" size={verticalScale(20)} color={COLORS.InactiveColor()}/>)
 }
 
 function MrxSummary({mrX}) {
@@ -53,9 +53,9 @@ function PoliceSummary({officers, maxOfficers}) {
     let officerIcons = [];
     for (i = 0; i < maxOfficers; i++) {
         if (officers[i]) {
-            officerIcons[i] = <PoliceOfficerActiveIcon index={i}/>
+            officerIcons[i] = <PoliceOfficerActiveIcon key={i} index={i}/>
         } else {
-            officerIcons[i] = <PoliceOfficerInActiveIcon index={i}/>
+            officerIcons[i] = <PoliceOfficerInActiveIcon key={i}/>
         }
     }
     return (
