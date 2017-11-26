@@ -5,6 +5,7 @@ import {NavigationActions} from 'react-navigation'
 import Button from "../StyledComponents/Button";
 import {ScaledSheet, verticalScale} from "react-native-size-matters";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import COLORS from "../StyledComponents/Colors";
 
 export default class GameSessionDetailScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -64,24 +65,27 @@ export default class GameSessionDetailScreen extends React.Component {
         })
     }
 
-    _renderItem = ({item}) => {
-        return <PoliceOfficerOverview policeOfficer={item}/>
+    _renderItem = ({item, index}) => {
+        return <PoliceOfficerOverview index={index} policeOfficer={item}/>
     };
 
     _keyExtractor = (item, index) => item.id;
 }
 
 
-function PoliceOfficerOverview({policeOfficer}) {
+
+
+
+function PoliceOfficerOverview({policeOfficer, index}) {
     let backgroundColor = {
-        backgroundColor: '#0044bb',
+        backgroundColor: COLORS.playerColors()[index],
     };
 
     return (
         <View style={[styles.policeOfficerCotainer, backgroundColor]}>
             <Text style={styles.PoliceOfficerLabel}>Police Officer</Text>
             <View style={styles.smallContainer}>
-                <Text style={styles.MrxName}>{policeOfficer.name}</Text>
+                <Text style={styles.PoliceOfficerName}>{policeOfficer.name}</Text>
                 <Icon name="user-circle-o" size={verticalScale(30)} color="#ccc"/>
             </View>
         </View>
@@ -119,6 +123,9 @@ const styles = ScaledSheet.create({
     MrxName: {
         fontSize: '20@vs',
         color: '#ccc',
+    },
+    PoliceOfficerName: {
+        fontSize: '20@vs',
     },
     mrxCotainer: {
         padding: '20@vs',
