@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, FlatList, Picker, Text, TextInput, View} from "react-native";
-import {postGameSession, postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
-import {getLocationAsync} from "../Location/LocationHelpers";
+import {Picker, Text, View} from "react-native";
+import {postGameSession} from "../Backend/RestAdapter";
+import Button from "../StyledComponents/Button";
+import TextInput from "../StyledComponents/TextInput";
 
 export default class GameSessionCreateScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -22,8 +23,8 @@ export default class GameSessionCreateScreen extends React.Component {
 
         return (
             <View>
-                <Text>Game Session Name:</Text>
                 <TextInput
+                    placeholder={'Name des Spiels'}
                     onChangeText={(text) => this.setState({gameSessionName: text})}
                     value={gameSessionName}
                 />

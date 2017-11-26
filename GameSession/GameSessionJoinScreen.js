@@ -1,8 +1,9 @@
 import React from 'react';
-import {Text, TextInput, View} from "react-native";
+import {Text, View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import Button from "../StyledComponents/Button";
+import TextInput from "../StyledComponents/TextInput";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -23,12 +24,12 @@ export default class GameSessionJoinScreen extends React.Component {
 
         return (
             <View>
-                <Text>What is your name?</Text>
                 <TextInput
+                    placeholder={'Spielername'}
                     onChangeText={(text) => this.setState({playerName: text})}
                     value={this.state.playerName}
                 />
-                <Text>What do you want to play?</Text>
+                <Text>Starte als:</Text>
                 <Button title={'MrX'} onPress={() => this.createMrXAndNavigateToDetailPage(playerName)}/>
                 <Button title={'Police Officer'}
                         onPress={() => this.createPoliceOfficerAndNavigateToDetailPage(playerName)}/>
