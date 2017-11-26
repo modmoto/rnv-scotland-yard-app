@@ -16,9 +16,7 @@ export default class GameSessionOverviewListElement extends React.Component {
                 <View style={styles.details}>
                     <MrxSummary mrX={gameSession.mrXId}/>
                     <Text style={styles.distance}>1400 m</Text>
-                    <Text
-                        style={styles.policeSummary}>{gameSession.policeOfficerIds.length}/{gameSession.maxPoliceOfficers} Police
-                        Officers</Text>
+                    <PoliceSummary officers={gameSession.policeOfficerIds} maxOfficers={gameSession.maxPoliceOfficers}/>
                 </View>
             </TouchableOpacity>
         )
@@ -38,6 +36,19 @@ function MrXInActiveIcon() {
 function MrxSummary({mrX}) {
     return (
         <View style={styles.mrxSummary}>{mrX ? <MrXActiveIcon/> : <MrXInActiveIcon/>}</View>)
+}
+
+function PoliceSummary({officers, maxOfficers}) {
+    let officerIcons = [];
+    for (i = 0; i < maxOfficers; i++) {
+        if (officers[i]) {
+            officerIcons[i] = <MrXActiveIcon key={i}/>
+        } else {
+            officerIcons[i] = <MrXInActiveIcon key={i}/>
+        }
+    }
+    return (
+        <View style={styles.policeSummary}>{officerIcons}</View>)
 }
 
 GameSessionOverviewListElement.propTypes = {
@@ -60,15 +71,18 @@ const styles = ScaledSheet.create({
     }, gameName: {
         fontSize: '20@vs',
     }, details: {
+        flex: 1,
         paddingTop: '15@vs',
         paddingLeft: '10@s',
         paddingRight: '10@s',
         paddingBottom: '0@vs',
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'space-between'
     }, mrxSummary: {
     }, policeSummary: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
     }, distance: {
         fontSize: '10@vs',
         color: '#888',
