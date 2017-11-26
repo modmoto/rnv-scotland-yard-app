@@ -86,7 +86,9 @@ export default class MapScreen extends React.Component {
                     {markersMapped}
                 </MapView>
 
-                {(playerIsInVehicle) ? <GetOutOfVehicleFAB currentMovement={playerDrivingType} onItemPressed={() => this.openCompleteMovementDialog()}/> :
+                {(playerIsInVehicle) ? <GetOutOfVehicleFAB
+                        currentMovement={playerDrivingType}
+                        onItemPressed={() => this.openCompleteMovementDialog()}/> :
                     <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>}
                 <BottomButtonBar onItemPressed={(item) => this.handleBottomMenuClicks(item)}/>
             </View>
@@ -256,7 +258,7 @@ export default class MapScreen extends React.Component {
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'GameSessionOverviewListScreen' })
+                NavigationActions.navigate({routeName: 'GameSessionOverviewListScreen'})
             ]
         });
 

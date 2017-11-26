@@ -9,7 +9,7 @@ import COLORS from "../StyledComponents/Colors";
 export default function TicketBuyFAB({onItemPressed}){
     return (
         <ActionButton offsetY={verticalScale(77)} icon={ <Icon name="credit-card" style={styles.actionButtonIcon} />}  buttonColor="rgba(200, 200, 200,1)">
-            <ActionButton.Item buttonColor={COLORS.stationColors()[2]} onPress={() => onItemPressed("Train")}>
+            <ActionButton.Item buttonColor={COLORS.stationColors()[2]} onPress={() => onItemPressed("Metro")}>
                 <Icon name="train" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item buttonColor={COLORS.stationColors()[1]} onPress={() => onItemPressed("Bus")}>
