@@ -1,0 +1,16 @@
+{
+  "name": "",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "2e7c67db76849147d16a6763d07a03a9",
+      "css": "police",
+      "code": 59435,
+      "src": "maki"
+    }
+  ]
+}

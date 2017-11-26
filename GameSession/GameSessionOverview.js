@@ -33,6 +33,16 @@ function MrXInActiveIcon() {
         <Icon name="user-secret" size={verticalScale(20)} color="#bbbbbb"/>)
 }
 
+function PoliceOfficerActiveIcon() {
+    return (
+        <Icon name="user-circle-o" size={verticalScale(20)} color="#0044bb"/>)
+}
+
+function PoliceOfficerInActiveIcon() {
+    return (
+        <Icon name="user-circle-o" size={verticalScale(20)} color="#bbbbbb"/>)
+}
+
 function MrxSummary({mrX}) {
     return (
         <View style={styles.mrxSummary}>{mrX ? <MrXActiveIcon/> : <MrXInActiveIcon/>}</View>)
@@ -42,9 +52,9 @@ function PoliceSummary({officers, maxOfficers}) {
     let officerIcons = [];
     for (i = 0; i < maxOfficers; i++) {
         if (officers[i]) {
-            officerIcons[i] = <MrXActiveIcon key={i}/>
+            officerIcons[i] = <PoliceOfficerActiveIcon key={i}/>
         } else {
-            officerIcons[i] = <MrXInActiveIcon key={i}/>
+            officerIcons[i] = <PoliceOfficerInActiveIcon key={i}/>
         }
     }
     return (
