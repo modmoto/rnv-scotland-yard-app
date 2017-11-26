@@ -13,11 +13,13 @@ export default class GameSessionOverviewListElement extends React.Component {
                 gameSession: gameSession
             })}>
                 <Text style={styles.gameName}>{gameSession.name}</Text>
-                <MrxSummary mrX={gameSession.mrXId}/>
-                <Text style={styles.distance}>1400 m</Text>
-                <Text
-                    style={styles.policeSummary}>{gameSession.policeOfficerIds.length}/{gameSession.maxPoliceOfficers} Police
-                    Officers</Text>
+                <View style={styles.details}>
+                    <MrxSummary mrX={gameSession.mrXId}/>
+                    <Text style={styles.distance}>1400 m</Text>
+                    <Text
+                        style={styles.policeSummary}>{gameSession.policeOfficerIds.length}/{gameSession.maxPoliceOfficers} Police
+                        Officers</Text>
+                </View>
             </TouchableOpacity>
         )
     }
@@ -46,25 +48,31 @@ GameSessionOverviewListElement.propTypes = {
 
 const styles = ScaledSheet.create({
     container: {
-        display: 'flex',
         backgroundColor: '#fff',
         padding: '15@s',
+        paddingBottom: '18@vs',
         margin: '15@s',
         marginTop: '15@vs',
         marginBottom: '0@vs',
         borderRadius: '15@s',
         borderWidth: '1.50@s',
         borderColor: '#d6d7da',
-        justifyContent: 'center',
-        alignItems: 'center'
     }, gameName: {
         fontSize: '20@vs',
+    }, details: {
+        paddingTop: '15@vs',
+        paddingLeft: '10@s',
+        paddingRight: '10@s',
+        paddingBottom: '0@vs',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }, mrxSummary: {
-        width: '33.33%'
     }, policeSummary: {
-        width: '33.33%'
     }, distance: {
-        width: '33.33%'
+        fontSize: '10@vs',
+        color: '#888',
+        bottom:0
     }
 });
 
