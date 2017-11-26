@@ -1,7 +1,7 @@
 import React from 'react';
 import DialogContent from "react-native-dialog-component/src/components/DialogContent";
 import PropTypes from 'prop-types';
-import {Button} from "react-native";
+import Button from "../StyledComponents/Button";
 
 export default function GameFinishedDialog({onOkButtonPressed}) {
     return (

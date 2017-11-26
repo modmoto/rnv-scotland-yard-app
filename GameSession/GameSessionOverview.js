@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Text, TouchableOpacity, View} from "react-native";
 import {ScaledSheet, verticalScale} from "react-native-size-matters";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import COLORS from "../StyledComponents/Colors";
 
 export default class GameSessionOverviewListElement extends React.Component {
     render() {
@@ -33,14 +34,14 @@ function MrXInActiveIcon() {
         <Icon name="user-secret" size={verticalScale(20)} color="#bbbbbb"/>)
 }
 
-function PoliceOfficerActiveIcon() {
+function PoliceOfficerActiveIcon({index}) {
     return (
-        <Icon name="user-circle-o" size={verticalScale(20)} color="#0044bb"/>)
+        <Icon key={index} name="user-circle-o" size={verticalScale(20)} color={COLORS.playerColors()[index]}/>)
 }
 
-function PoliceOfficerInActiveIcon() {
+function PoliceOfficerInActiveIcon(index) {
     return (
-        <Icon name="user-circle-o" size={verticalScale(20)} color="#bbbbbb"/>)
+        <Icon key={index} name="user-circle-o" size={verticalScale(20)} color="#bbbbbb"/>)
 }
 
 function MrxSummary({mrX}) {
@@ -52,9 +53,9 @@ function PoliceSummary({officers, maxOfficers}) {
     let officerIcons = [];
     for (i = 0; i < maxOfficers; i++) {
         if (officers[i]) {
-            officerIcons[i] = <PoliceOfficerActiveIcon key={i}/>
+            officerIcons[i] = <PoliceOfficerActiveIcon index={i}/>
         } else {
-            officerIcons[i] = <PoliceOfficerInActiveIcon key={i}/>
+            officerIcons[i] = <PoliceOfficerInActiveIcon index={i}/>
         }
     }
     return (

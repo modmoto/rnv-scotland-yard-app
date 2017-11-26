@@ -11,6 +11,7 @@ import BottomButtonBar from "./BottomButtonBar";
 import GameSessionOverviewListScreen from "../GameSession/GameSessionOverviewListScreen";
 import GameFinishedDialog from "./GameFinishedDialog";
 import {NavigationActions} from "react-navigation";
+import COLORS from "../StyledComponents/Colors";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -121,10 +122,10 @@ export default class MapScreen extends React.Component {
 
     mapOfficersAsMarkers(policeOfficers) {
         return policeOfficers
-            .map(policeOfficer => (
+            .map((policeOfficer, index) => (
                 <MapView.Marker
                     key={policeOfficer.id}
-                    pinColor={'#0044bb'}
+                    pinColor={COLORS.playerColors()[index]}
                     coordinate={policeOfficer.currentLocation.geoLocation}
                     title={policeOfficer.name}
                     description={policeOfficer.currentLocation.name}
