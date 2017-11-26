@@ -7,7 +7,7 @@ import CreateFab from "./CreateFab";
 
 export default class GameSessionOverviewListScreen extends React.Component {
     static navigationOptions = () => ({
-        title: 'Game sessions',
+        title: 'Spiele in deiner Umgebung',
     });
 
     constructor(props) {

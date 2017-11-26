@@ -9,6 +9,7 @@
     "react-native-action-button": "^2.8.2",
     "react-native-bottom-toolbar": "^3.0.0",
     "react-native-dialog-component": "^0.2.17",
+    "react-native-size-matters": "0.0.3",
     "react-native-vector-icons": "^4.4.2",
     "react-navigation": "^1.0.0-beta.19",
     "redux": "^3.7.2"
