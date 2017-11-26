@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, Text, View} from "react-native";
+import {FlatList, ScrollView, Text, View} from "react-native";
 import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
 import {NavigationActions} from 'react-navigation'
 import Button from "../StyledComponents/Button";
@@ -24,16 +24,15 @@ export default class GameSessionDetailScreen extends React.Component {
         const {policeOfficers, MrX} = this.state;
 
         return (
-            <View>
+            <ScrollView>
                 <MrxOverview MrX={MrX}/>
-                <Text>Police Officers:</Text>
                 <FlatList style={styles.container}
                           data={policeOfficers}
                           keyExtractor={this._keyExtractor}
                           renderItem={this._renderItem}
                 />
                 <Button title={'Start Game'} onPress={() => this.navigateToMapController()}/>
-            </View>
+            </ScrollView>
         );
     }
 
@@ -80,9 +79,10 @@ function PoliceOfficerOverview({policeOfficer}) {
 
     return (
         <View style={[styles.policeOfficerCotainer, backgroundColor]}>
+            <Text style={styles.PoliceOfficerLabel}>Police Officer</Text>
             <View style={styles.smallContainer}>
                 <Text style={styles.MrxName}>{policeOfficer.name}</Text>
-                <Icon name="user-circle-o" size={verticalScale(30)} color="#bbbbbb"/>
+                <Icon name="user-circle-o" size={verticalScale(30)} color="#ccc"/>
             </View>
         </View>
     )
@@ -99,7 +99,7 @@ function MrxOverview({MrX}) {
                 <Text style={styles.MrxLabel}>MrX:</Text>
                 <View style={styles.smallContainer}>
                     <Text style={styles.MrxName}>{MrX.name}</Text>
-                    <Icon name="user-secret" size={verticalScale(30)} color="#bbbbbb"/>
+                    <Icon name="user-secret" size={verticalScale(30)} color="#ccc"/>
                 </View>
             </View>
         </View>
@@ -118,7 +118,7 @@ const styles = ScaledSheet.create({
     },
     MrxName: {
         fontSize: '20@vs',
-        color: '#eee',
+        color: '#ccc',
     },
     mrxCotainer: {
         padding: '20@vs',
@@ -130,10 +130,12 @@ const styles = ScaledSheet.create({
     },
     MrxLabel: {
         fontSize: '10@vs',
-        color: '#eee',
+        color: '#ccc',
+    },
+    PoliceOfficerLabel: {
+        fontSize: '10@vs',
     },
     smallContainer: {
-        color: '#eee',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'

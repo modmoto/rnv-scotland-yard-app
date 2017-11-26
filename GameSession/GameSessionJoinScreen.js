@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from "react-native";
+import {View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import Button from "../StyledComponents/Button";
@@ -29,7 +29,6 @@ export default class GameSessionJoinScreen extends React.Component {
                     onChangeText={(text) => this.setState({playerName: text})}
                     value={this.state.playerName}
                 />
-                <Text>Starte als:</Text>
                 <Button title={'MrX'} onPress={() => this.createMrXAndNavigateToDetailPage(playerName)}/>
                 <Button title={'Police Officer'}
                         onPress={() => this.createPoliceOfficerAndNavigateToDetailPage(playerName)}/>

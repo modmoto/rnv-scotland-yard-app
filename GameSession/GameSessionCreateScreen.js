@@ -3,6 +3,7 @@ import {Picker, Text, View} from "react-native";
 import {postGameSession} from "../Backend/RestAdapter";
 import Button from "../StyledComponents/Button";
 import TextInput from "../StyledComponents/TextInput";
+import {ScaledSheet} from "react-native-size-matters";
 
 export default class GameSessionCreateScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -29,7 +30,7 @@ export default class GameSessionCreateScreen extends React.Component {
                     value={gameSessionName}
                 />
 
-                <Text>How Many Police Officer should be playable?</Text>
+                <Text style={styles.text}>Anzahl Police Officers:</Text>
                 <Picker
                     selectedValue={maxPlayers}
                     onValueChange={(itemValue, itemIndex) => this.setState({maxPlayers: itemValue})}>
@@ -40,7 +41,7 @@ export default class GameSessionCreateScreen extends React.Component {
                     <Picker.Item label="7" value="7"/>
                     <Picker.Item label="8" value="8"/>
                 </Picker>
-                <Button title={'Create GameSession'} onPress={() => this.createGameSessionAndNavigateToJoinPage()}/>
+                <Button title={'Erstelle Spiel'} onPress={() => this.createGameSessionAndNavigateToJoinPage()}/>
             </View>
         );
     }
@@ -63,3 +64,11 @@ export default class GameSessionCreateScreen extends React.Component {
         });
     }
 }
+
+const styles = ScaledSheet.create({
+    text: {
+        paddingTop: '30@vs',
+        fontSize: '18@vs',
+        textAlign: 'center',
+    }
+});

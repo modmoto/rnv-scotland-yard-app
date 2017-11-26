@@ -3,10 +3,12 @@ import {StyleSheet} from "react-native";
 import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {ScaledSheet, verticalScale} from "react-native-size-matters";
+
 
 export default function TicketBuyFAB({onItemPressed}){
     return (
-        <ActionButton offsetY={77} icon={ <Icon name="credit-card" style={styles.actionButtonIcon} />}  buttonColor="rgba(200, 200, 200,1)">
+        <ActionButton offsetY={verticalScale(77)} icon={ <Icon name="credit-card" style={styles.actionButtonIcon} />}  buttonColor="rgba(200, 200, 200,1)">
             <ActionButton.Item buttonColor='#9b59b6' onPress={() => onItemPressed("Train")}>
                 <Icon name="train" style={styles.actionButtonIcon} />
             </ActionButton.Item>
@@ -20,10 +22,10 @@ export default function TicketBuyFAB({onItemPressed}){
     )
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     actionButtonIcon: {
-        fontSize: 20,
-        height: 25,
+        fontSize: '20@vs',
+        height: '25@vs',
         top: 2,
         color: 'white',
         zIndex: 11

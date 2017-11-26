@@ -1,13 +1,11 @@
 import React from 'react';
-import {StyleSheet} from "react-native";
-import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import BottomToolbar from "react-native-bottom-toolbar";
+import {ScaledSheet, verticalScale} from "react-native-size-matters";
 
 export default function BottomButtonBar({onItemPressed}) {
     return (
-        <BottomToolbar size={20} font={"font-awesome"} wrapperStyle={styles.bottomBar}>
+        <BottomToolbar size={verticalScale(20)} font={"font-awesome"} wrapperStyle={styles.bottomBar}>
             <BottomToolbar.Action
                 title='GoBack'
                 iconName="arrow-left"
@@ -35,9 +33,9 @@ BottomButtonBar.propTypes = {
     onItemPressed: PropTypes.func.isRequired,
 };
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     bottomBar: {
         position: 'absolute',
-        height: 50
+        height: '50@vs'
     }
 });
