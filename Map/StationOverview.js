@@ -1,21 +1,25 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import PropTypes from 'prop-types';
+import {ScaledSheet} from "react-native-size-matters";
+
 
 export default function StationOverview({station, onPressed}) {
     return(
         <View>
             <TouchableOpacity style={styles.container} onPress={() => onPressed(station)}>
-                <Text>{station.name}</Text>
+                <Text style={styles.text}>{station.name}</Text>
             </TouchableOpacity>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     container: {
-        flex: 1,
-        padding: 10
+        padding: '15@vs'
+    },
+    text: {
+        fontSize: '18@vs'
     },
 });
 

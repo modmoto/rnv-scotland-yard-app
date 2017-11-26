@@ -20,7 +20,6 @@ const styles = ScaledSheet.create({
     actionButtonIcon: {
         fontSize: '25@vs',
         height: '25@vs',
-        left: 2,
         color: 'white',
         zIndex: 11
     }
