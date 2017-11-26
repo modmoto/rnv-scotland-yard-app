@@ -1,8 +1,10 @@
 import React from 'react';
 import {FlatList, Text, View} from "react-native";
 import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
-import { NavigationActions } from 'react-navigation'
+import {NavigationActions} from 'react-navigation'
 import Button from "../StyledComponents/Button";
+import {ScaledSheet, verticalScale} from "react-native-size-matters";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class GameSessionDetailScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -20,12 +22,13 @@ export default class GameSessionDetailScreen extends React.Component {
 
     render() {
         const {policeOfficers, MrX} = this.state;
+
         return (
             <View>
-                <Text>MrX:</Text>
-                <Text>{MrX.name}</Text>
+                <MrxOverview MrX={MrX}/>
                 <Text>Police Officers:</Text>
-                <FlatList data={policeOfficers}
+                <FlatList style={styles.container}
+                          data={policeOfficers}
                           keyExtractor={this._keyExtractor}
                           renderItem={this._renderItem}
                 />
@@ -39,11 +42,13 @@ export default class GameSessionDetailScreen extends React.Component {
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'MapScreen' ,
+                NavigationActions.navigate({
+                    routeName: 'MapScreen',
                     params: {
                         gameSession: gameSession,
                         player: player
-                }})
+                    }
+                })
             ]
         });
 
@@ -61,8 +66,77 @@ export default class GameSessionDetailScreen extends React.Component {
     }
 
     _renderItem = ({item}) => {
-        return <Text>{item.name}</Text>
+        return <PoliceOfficerOverview policeOfficer={item}/>
     };
 
     _keyExtractor = (item, index) => item.id;
 }
+
+
+function PoliceOfficerOverview({policeOfficer}) {
+    let backgroundColor = {
+        backgroundColor: '#0044bb',
+    };
+
+    return (
+        <View style={[styles.policeOfficerCotainer, backgroundColor]}>
+            <View style={styles.smallContainer}>
+                <Text style={styles.MrxName}>{policeOfficer.name}</Text>
+                <Icon name="user-circle-o" size={verticalScale(30)} color="#bbbbbb"/>
+            </View>
+        </View>
+    )
+}
+
+function MrxOverview({MrX}) {
+    let backgroundColor = {
+        backgroundColor: '#333',
+    };
+
+    return (
+        <View style={[styles.container, backgroundColor]}>
+            <View style={styles.mrxCotainer}>
+                <Text style={styles.MrxLabel}>MrX:</Text>
+                <View style={styles.smallContainer}>
+                    <Text style={styles.MrxName}>{MrX.name}</Text>
+                    <Icon name="user-secret" size={verticalScale(30)} color="#bbbbbb"/>
+                </View>
+            </View>
+        </View>
+    )
+}
+
+const styles = ScaledSheet.create({
+    container: {
+        margin: '15@s',
+        marginTop: '15@vs',
+        marginBottom: '0@vs',
+        borderRadius: '10@s',
+        borderWidth: '1.50@s',
+        borderColor: '#d6d7da',
+        overflow: 'hidden'
+    },
+    MrxName: {
+        fontSize: '20@vs',
+        color: '#eee',
+    },
+    mrxCotainer: {
+        padding: '20@vs',
+        paddingBottom: '15@vs',
+    },
+    policeOfficerCotainer: {
+        padding: '20@vs',
+        paddingBottom: '15@vs',
+    },
+    MrxLabel: {
+        fontSize: '10@vs',
+        color: '#eee',
+    },
+    smallContainer: {
+        color: '#eee',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    }
+
+});

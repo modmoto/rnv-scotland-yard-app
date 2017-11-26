@@ -40,6 +40,6 @@ const styles = ScaledSheet.create({
         borderColor: '#d6d7da',
         alignItems: 'center',
     },text: {
-        fontSize: 20
+        fontSize: '20@vs'
     }
 });
