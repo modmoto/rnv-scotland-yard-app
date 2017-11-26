@@ -29,8 +29,8 @@ export default class GameSessionJoinScreen extends React.Component {
                     onChangeText={(text) => this.setState({playerName: text})}
                     value={this.state.playerName}
                 />
-                <Button title={'MrX'} onPress={() => this.createMrXAndNavigateToDetailPage(playerName)}/>
-                <Button title={'Police Officer'}
+                <Button title={'Mr-X'} onPress={() => this.createMrXAndNavigateToDetailPage(playerName)}/>
+                <Button title={'Polizist'}
                         onPress={() => this.createPoliceOfficerAndNavigateToDetailPage(playerName)}/>
             </View>
         );

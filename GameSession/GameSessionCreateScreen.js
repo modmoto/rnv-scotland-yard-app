@@ -7,7 +7,7 @@ import {ScaledSheet} from "react-native-size-matters";
 
 export default class GameSessionCreateScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: "Create a new Game Session",
+        title: "Erstelle ein neues Spiel",
     });
 
     constructor(props) {

@@ -143,7 +143,7 @@ export default class MapScreen extends React.Component {
 
     async openMovementDialogFor(type) {
         DialogManager.show({
-            title: 'Select Station for ' + type,
+            title: 'Suche aus, wo du mit dem ' + type + ' einsteigen willst:',
             titleAlign: 'center',
             animationDuration: 200,
             ScaleAnimation: new ScaleAnimation(),
@@ -170,7 +170,7 @@ export default class MapScreen extends React.Component {
         DialogManager.dismiss(() => {
         });
         DialogManager.show({
-            title: 'Sending...',
+            title: 'Sende Bewegung...',
             titleAlign: 'center',
             animationDuration: 200,
             dismissOnTouchOutside: false,
@@ -200,7 +200,7 @@ export default class MapScreen extends React.Component {
     openCompleteMovementDialog() {
         const {playerDrivingType} = this.state;
         DialogManager.show({
-            title: 'Leave ' + playerDrivingType + '  at which station?',
+            title: 'Suche aus, wo du das ' + playerDrivingType + ' verlässt',
             titleAlign: 'center',
             animationDuration: 200,
             dismissOnTouchOutside: false,
@@ -216,7 +216,7 @@ export default class MapScreen extends React.Component {
 
     openGameFinishedDialog(gameSessionWinner, playerWinningName) {
         DialogManager.show({
-            title: 'Game finished! ' + playerWinningName + ' as ' + gameSessionWinner + ' won!',
+            title: 'Spiel beendet finished! ' + playerWinningName + ' als ' + gameSessionWinner + ' hat gewonnen!',
             titleAlign: 'center',
             animationDuration: 200,
             ScaleAnimation: new ScaleAnimation(),

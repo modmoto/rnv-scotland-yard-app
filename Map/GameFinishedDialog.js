@@ -6,7 +6,7 @@ import Button from "../StyledComponents/Button";
 export default function GameFinishedDialog({onOkButtonPressed}) {
     return (
         <DialogContent>
-            <Button title={'Leave Game'} onPress={() => onOkButtonPressed()}/>
+            <Button title={'Verlasse Spiel'} onPress={() => onOkButtonPressed()}/>
         </DialogContent>
     )
 }
