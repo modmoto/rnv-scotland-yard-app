@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {ScaledSheet} from "react-native-size-matters";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from "../StyledComponents/Colors";
+import {convertVehicleToColor} from "../util";
 
 export default class MrxStationsDialog extends React.Component {
 
@@ -59,20 +60,12 @@ export default class MrxStationsDialog extends React.Component {
 }
 
 function MovementOverview({movement}) {
+
     let iconName = '';
-    let backgroundColor = [];
-    if (movement === "Taxi") {
-        iconName = 'taxi';
-        backgroundColor = [{backgroundColor: COLORS.stationColors()[0]}];
-    }
-    if (movement === "Bus") {
-        iconName = 'bus';
-        backgroundColor = [{backgroundColor: COLORS.stationColors()[1]}];
-    }
-    if (movement === "Metro") {
-        iconName = 'train';
-        backgroundColor = [{backgroundColor: COLORS.stationColors()[2]}];
-    }
+    let backgroundColor = [{backgroundColor: convertVehicleToColor(movement)}];
+    if (movement === "Taxi") iconName = 'taxi';
+    if (movement === "Bus") iconName = 'bus';
+    if (movement === "Metro") iconName = 'train';
 
     return (
         <View style={[styles.movementOverview, backgroundColor]}>

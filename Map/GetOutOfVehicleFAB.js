@@ -3,13 +3,16 @@ import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScaledSheet, verticalScale} from "react-native-size-matters";
+import {convertVehicleToColor} from "../util";
 
 
-export default function GetOutOfVehicleFAB({onItemPressed}) {
+export default function GetOutOfVehicleFAB({onItemPressed, currentMovement}) {
+    let color = convertVehicleToColor(currentMovement);
+
     return (
         <ActionButton offsetY={verticalScale(77)}
                       icon={<Icon name="sign-out" style={styles.actionButtonIcon}/>}
-                      buttonColor="rgba(100, 100, 100,1)"
+                      buttonColor={color}
                       onPress={onItemPressed}>
         </ActionButton>
     )
@@ -25,5 +28,6 @@ const styles = ScaledSheet.create({
 });
 
 GetOutOfVehicleFAB.propTypes = {
-    onItemPressed: PropTypes.func.isRequired
+    onItemPressed: PropTypes.func.isRequired,
+    currentMovement: PropTypes.string.isRequired
 };

@@ -86,7 +86,7 @@ export default class MapScreen extends React.Component {
                     {markersMapped}
                 </MapView>
 
-                {(playerIsInVehicle) ? <GetOutOfVehicleFAB onItemPressed={() => this.openCompleteMovementDialog()}/> :
+                {(playerIsInVehicle) ? <GetOutOfVehicleFAB currentMovement={playerDrivingType} onItemPressed={() => this.openCompleteMovementDialog()}/> :
                     <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>}
                 <BottomButtonBar onItemPressed={(item) => this.handleBottomMenuClicks(item)}/>
             </View>
