@@ -39,13 +39,10 @@ export default class MapScreen extends React.Component {
 
     async componentDidMount() {
         await this.updateMapState();
-
-        this.refs.map.fitToElements(true);
     }
 
     async updateMapState() {
         const {player, gameSession} = this.state;
-
 
         let gameSessionUpdated = await fetchGameSession(gameSession.id);
 
@@ -194,17 +191,18 @@ export default class MapScreen extends React.Component {
         };
 
         await postPlayerMove(gameSession.id, player.id, move);
-        await this.updateMapState();
         DialogManager.dismiss(() => {
         });
+        await this.updateMapState();
     }
 
-    async openCompleteMovementDialog() {
+    openCompleteMovementDialog() {
         const {playerDrivingType} = this.state;
         DialogManager.show({
             title: 'Leave ' + playerDrivingType + '  at which station?',
             titleAlign: 'center',
             animationDuration: 200,
+            dismissOnTouchOutside: false,
             ScaleAnimation: new ScaleAnimation(),
             children: (
                 <SelectStationDialog onRefresh={() => this.getStationsNearToPlayer()}
@@ -220,7 +218,6 @@ export default class MapScreen extends React.Component {
             title: 'Game finished! ' + playerWinningName + ' as ' + gameSessionWinner + ' won!',
             titleAlign: 'center',
             animationDuration: 200,
-            dismissOnTouchOutside: false,
             ScaleAnimation: new ScaleAnimation(),
             children: (
                 <GameFinishedDialog onOkButtonPressed={() => this.navigateToHomeScreenAfterFinishingGame()}/>
