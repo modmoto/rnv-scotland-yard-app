@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet} from "react-native";
 import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';

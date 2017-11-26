@@ -12,6 +12,7 @@ import GameSessionOverviewListScreen from "../GameSession/GameSessionOverviewLis
 import GameFinishedDialog from "./GameFinishedDialog";
 import {NavigationActions} from "react-navigation";
 import COLORS from "../StyledComponents/Colors";
+import MrxStationsDialog from "./MrxStationsDialog";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -237,6 +238,7 @@ export default class MapScreen extends React.Component {
                 await this.toggleStations();
                 break;
             case 'MrX':
+                await this.showMrXMoves();
                 break;
             case 'LeaveSession':
                 this.props.navigation.navigate('GameSessionOverviewListScreen');
@@ -277,6 +279,25 @@ export default class MapScreen extends React.Component {
         }
 
         this.updateMapMarkers();
+    }
+
+    async showMrXMoves() {
+        DialogManager.show({
+            title: 'Mrx Bewegungen',
+            titleAlign: 'center',
+            animationDuration: 200,
+            ScaleAnimation: new ScaleAnimation(),
+            children: (
+                <MrxStationsDialog onRefresh={() => this.getMrX()}
+                />
+            ),
+        }, () => {
+        });
+    }
+
+    async getMrX() {
+        const {gameSession} = this.state;
+        return await fetchMrX(gameSession.id);
     }
 }
 

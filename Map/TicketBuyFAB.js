@@ -1,21 +1,21 @@
 import React from 'react';
-import {StyleSheet} from "react-native";
 import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScaledSheet, verticalScale} from "react-native-size-matters";
+import COLORS from "../StyledComponents/Colors";
 
 
 export default function TicketBuyFAB({onItemPressed}){
     return (
         <ActionButton offsetY={verticalScale(77)} icon={ <Icon name="credit-card" style={styles.actionButtonIcon} />}  buttonColor="rgba(200, 200, 200,1)">
-            <ActionButton.Item buttonColor='#9b59b6' onPress={() => onItemPressed("Train")}>
+            <ActionButton.Item buttonColor={COLORS.stationColors()[2]} onPress={() => onItemPressed("Train")}>
                 <Icon name="train" style={styles.actionButtonIcon} />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#1abc9c' onPress={() => onItemPressed("Bus")}>
+            <ActionButton.Item buttonColor={COLORS.stationColors()[1]} onPress={() => onItemPressed("Bus")}>
                 <Icon name="bus" style={styles.actionButtonIcon} />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#eaf259' onPress={() => onItemPressed("Taxi")}>
+            <ActionButton.Item buttonColor={COLORS.stationColors()[0]} onPress={() => onItemPressed("Taxi")}>
                 <Icon name="taxi" style={styles.actionButtonIcon} />
             </ActionButton.Item>
         </ActionButton>
