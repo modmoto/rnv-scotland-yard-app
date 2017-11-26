@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {scale, ScaledSheet} from "react-native-size-matters";
+import {Text, TouchableOpacity, View} from "react-native";
+import {ScaledSheet, verticalScale} from "react-native-size-matters";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class GameSessionOverviewListElement extends React.Component {
     render() {
@@ -12,7 +13,7 @@ export default class GameSessionOverviewListElement extends React.Component {
                 gameSession: gameSession
             })}>
                 <Text style={styles.gameName}>{gameSession.name}</Text>
-                <Text style={styles.mrxSummary}>{gameSession.mrXId ? 1 : 0}/1 MrX</Text>
+                <MrxSummary mrX={gameSession.mrXId}/>
                 <Text style={styles.distance}>1400 m</Text>
                 <Text
                     style={styles.policeSummary}>{gameSession.policeOfficerIds.length}/{gameSession.maxPoliceOfficers} Police
@@ -20,6 +21,21 @@ export default class GameSessionOverviewListElement extends React.Component {
             </TouchableOpacity>
         )
     }
+}
+
+function MrXActiveIcon() {
+    return (
+        <Icon name="user-secret" size={verticalScale(20)} color="#000000"/>)
+}
+
+function MrXInActiveIcon() {
+    return (
+        <Icon name="user-secret" size={verticalScale(20)} color="#bbbbbb"/>)
+}
+
+function MrxSummary({mrX}) {
+    return (
+        <View style={styles.mrxSummary}>{mrX ? <MrXActiveIcon/> : <MrXInActiveIcon/>}</View>)
 }
 
 GameSessionOverviewListElement.propTypes = {
@@ -30,7 +46,7 @@ GameSessionOverviewListElement.propTypes = {
 
 const styles = ScaledSheet.create({
     container: {
-        display:'flex',
+        display: 'flex',
         backgroundColor: '#fff',
         padding: '15@s',
         margin: '15@s',
@@ -42,13 +58,15 @@ const styles = ScaledSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     }, gameName: {
-        fontSize: '20@s',
+        fontSize: '20@vs',
     }, mrxSummary: {
-        width:'33.33%'
+        width: '33.33%'
     }, policeSummary: {
-        width:'33.33%'
+        width: '33.33%'
     }, distance: {
-        width:'33.33%'
-    },
+        width: '33.33%'
+    }
 });
+
+
 
