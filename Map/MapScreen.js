@@ -134,13 +134,21 @@ export default class MapScreen extends React.Component {
     }
 
     mapStationssAsMarkers(stations) {
-        return stations.map(station => (
-            <MapView.Marker
+        return stations.map(station => {
+            let stationImage;
+            if (station.type === 'Taxi') stationImage = '../assets/taxiPin.png';
+            if (station.type === 'Bus') stationImage = '../assets/busPin.png';
+            if (station.type === 'Metro') stationImage = '../assets/metroPin.png';
+
+            return (<MapView.Marker
                 key={station.stationId}
                 coordinate={station.geoLocation}
                 title={station.name}
-            />
-        ));
+                description={station.type}
+                image={require(stationImage)}
+            />);
+            }
+        );
     }
 
     async openMovementDialogFor(type) {
