@@ -150,7 +150,7 @@ export default class MapScreen extends React.Component {
             animationDuration: 200,
             ScaleAnimation: new ScaleAnimation(),
             children: (
-                <SelectStationDialog onRefresh={() => this.getStationsNearToPlayer()}
+                <SelectStationDialog onRefresh={() => this.getStationsNearToPlayer(type)}
                                      onStationPressed={(station) => this.startStationSelected(station, type)}
                 />
             ),
@@ -229,9 +229,20 @@ export default class MapScreen extends React.Component {
         });
     }
 
-    async getStationsNearToPlayer() {
+    async getStationsNearToPlayer(type) {
         let playerLocation = await getLocationAsync();
-        return await fetchStations(playerLocation.coords, 700);
+        const stationsFetched = await fetchStations(playerLocation.coords, 700);
+        return this.filterStations(stationsFetched, type);
+    }
+
+    filterStations(stationsFetched, type) {
+        if (type === 'Taxi') return stationsFetched;
+        if (type === 'Bus') {
+            return stationsFetched.filter(station => station.type === 'Bus' || station.type === 'Metro');
+        }
+        if (type === 'Metro') {
+            return stationsFetched.filter(station => station.type === 'Metro');
+        }
     }
 
     async handleBottomMenuClicks(item) {
