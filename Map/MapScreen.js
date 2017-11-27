@@ -232,7 +232,8 @@ export default class MapScreen extends React.Component {
     async getStationsNearToPlayer(type) {
         let playerLocation = await getLocationAsync();
         const stationsFetched = await fetchStations(playerLocation.coords, 700);
-        return this.filterStations(stationsFetched, type);
+        if (type) return this.filterStations(stationsFetched, type);
+        else return stationsFetched;
     }
 
     filterStations(stationsFetched, type) {
