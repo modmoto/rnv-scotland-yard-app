@@ -13,6 +13,9 @@ import GameFinishedDialog from "./GameFinishedDialog";
 import {NavigationActions} from "react-navigation";
 import COLORS from "../StyledComponents/Colors";
 import MrxStationsDialog from "./MrxStationsDialog";
+import {ScaledSheet} from "react-native-size-matters";
+import MrxMarker from "./MrxMarker";
+import PoliceMarker from "./PoliceMarker";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -112,12 +115,16 @@ export default class MapScreen extends React.Component {
     }
 
     mapMrXAsMarker(mrX) {
-        return [<MapView.Marker
-            key={mrX.id}
-            pinColor={'#222222'}
-            coordinate={mrX.lastKnownLocation.geoLocation}
-            title={mrX.lastKnownLocation.name}
-        />];
+        let marker =
+            <MapView.Marker
+                key={mrX.id}
+                coordinate={mrX.lastKnownLocation.geoLocation}
+                title={mrX.lastKnownLocation.name}
+            >
+                <MrxMarker />
+            </MapView.Marker>;
+
+        return [marker];
     }
 
     mapOfficersAsMarkers(policeOfficers) {
@@ -125,28 +132,29 @@ export default class MapScreen extends React.Component {
             .map((policeOfficer, index) => (
                 <MapView.Marker
                     key={policeOfficer.id}
-                    pinColor={COLORS.playerColors()[index]}
                     coordinate={policeOfficer.currentLocation.geoLocation}
                     title={policeOfficer.name}
                     description={policeOfficer.currentLocation.name}
-                />
+                >
+                    <PoliceMarker index={index} />
+                </MapView.Marker>
             ));
     }
 
     mapStationssAsMarkers(stations) {
         return stations.map(station => {
-            let stationImage;
-            if (station.type === 'Taxi') stationImage = require('../assets/taxiPin.png');
-            if (station.type === 'Bus') stationImage = require('../assets/busPin.png');
-            if (station.type === 'Metro') stationImage = require('../assets/metroPin.png');
+                let stationImage;
+                if (station.type === 'Taxi') stationImage = require('../assets/taxiPin.png');
+                if (station.type === 'Bus') stationImage = require('../assets/busPin.png');
+                if (station.type === 'Metro') stationImage = require('../assets/metroPin.png');
 
-            return (<MapView.Marker
-                key={station.stationId}
-                coordinate={station.geoLocation}
-                title={station.name}
-                description={station.type}
-                image={stationImage}
-            />);
+                return (<MapView.Marker
+                    key={station.stationId}
+                    coordinate={station.geoLocation}
+                    title={station.name}
+                    description={station.type}
+                    image={stationImage}
+                />);
             }
         );
     }
@@ -323,7 +331,7 @@ export default class MapScreen extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     container: {
         position: 'absolute',
         top: 0,
