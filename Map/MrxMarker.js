@@ -9,6 +9,7 @@ export default function MrxMarker() {
     return (
         <View>
             <Icon name="user-secret" style={styles.actionButtonIcon}/>
+            <Icon name="circle" style={[styles.backDrop]}/>
         </View>
     )
 }
@@ -20,5 +21,13 @@ const styles = ScaledSheet.create({
         color: COLORS.MrXColor(),
         bottom:'30@vs',
         zIndex: 11
+    },
+    backDrop: {
+        position: 'absolute',
+        fontSize: '35@vs',
+        height: '30@vs',
+        bottom:'30@vs',
+        color: COLORS.BackDropColor(),
+        zIndex: 9
     }
 });

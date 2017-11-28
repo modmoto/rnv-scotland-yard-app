@@ -22,4 +22,8 @@ export default class COLORS{
     static IconColor() {
         return '#eee';
     }
+
+    static BackDropColor() {
+        return '#eee'
+    }
 }
