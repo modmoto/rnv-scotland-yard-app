@@ -6,7 +6,7 @@ import COLORS from "../StyledComponents/Colors";
 
 
 export default function PoliceMarker(index) {
-    let c = COLORS.playerColors()[index];
+    let c = COLORS.playerColors()[index.index];
     let bg = [{
         color: c
     }];
