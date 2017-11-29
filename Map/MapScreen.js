@@ -11,7 +11,6 @@ import BottomButtonBar from "./BottomButtonBar";
 import GameSessionOverviewListScreen from "../GameSession/GameSessionOverviewListScreen";
 import GameFinishedDialog from "./GameFinishedDialog";
 import {NavigationActions} from "react-navigation";
-import COLORS from "../StyledComponents/Colors";
 import MrxStationsDialog from "./MrxStationsDialog";
 import {ScaledSheet} from "react-native-size-matters";
 import MrxMarker from "./MrxMarker";
@@ -52,6 +51,7 @@ export default class MapScreen extends React.Component {
 
         if (gameSessionUpdated.gameSessionWinner !== 'None') {
             this.openGameFinishedDialog(gameSessionUpdated.gameSessionWinner, gameSessionUpdated.playerWinningName);
+            return;
         }
 
         let mrX = await fetchMrX(gameSession.id);

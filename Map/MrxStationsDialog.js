@@ -52,17 +52,18 @@ export default class MrxStationsDialog extends React.Component {
         });
     }
 
-    renderListItem = ({item}) => {
-        return <MovementOverview movement={item}/>
+    renderListItem = ({item, index}) => {
+        return <MovementOverview movement={item} index={index}/>
     };
 
     keyExtractor = (item, index) => index;
 }
 
-function MovementOverview({movement}) {
+function MovementOverview({movement, index}) {
 
     let iconName = '';
     let backgroundColor = [{backgroundColor: convertVehicleToColor(movement)}];
+    if ((index + 1) % 5 === 0) backgroundColor = [backgroundColor, [{borderWidth: '3.50@s', borderColor: '#222'}]];
     if (movement === "Taxi") iconName = 'taxi';
     if (movement === "Bus") iconName = 'bus';
     if (movement === "Metro") iconName = 'train';
