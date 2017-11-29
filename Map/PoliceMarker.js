@@ -21,15 +21,14 @@ export default function PoliceMarker(index) {
 
 const styles = ScaledSheet.create({
     actionButtonIcon: {
-        position: 'absolute',
         fontSize: '30@vs',
         height: '30@vs',
         bottom:'30@vs',
-        zIndex: 10
+        zIndex: 11
     },
     backDrop: {
         position: 'absolute',
-        fontSize: '30@vs',
+        fontSize: '35@vs',
         height: '30@vs',
         bottom:'30@vs',
         color: COLORS.BackDropColor(),

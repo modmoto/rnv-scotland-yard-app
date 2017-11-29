@@ -32,7 +32,7 @@ export default class GameSessionDetailScreen extends React.Component {
                           keyExtractor={this._keyExtractor}
                           renderItem={this._renderItem}
                 />
-                <Button title={'Starte Spiel'} onPress={() => this.navigateToMapController()}/>
+                <Button title={'Spiel beitreten'} onPress={() => this.navigateToMapController()}/>
             </ScrollView>
         );
     }
