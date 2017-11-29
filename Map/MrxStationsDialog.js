@@ -63,7 +63,7 @@ function MovementOverview({movement, index}) {
 
     let iconName = '';
     let backgroundColor = [{backgroundColor: convertVehicleToColor(movement)}];
-    if ((index + 1) % 5 === 0) backgroundColor = [backgroundColor, [{borderWidth: '3.50@s', borderColor: '#222'}]];
+    if ((index + 1) % 5 === 0) backgroundColor = [backgroundColor, [{borderWidth: '3.50@s', borderColor: '#222', borderRadius: '10@s'}]];
     if (movement === "Taxi") iconName = 'taxi';
     if (movement === "Bus") iconName = 'bus';
     if (movement === "Metro") iconName = 'train';
