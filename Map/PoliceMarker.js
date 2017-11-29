@@ -13,8 +13,8 @@ export default function PoliceMarker(index) {
 
     return (
         <View>
-            <Icon name="user-circle-o" style={[styles.actionButtonIcon, bg]}/>
             <Icon name="circle" style={[styles.backDrop]}/>
+            <Icon name="user-circle-o" style={[styles.actionButtonIcon, bg]}/>
         </View>
     )
 }
@@ -24,7 +24,6 @@ const styles = ScaledSheet.create({
         fontSize: '30@vs',
         height: '30@vs',
         bottom:'30@vs',
-        zIndex: 11
     },
     backDrop: {
         position: 'absolute',
@@ -32,6 +31,5 @@ const styles = ScaledSheet.create({
         height: '30@vs',
         bottom:'30@vs',
         color: COLORS.BackDropColor(),
-        zIndex: 9
     }
 });

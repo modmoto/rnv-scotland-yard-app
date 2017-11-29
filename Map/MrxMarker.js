@@ -8,8 +8,8 @@ import COLORS from "../StyledComponents/Colors";
 export default function MrxMarker() {
     return (
         <View>
-            <Icon name="user-secret" style={styles.actionButtonIcon}/>
             <Icon name="circle" style={[styles.backDrop]}/>
+            <Icon name="user-secret" style={styles.actionButtonIcon}/>
         </View>
     )
 }
@@ -20,7 +20,6 @@ const styles = ScaledSheet.create({
         height: '30@vs',
         color: COLORS.MrXColor(),
         bottom:'30@vs',
-        zIndex: 11
     },
     backDrop: {
         position: 'absolute',
@@ -28,6 +27,5 @@ const styles = ScaledSheet.create({
         height: '30@vs',
         bottom:'30@vs',
         color: COLORS.BackDropColor(),
-        zIndex: 9
     }
 });

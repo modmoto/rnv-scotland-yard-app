@@ -107,11 +107,11 @@ export default class MapScreen extends React.Component {
         if (mrX) {
             let mrxMapped = this.mapMrXAsMarker(mrX);
 
-            markersMapped = stationsMapped.concat(markersMapped).concat(mrxMapped);
+            markersMapped = markersMapped.concat(mrxMapped).concat(stationsMapped);
             return markersMapped;
         }
 
-        return stationsMapped.concat(markersMapped);
+        return markersMapped.concat(stationsMapped);
     }
 
     mapMrXAsMarker(mrX) {
@@ -344,7 +344,6 @@ const styles = ScaledSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        bottom: 0,
-        zIndex: -1
+        bottom: 0
     }
 });
