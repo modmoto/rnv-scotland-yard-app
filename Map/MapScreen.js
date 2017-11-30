@@ -234,7 +234,7 @@ export default class MapScreen extends React.Component {
 
     openGameFinishedDialog(gameSessionWinner, playerWinningName) {
         DialogManager.show({
-            title: 'Spiel beendet finished! ' + playerWinningName + ' als ' + gameSessionWinner + ' hat gewonnen!',
+            title: 'Mrx wurde geschnappt! ' + playerWinningName + ' hat sich um die Sicherheit dieser Stadt verdient gemacht!',
             titleAlign: 'center',
             animationDuration: 200,
             ScaleAnimation: new ScaleAnimation(),
