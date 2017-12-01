@@ -141,7 +141,7 @@ export default class MapScreen extends React.Component {
     mapMapElementsAsMarkers() {
         const {mrX, policeOfficers, stations} = this.state;
 
-        let stationsMapped = stations.map(station => <StationMarker station={station}/>);
+        let stationsMapped = stations.map(station => <StationMarker key={station.stationId} station={station}/>);
         let markersMapped = policeOfficers
             .map((policeOfficer, index) => (
                 <PoliceMarker key={policeOfficer.id} policeOfficer={policeOfficer} index={index}/>
@@ -259,17 +259,9 @@ export default class MapScreen extends React.Component {
 
 const styles = ScaledSheet.create({
     container: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        flex:1,
     },
     map: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0
+        flex:1,
     }
 });

@@ -1,32 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BottomToolbar from "react-native-bottom-toolbar";
 import {ScaledSheet, verticalScale} from "react-native-size-matters";
+import {TouchableOpacity, View} from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import COLORS from "../StyledComponents/Colors";
 
 export default function BottomButtonBar({onItemPressed}) {
     return (
-        <BottomToolbar size={verticalScale(20)} font={"font-awesome"} wrapperStyle={styles.bottomBar}>
-            <BottomToolbar.Action
-                title='GoBack'
+        <View style={styles.bottomBar}>
+            <BottomButton
                 iconName="arrow-left"
                 onPress={() => onItemPressed('LeaveSession')}
             />
-            <BottomToolbar.Action
-                title='ShowStations'
+            <BottomButton
                 iconName="map-marker"
                 onPress={() => onItemPressed('ShowStations')}
             />
-            <BottomToolbar.Action
-                title='MrX'
+            <BottomButton
                 iconName="user-secret"
                 onPress={() => onItemPressed('MrX')}
             />
-            <BottomToolbar.Action
-                title='Refresh'
+            <BottomButton
                 iconName="refresh"
                 onPress={() => onItemPressed('Refresh')}
             />
-        </BottomToolbar>);
+        </View>);
+}
+
+function BottomButton({iconName, onPress}) {
+    return (
+        <TouchableOpacity style={styles.button} onPress={() => onPress()}>
+            <Icon style={styles.icon} name={iconName}/>
+        </TouchableOpacity>
+    )
 }
 
 BottomButtonBar.propTypes = {
@@ -35,7 +41,20 @@ BottomButtonBar.propTypes = {
 
 const styles = ScaledSheet.create({
     bottomBar: {
-        position: 'absolute',
-        height: '50@vs'
+        height: '50@vs',
+        bottom: 0,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: COLORS.LightColor()
+    }, button: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: COLORS.InactiveColor(),
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+    }, icon: {
+        fontSize: '20@vs',
+        color: COLORS.DarkColor()
     }
 });

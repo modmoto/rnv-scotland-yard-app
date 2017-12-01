@@ -15,8 +15,16 @@ export default class COLORS{
         return '#bbbbbb';
     }
 
+    static LightColor() {
+        return '#ddd';
+    }
+
+    static DarkColor() {
+        return '#444';
+    }
+
     static MrXColor() {
-        return '#333';
+        return COLORS.DarkColor();
     }
 
     static IconColor() {

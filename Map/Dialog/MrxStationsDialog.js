@@ -4,7 +4,6 @@ import DialogContent from "react-native-dialog-component/src/components/DialogCo
 import PropTypes from 'prop-types';
 import {ScaledSheet} from "react-native-size-matters";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import COLORS from "../../StyledComponents/Colors";
 import {convertVehicleToColor} from "../../util";
 import {ScaleAnimation} from "react-native-dialog-component";
 import DialogComponent from "react-native-dialog-component/src/DialogComponent";
