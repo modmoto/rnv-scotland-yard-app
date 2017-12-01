@@ -102,33 +102,19 @@ export default class MapScreen extends React.Component {
     mapMapElementsAsMarkers() {
         const {mrX, policeOfficers, stations} = this.state;
 
-        let stationsMapped = this.mapStationssAsMarkers(stations);
-
-        let markersMapped = this.mapOfficersAsMarkers(policeOfficers);
+        let stationsMapped = stations.map(station => <StationMarker station={station}/>);
+        let markersMapped = policeOfficers
+            .map((policeOfficer, index) => (
+                <PoliceMarker policeOfficer={policeOfficer} index={index}/>
+            ));
         if (mrX) {
-            let mrxMapped = this.mapMrXAsMarker(mrX);
+            let mrxMapped = [<MrxMarker mrX={mrX}/>];
 
             markersMapped = markersMapped.concat(mrxMapped).concat(stationsMapped);
             return markersMapped;
         }
 
         return markersMapped.concat(stationsMapped);
-    }
-
-    mapMrXAsMarker(mrX) {
-        let marker = <MrxMarker mrX={mrX}/>;
-        return [marker];
-    }
-
-    mapOfficersAsMarkers(policeOfficers) {
-        return policeOfficers
-            .map((policeOfficer, index) => (
-                <PoliceMarker policeOfficer={policeOfficer} index={index}/>
-            ));
-    }
-
-    mapStationssAsMarkers(stations) {
-        return stations.map(station => <StationMarker station={station}/> );
     }
 
     async openMovementDialogFor(type) {
