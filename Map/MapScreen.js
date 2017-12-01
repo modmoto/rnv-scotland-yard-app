@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, ActivityIndicator, Text} from "react-native";
+import {View} from "react-native";
 import {MapView} from "expo";
 import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./FAB/TicketBuyFAB";
-import DialogManager, {ScaleAnimation} from 'react-native-dialog-component';
 import GetOutOfVehicleFAB from "./FAB/GetOutOfVehicleFAB";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import BottomButtonBar from "./BottomButtonBar";
@@ -100,25 +99,41 @@ export default class MapScreen extends React.Component {
                 {(playerIsInVehicle) ? <GetOutOfVehicleFAB
                         currentMovement={playerDrivingType}
                         onItemPressed={() => this.completeMovementDialog.show()}/> :
-                    <TicketBuyFAB onItemPressed={(item) => {this.playerSelectedDrivingType(item); this.startMovementDialog.show()}}/>}
+                    <TicketBuyFAB onItemPressed={(item) => {
+                        this.playerSelectedDrivingType(item);
+                        this.startMovementDialog.show()
+                    }}/>}
                 <BottomButtonBar onItemPressed={(item) => this.handleBottomMenuClicks(item)}/>
 
-                <GameFinishedDialog playerWinningName={playerWinningName} onOkButtonPressed={() => this.navigateToHomeScreenAfterFinishingGame()}
-                    reference={(gameFinishedDialog) => { this.gameFinishedDialog = gameFinishedDialog; }}
+                <GameFinishedDialog playerWinningName={playerWinningName}
+                                    onOkButtonPressed={() => this.navigateToHomeScreenAfterFinishingGame()}
+                                    reference={(gameFinishedDialog) => {
+                                        this.gameFinishedDialog = gameFinishedDialog;
+                                    }}
                 />
 
                 <CompleteMovementDialog onRefresh={() => this.getStationsNearToPlayer()}
                                         onStationPressed={(station) => this.endStationSelected(station)}
-                                        reference={(completeMovementDialog) => { this.completeMovementDialog = completeMovementDialog; }}
+                                        reference={(completeMovementDialog) => {
+                                            this.completeMovementDialog = completeMovementDialog;
+                                        }}
                 />
 
                 <StartMovementDialog onRefresh={() => this.getStationsNearToPlayer()}
                                      onStationPressed={() => this.playerSelectedStartStation()}
                                      playerDrivingType={playerDrivingType}
-                                     reference={(startMovementDialog) => { this.startMovementDialog = startMovementDialog; }}
+                                     reference={(startMovementDialog) => {
+                                         this.startMovementDialog = startMovementDialog;
+                                     }}
                 />
-                
-                <SendingMovementDialog reference={(sendingMovementDialog) => { this.sendingMovementDialog = sendingMovementDialog; }}/>
+
+                <SendingMovementDialog reference={(sendingMovementDialog) => {
+                    this.sendingMovementDialog = sendingMovementDialog;
+                }}/>
+
+                <MrxStationsDialog onRefresh={() => this.getMrX()} reference={(mrxStationsDialog) => {
+                    this.mrxStationsDialog = mrxStationsDialog;
+                }}/>
             </View>
         )
     }
@@ -159,7 +174,7 @@ export default class MapScreen extends React.Component {
 
         this.completeMovementDialog.dismiss();
         this.sendingMovementDialog.show();
-        this.setState({ playerIsInVehicle: false });
+        this.setState({playerIsInVehicle: false});
 
         let move = {
             StationId: station.stationId,
@@ -195,7 +210,7 @@ export default class MapScreen extends React.Component {
                 await this.toggleStations();
                 break;
             case 'MrX':
-                await this.showMrXMoves();
+                this.mrxStationsDialog.show();
                 break;
             case 'LeaveSession':
                 this.props.navigation.navigate('GameSessionOverviewListScreen');
@@ -234,20 +249,6 @@ export default class MapScreen extends React.Component {
         }
 
         this.updateMapMarkers();
-    }
-
-    async showMrXMoves() {
-        DialogManager.show({
-            title: 'Mrx Bewegungen',
-            titleAlign: 'center',
-            animationDuration: 200,
-            ScaleAnimation: new ScaleAnimation(),
-            children: (
-                <MrxStationsDialog onRefresh={() => this.getMrX()}
-                />
-            ),
-        }, () => {
-        });
     }
 
     async getMrX() {

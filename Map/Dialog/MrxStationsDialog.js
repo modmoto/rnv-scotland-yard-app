@@ -6,6 +6,8 @@ import {ScaledSheet} from "react-native-size-matters";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from "../../StyledComponents/Colors";
 import {convertVehicleToColor} from "../../util";
+import {ScaleAnimation} from "react-native-dialog-component";
+import DialogComponent from "react-native-dialog-component/src/DialogComponent";
 
 export default class MrxStationsDialog extends React.Component {
 
@@ -24,22 +26,27 @@ export default class MrxStationsDialog extends React.Component {
 
     render() {
         const {mrX, refreshing} = this.state;
+        const {reference} = this.props;
         return (
-            <DialogContent>
-                <View>
-                    {refreshing ? <ActivityIndicator/> :
-                        <FlatList
-                            style={styles.container}
-                            refreshControl={<RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={() => this._onRefresh()}
+            <DialogComponent title={'Vergangene Bewegungen des MrX'} ref={reference}
+                             animationDuration={200}
+                             ScaleAnimation={new ScaleAnimation()}>
+                <DialogContent>
+                    <View>
+                        {refreshing ? <ActivityIndicator/> :
+                            <FlatList
+                                style={styles.container}
+                                refreshControl={<RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={() => this._onRefresh()}
+                                />}
+                                data={mrX.usedVehicles}
+                                keyExtractor={this.keyExtractor}
+                                renderItem={this.renderListItem}
                             />}
-                            data={mrX.usedVehicles}
-                            keyExtractor={this.keyExtractor}
-                            renderItem={this.renderListItem}
-                        />}
-                </View>
-            </DialogContent>
+                    </View>
+                </DialogContent>
+            </DialogComponent>
         )
     }
 
@@ -63,7 +70,11 @@ function MovementOverview({movement, index}) {
 
     let iconName = '';
     let backgroundColor = [{backgroundColor: convertVehicleToColor(movement)}];
-    if ((index + 1) % 5 === 0) backgroundColor = [backgroundColor, [{borderWidth: '3.50@s', borderColor: '#222', borderRadius: '10@s'}]];
+    if ((index + 1) % 5 === 0) backgroundColor = [backgroundColor, [{
+        borderWidth: '3.50@s',
+        borderColor: '#222',
+        borderRadius: '10@s'
+    }]];
     if (movement === "Taxi") iconName = 'taxi';
     if (movement === "Bus") iconName = 'bus';
     if (movement === "Metro") iconName = 'train';
@@ -92,4 +103,5 @@ const styles = ScaledSheet.create({
 
 MrxStationsDialog.propTypes = {
     onRefresh: PropTypes.func.isRequired,
+    reference: PropTypes.func.isRequired,
 };
