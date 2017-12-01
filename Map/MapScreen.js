@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ActivityIndicator} from "react-native";
+import {View, ActivityIndicator, Text} from "react-native";
 import {MapView} from "expo";
 import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./TicketBuyFAB";
@@ -33,7 +33,8 @@ export default class MapScreen extends React.Component {
             mrX: null,
             policeOfficers: [],
             markersMapped: [],
-            region: null
+            region: null,
+            playerWinningName: ''
         }
     }
 
@@ -51,7 +52,10 @@ export default class MapScreen extends React.Component {
         let gameSessionUpdated = await fetchGameSession(gameSession.id);
 
         if (gameSessionUpdated.gameSessionWinner !== 'None') {
-            this.openGameFinishedDialog(gameSessionUpdated.gameSessionWinner, gameSessionUpdated.playerWinningName);
+            this.setState({
+                playerWinningName: gameSessionUpdated.playerWinningName
+            });
+            this.gameFinishedDialog.show();
             return;
         }
 
@@ -80,7 +84,7 @@ export default class MapScreen extends React.Component {
     }
 
     render() {
-        const {playerIsInVehicle, playerDrivingType, markersMapped} = this.state;
+        const {playerIsInVehicle, playerDrivingType, markersMapped, playerWinningName} = this.state;
 
         return (
             <View style={styles.container}>
@@ -95,6 +99,10 @@ export default class MapScreen extends React.Component {
                         onItemPressed={() => this.openCompleteMovementDialog()}/> :
                     <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>}
                 <BottomButtonBar onItemPressed={(item) => this.handleBottomMenuClicks(item)}/>
+
+                <GameFinishedDialog playerWinningName={playerWinningName} onOkButtonPressed={() => this.navigateToHomeScreenAfterFinishingGame()}
+                    reference={(gameFinishedDialog) => { this.gameFinishedDialog = gameFinishedDialog; }}
+                />
             </View>
         )
     }
@@ -190,19 +198,6 @@ export default class MapScreen extends React.Component {
         });
     }
 
-    openGameFinishedDialog(gameSessionWinner, playerWinningName) {
-        DialogManager.show({
-            title: 'Mrx wurde geschnappt! ' + playerWinningName + ' hat sich um die Sicherheit dieser Stadt verdient gemacht!',
-            titleAlign: 'center',
-            animationDuration: 200,
-            ScaleAnimation: new ScaleAnimation(),
-            children: (
-                <GameFinishedDialog onOkButtonPressed={() => this.navigateToHomeScreenAfterFinishingGame()}/>
-            ),
-        }, () => {
-        });
-    }
-
     async getStationsNearToPlayer(type) {
         let playerLocation = await getLocationAsync();
         const stationsFetched = await fetchStations(playerLocation.coords, 700);
@@ -239,8 +234,6 @@ export default class MapScreen extends React.Component {
     }
 
     navigateToHomeScreenAfterFinishingGame() {
-        DialogManager.dismiss(() => {
-        });
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
