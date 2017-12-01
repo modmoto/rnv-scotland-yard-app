@@ -148,9 +148,11 @@ export default class MapScreen extends React.Component {
         this.setState({
             playerIsInVehicle: true,
         });
+        this.startMovementDialog.dismiss();
     }
 
     async endStationSelected(station) {
+        this.completeMovementDialog.dismiss();
         DialogManager.show({
             title: 'Sende Bewegung...',
             titleAlign: 'center',

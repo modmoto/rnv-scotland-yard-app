@@ -6,9 +6,9 @@ import StationOverview from "./StationOverview";
 import {ScaleAnimation} from "react-native-dialog-component";
 import DialogComponent from "react-native-dialog-component/src/DialogComponent";
 import DialogManager from "react-native-dialog-component";
+import DialogButton from "react-native-dialog-component/src/components/DialogButton";
 
 export default class SelectStationDialog extends React.Component {
-
     constructor(props) {
         super(props);
 
