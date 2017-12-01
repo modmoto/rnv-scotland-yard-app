@@ -62,6 +62,6 @@ async function sendJson(method, path, body) {
             'Authorization': '81ef63c8-7d9d-44e3-a06d-328eedd88676'
         }
     });
-    let object = await response.json();
-    return object;
+    if (response.status !== 201) return null;
+    return await response.json();
 }

@@ -2,22 +2,22 @@ import React from 'react';
 import {View, ActivityIndicator, Text} from "react-native";
 import {MapView} from "expo";
 import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
-import TicketBuyFAB from "./TicketBuyFAB";
+import TicketBuyFAB from "./FAB/TicketBuyFAB";
 import DialogManager, {ScaleAnimation} from 'react-native-dialog-component';
-import GetOutOfVehicleFAB from "./GetOutOfVehicleFAB";
+import GetOutOfVehicleFAB from "./FAB/GetOutOfVehicleFAB";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import BottomButtonBar from "./BottomButtonBar";
 import GameSessionOverviewListScreen from "../GameSession/GameSessionOverviewListScreen";
-import GameFinishedDialog from "./GameFinishedDialog";
+import GameFinishedDialog from "./Dialog/GameFinishedDialog";
 import {NavigationActions} from "react-navigation";
-import MrxStationsDialog from "./MrxStationsDialog";
+import MrxStationsDialog from "./Dialog/MrxStationsDialog";
 import {ScaledSheet} from "react-native-size-matters";
-import MrxMarker from "./MrxMarker";
-import PoliceMarker from "./PoliceMarker";
-import StationMarker from "./StationMarker";
-import CompleteMovementDialog from "./CompleteMovementDialog";
-import StartMovementDialog from "./StartMovementDialog";
-import SendingMovementDialog from "./SendingMovementDialog";
+import MrxMarker from "./Marker/MrxMarker";
+import PoliceMarker from "./Marker/PoliceMarker";
+import StationMarker from "./Marker/StationMarker";
+import CompleteMovementDialog from "./Dialog/CompleteMovementDialog";
+import StartMovementDialog from "./Dialog/StartMovementDialog";
+import SendingMovementDialog from "./Dialog/SendingMovementDialog";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({

@@ -4,6 +4,8 @@ import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import Button from "../StyledComponents/Button";
 import TextInput from "../StyledComponents/TextInput";
+import MrxFullErrorDialog from "./MrxFullErrorDialog";
+import PoliceFullErrorDialog from "./PoliceFullErrorDialog";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -32,6 +34,9 @@ export default class GameSessionJoinScreen extends React.Component {
                 <Button title={'Mr-X'} onPress={() => this.createMrXAndNavigateToDetailPage(playerName)}/>
                 <Button title={'Polizist'}
                         onPress={() => this.createPoliceOfficerAndNavigateToDetailPage(playerName)}/>
+                
+                <MrxFullErrorDialog reference={(dialog) => this.mrxFullErrorDialog = dialog }/>
+                <PoliceFullErrorDialog reference={(dialog) => this.policeFullErrorDialog = dialog }/>
             </View>
         );
     }
@@ -42,8 +47,12 @@ export default class GameSessionJoinScreen extends React.Component {
             name: playerName,
             startLocation: playerLocation.coords
         });
+        if (officer === null) {
+            this.policeFullErrorDialog.show();
+            return;
+        }
         this.setState({
-            playerRole: 'mrX',
+            playerRole: 'policeOfficer',
             playerId: officer.id
         });
         this.navigateToDetailPage();
@@ -55,6 +64,10 @@ export default class GameSessionJoinScreen extends React.Component {
             name: playerName,
             startLocation: playerLocation.coords
         });
+        if (mrX === null) {
+            this.mrxFullErrorDialog.show();
+            return;
+        }
         this.setState({
             playerRole: 'mrX',
             playerId: mrX.id

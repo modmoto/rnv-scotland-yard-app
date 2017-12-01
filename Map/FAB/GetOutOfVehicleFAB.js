@@ -3,7 +3,7 @@ import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScaledSheet, verticalScale} from "react-native-size-matters";
-import {convertVehicleToColor} from "../util";
+import {convertVehicleToColor} from "../../util";
 
 
 export default function GetOutOfVehicleFAB({onItemPressed, currentMovement}) {

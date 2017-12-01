@@ -3,7 +3,7 @@ import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScaledSheet, verticalScale} from "react-native-size-matters";
-import COLORS from "../StyledComponents/Colors";
+import COLORS from "../../StyledComponents/Colors";
 
 
 export default function TicketBuyFAB({onItemPressed}){

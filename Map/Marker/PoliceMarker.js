@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScaledSheet} from "react-native-size-matters";
 import {View} from "react-native";
-import COLORS from "../StyledComponents/Colors";
+import COLORS from "../../StyledComponents/Colors";
 import {MapView} from "expo";
 
 
