@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ActivityIndicator} from "react-native";
+import {View, ActivityIndicator} from "react-native";
 import {MapView} from "expo";
 import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./TicketBuyFAB";
@@ -15,6 +15,7 @@ import MrxStationsDialog from "./MrxStationsDialog";
 import {ScaledSheet} from "react-native-size-matters";
 import MrxMarker from "./MrxMarker";
 import PoliceMarker from "./PoliceMarker";
+import StationMarker from "./StationMarker";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -115,48 +116,19 @@ export default class MapScreen extends React.Component {
     }
 
     mapMrXAsMarker(mrX) {
-        let marker =
-            <MapView.Marker
-                key={mrX.id}
-                coordinate={mrX.lastKnownLocation.geoLocation}
-                title={mrX.lastKnownLocation.name}
-            >
-                <MrxMarker />
-            </MapView.Marker>;
-
+        let marker = <MrxMarker mrX={mrX}/>;
         return [marker];
     }
 
     mapOfficersAsMarkers(policeOfficers) {
         return policeOfficers
             .map((policeOfficer, index) => (
-                <MapView.Marker
-                    key={policeOfficer.id}
-                    coordinate={policeOfficer.currentLocation.geoLocation}
-                    title={policeOfficer.name}
-                    description={policeOfficer.currentLocation.name}
-                >
-                    <PoliceMarker index={index} />
-                </MapView.Marker>
+                <PoliceMarker policeOfficer={policeOfficer} index={index}/>
             ));
     }
 
     mapStationssAsMarkers(stations) {
-        return stations.map(station => {
-                let stationImage;
-                if (station.type === 'Taxi') stationImage = require('../assets/taxiPin.png');
-                if (station.type === 'Bus') stationImage = require('../assets/busPin.png');
-                if (station.type === 'Metro') stationImage = require('../assets/metroPin.png');
-
-                return (<MapView.Marker
-                    key={station.stationId}
-                    coordinate={station.geoLocation}
-                    title={station.name}
-                    description={station.type}
-                    image={stationImage}
-                />);
-            }
-        );
+        return stations.map(station => <StationMarker station={station}/> );
     }
 
     async openMovementDialogFor(type) {

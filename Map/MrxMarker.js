@@ -3,14 +3,22 @@ import {ScaledSheet} from "react-native-size-matters";
 import {View} from "react-native";
 import React from 'react';
 import COLORS from "../StyledComponents/Colors";
+import {MapView} from "expo";
 
 
-export default function MrxMarker() {
+
+export default function MrxMarker({mrX}) {
     return (
-        <View>
-            <Icon name="circle" style={[styles.backDrop]}/>
-            <Icon name="user-secret" style={styles.actionButtonIcon}/>
-        </View>
+        <MapView.Marker
+            key={mrX.id}
+            coordinate={mrX.lastKnownLocation.geoLocation}
+            title={mrX.lastKnownLocation.name}
+        >
+            <View>
+                <Icon name="circle" style={[styles.backDrop]}/>
+                <Icon name="user-secret" style={styles.actionButtonIcon}/>
+            </View>
+        </MapView.Marker>
     )
 }
 
