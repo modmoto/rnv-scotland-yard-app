@@ -3,6 +3,9 @@ import {ActivityIndicator, FlatList, RefreshControl, Text, View} from "react-nat
 import DialogContent from "react-native-dialog-component/src/components/DialogContent";
 import PropTypes from 'prop-types';
 import StationOverview from "./StationOverview";
+import {ScaleAnimation} from "react-native-dialog-component";
+import DialogComponent from "react-native-dialog-component/src/DialogComponent";
+import DialogManager from "react-native-dialog-component";
 
 export default class SelectStationDialog extends React.Component {
 
@@ -21,21 +24,26 @@ export default class SelectStationDialog extends React.Component {
 
     render() {
         const {selectableStations, refreshing} = this.state;
+        const {title, reference} = this.props;
         return (
-            <DialogContent>
-                <View>
-                    {refreshing ? <ActivityIndicator/> :
-                        <FlatList
-                            refreshControl={<RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={() => this._onRefresh()}
+            <DialogComponent title={title} ref={reference}
+                             animationDuration={200}
+                             ScaleAnimation={new ScaleAnimation()}>
+                <DialogContent>
+                    <View>
+                        {refreshing ? <ActivityIndicator/> :
+                            <FlatList
+                                refreshControl={<RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={() => this._onRefresh()}
+                                />}
+                                data={selectableStations}
+                                keyExtractor={this.keyExtractor}
+                                renderItem={this.renderListItem}
                             />}
-                            data={selectableStations}
-                            keyExtractor={this.keyExtractor}
-                            renderItem={this.renderListItem}
-                        />}
-                </View>
-            </DialogContent>
+                    </View>
+                </DialogContent>
+            </DialogComponent>
         )
     }
 
@@ -48,7 +56,7 @@ export default class SelectStationDialog extends React.Component {
 
     renderListItem = ({item}) => {
         const {onStationPressed} = this.props;
-        return <StationOverview station={item} onPressed={() => onStationPressed(item) }/>;
+        return <StationOverview station={item} onPressed={(item) => onStationPressed(item)}/>;
     };
 
     keyExtractor = (item, index) => item.stationId;
@@ -58,4 +66,6 @@ export default class SelectStationDialog extends React.Component {
 SelectStationDialog.propTypes = {
     onStationPressed: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    reference: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
 };

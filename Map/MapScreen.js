@@ -4,7 +4,6 @@ import {MapView} from "expo";
 import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./TicketBuyFAB";
 import DialogManager, {ScaleAnimation} from 'react-native-dialog-component';
-import SelectStationDialog from "./SelectStationDialog";
 import GetOutOfVehicleFAB from "./GetOutOfVehicleFAB";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import BottomButtonBar from "./BottomButtonBar";
@@ -16,6 +15,8 @@ import {ScaledSheet} from "react-native-size-matters";
 import MrxMarker from "./MrxMarker";
 import PoliceMarker from "./PoliceMarker";
 import StationMarker from "./StationMarker";
+import CompleteMovementDialog from "./CompleteMovementDialog";
+import StartMovementDialog from "./StartMovementDialog";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -34,7 +35,8 @@ export default class MapScreen extends React.Component {
             policeOfficers: [],
             markersMapped: [],
             region: null,
-            playerWinningName: ''
+            playerWinningName: '',
+            playerDrivingType: ''
         }
     }
 
@@ -96,12 +98,23 @@ export default class MapScreen extends React.Component {
 
                 {(playerIsInVehicle) ? <GetOutOfVehicleFAB
                         currentMovement={playerDrivingType}
-                        onItemPressed={() => this.openCompleteMovementDialog()}/> :
-                    <TicketBuyFAB onItemPressed={(item) => this.openMovementDialogFor(item)}/>}
+                        onItemPressed={() => this.completeMovementDialog.show()}/> :
+                    <TicketBuyFAB onItemPressed={(item) => {this.playerSelectedDrivingType(item); this.startMovementDialog.show()}}/>}
                 <BottomButtonBar onItemPressed={(item) => this.handleBottomMenuClicks(item)}/>
 
                 <GameFinishedDialog playerWinningName={playerWinningName} onOkButtonPressed={() => this.navigateToHomeScreenAfterFinishingGame()}
                     reference={(gameFinishedDialog) => { this.gameFinishedDialog = gameFinishedDialog; }}
+                />
+
+                <CompleteMovementDialog onRefresh={() => this.getStationsNearToPlayer()}
+                                        onStationPressed={(station) => this.endStationSelected(station)}
+                                        reference={(completeMovementDialog) => { this.completeMovementDialog = completeMovementDialog; }}
+                />
+
+                <StartMovementDialog onRefresh={() => this.getStationsNearToPlayer()}
+                                     onStationPressed={() => this.playerSelectedStartStation()}
+                                     playerDrivingType={playerDrivingType}
+                                     reference={(startMovementDialog) => { this.startMovementDialog = startMovementDialog; }}
                 />
             </View>
         )
@@ -113,10 +126,10 @@ export default class MapScreen extends React.Component {
         let stationsMapped = stations.map(station => <StationMarker station={station}/>);
         let markersMapped = policeOfficers
             .map((policeOfficer, index) => (
-                <PoliceMarker policeOfficer={policeOfficer} index={index}/>
+                <PoliceMarker key={policeOfficer.id} policeOfficer={policeOfficer} index={index}/>
             ));
         if (mrX) {
-            let mrxMapped = [<MrxMarker mrX={mrX}/>];
+            let mrxMapped = [<MrxMarker key={mrX.id} mrX={mrX}/>];
 
             markersMapped = markersMapped.concat(mrxMapped).concat(stationsMapped);
             return markersMapped;
@@ -125,34 +138,19 @@ export default class MapScreen extends React.Component {
         return markersMapped.concat(stationsMapped);
     }
 
-    async openMovementDialogFor(type) {
-        DialogManager.show({
-            title: 'Suche aus, wo du mit dem ' + type + ' einsteigen willst:',
-            titleAlign: 'center',
-            animationDuration: 200,
-            ScaleAnimation: new ScaleAnimation(),
-            children: (
-                <SelectStationDialog onRefresh={() => this.getStationsNearToPlayer(type)}
-                                     onStationPressed={(station) => this.startStationSelected(station, type)}
-                />
-            ),
-        }, () => {
+    playerSelectedDrivingType(type) {
+        this.setState({
+            playerDrivingType: type,
         });
     }
 
-    startStationSelected(station, type) {
+    playerSelectedStartStation() {
         this.setState({
             playerIsInVehicle: true,
-            playerDrivingType: type,
-        });
-
-        DialogManager.dismiss(() => {
         });
     }
 
     async endStationSelected(station) {
-        DialogManager.dismiss(() => {
-        });
         DialogManager.show({
             title: 'Sende Bewegung...',
             titleAlign: 'center',
@@ -179,23 +177,6 @@ export default class MapScreen extends React.Component {
         DialogManager.dismiss(() => {
         });
         await this.updateMapState();
-    }
-
-    openCompleteMovementDialog() {
-        const {playerDrivingType} = this.state;
-        DialogManager.show({
-            title: 'Suche aus, wo du das ' + playerDrivingType + ' verlässt',
-            titleAlign: 'center',
-            animationDuration: 200,
-            dismissOnTouchOutside: false,
-            ScaleAnimation: new ScaleAnimation(),
-            children: (
-                <SelectStationDialog onRefresh={() => this.getStationsNearToPlayer()}
-                                     onStationPressed={(station) => this.endStationSelected(station)}
-                />
-            ),
-        }, () => {
-        });
     }
 
     async getStationsNearToPlayer(type) {

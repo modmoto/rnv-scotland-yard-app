@@ -14,7 +14,6 @@ export default function PoliceMarker({policeOfficer, index}) {
 
     return (
         <MapView.Marker
-            key={policeOfficer.id}
             coordinate={policeOfficer.currentLocation.geoLocation}
             title={policeOfficer.name}
             description={policeOfficer.currentLocation.name}

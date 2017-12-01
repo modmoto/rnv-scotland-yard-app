@@ -10,7 +10,6 @@ import {MapView} from "expo";
 export default function MrxMarker({mrX}) {
     return (
         <MapView.Marker
-            key={mrX.id}
             coordinate={mrX.lastKnownLocation.geoLocation}
             title={mrX.lastKnownLocation.name}
         >
