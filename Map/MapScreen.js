@@ -17,6 +17,7 @@ import PoliceMarker from "./PoliceMarker";
 import StationMarker from "./StationMarker";
 import CompleteMovementDialog from "./CompleteMovementDialog";
 import StartMovementDialog from "./StartMovementDialog";
+import SendingMovementDialog from "./SendingMovementDialog";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -116,6 +117,8 @@ export default class MapScreen extends React.Component {
                                      playerDrivingType={playerDrivingType}
                                      reference={(startMovementDialog) => { this.startMovementDialog = startMovementDialog; }}
                 />
+                
+                <SendingMovementDialog reference={(sendingMovementDialog) => { this.sendingMovementDialog = sendingMovementDialog; }}/>
             </View>
         )
     }
@@ -152,23 +155,11 @@ export default class MapScreen extends React.Component {
     }
 
     async endStationSelected(station) {
-        this.completeMovementDialog.dismiss();
-        DialogManager.show({
-            title: 'Sende Bewegung...',
-            titleAlign: 'center',
-            animationDuration: 200,
-            dismissOnTouchOutside: false,
-            ScaleAnimation: new ScaleAnimation(),
-            children: (
-                <ActivityIndicator/>
-            ),
-        }, () => {
-        });
-
         const {playerDrivingType, player, gameSession} = this.state;
-        this.setState({
-            playerIsInVehicle: false,
-        });
+
+        this.completeMovementDialog.dismiss();
+        this.sendingMovementDialog.show();
+        this.setState({ playerIsInVehicle: false });
 
         let move = {
             StationId: station.stationId,
@@ -176,8 +167,8 @@ export default class MapScreen extends React.Component {
         };
 
         await postPlayerMove(gameSession.id, player.id, move);
-        DialogManager.dismiss(() => {
-        });
+
+        this.sendingMovementDialog.dismiss();
         await this.updateMapState();
     }
 
