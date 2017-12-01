@@ -51,8 +51,6 @@ const styles = ScaledSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: COLORS.InactiveColor(),
-        borderLeftWidth: 0.5,
-        borderRightWidth: 0.5,
     }, icon: {
         fontSize: '20@vs',
         color: COLORS.DarkColor()
