@@ -3,8 +3,8 @@ import {StackNavigator} from 'react-navigation';
 import GameSessionDetailScreen from "./GameSessionDetail/GameSessionDetailScreen";
 import GameSessionJoinScreen from "./GameSessionJoin/GameSessionJoinScreen";
 import MapScreen from "./Map/MapScreen";
-import GameSessionOverviewListScreen from "./GameSession/GameSessionOverviewListScreen";
-import GameSessionCreateScreen from "./GameSession/GameSessionCreateScreen";
+import GameSessionOverviewListScreen from "./GameSessionOverviewList/GameSessionOverviewListScreen";
+import GameSessionCreateScreen from "./GameSessionCreate/GameSessionCreateScreen";
 
 const RootNavigator = StackNavigator({
     GameSessionOverviewListScreen: {

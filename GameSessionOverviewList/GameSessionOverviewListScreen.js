@@ -1,9 +1,11 @@
 import React from 'react';
-import {FlatList, RefreshControl, StyleSheet, View} from "react-native";
+import {FlatList, RefreshControl, Text, View} from "react-native";
 import PropTypes from 'prop-types';
 import GameSessionOverview from "./GameSessionOverview";
-import {fetchGameSessions} from "../Backend/RestAdapter";
+import {fetchGameSession, fetchGameSessions} from "../Backend/RestAdapter";
 import CreateFab from "./CreateFab";
+import {getGameState} from "../Backend/ScotlandYardStorage";
+import {ScaledSheet} from "react-native-size-matters";
 
 export default class GameSessionOverviewListScreen extends React.Component {
     static navigationOptions = () => ({
@@ -16,6 +18,7 @@ export default class GameSessionOverviewListScreen extends React.Component {
         this.state = {
             gameSessions: [],
             refreshing: false,
+            currentSession: null
         };
     }
 
@@ -26,8 +29,18 @@ export default class GameSessionOverviewListScreen extends React.Component {
     }
 
     render() {
+        const {currentSession} = this.state;
+        const {navigation} = this.props;
         return (
             <View style={styles.container}>
+                {(currentSession) &&
+                <View style={styles.lastSessionContainer}>
+                    <Text style={styles.lastSessionContainerLabel}>Aktuelles Spiel:</Text>
+                    <GameSessionOverview gameSession={currentSession} navigation={navigation}/>
+                </View>
+                }
+                {(currentSession) && <Text style={styles.lastSessionContainerLabel}>Spiele in deiner Nähe:</Text>}
+
                 <FlatList
                     refreshControl={
                         <RefreshControl
@@ -53,10 +66,21 @@ export default class GameSessionOverviewListScreen extends React.Component {
 
     async componentDidMount() {
         await this._onRefresh();
+        const gameState = await getGameState();
+        this.setState({
+            ...gameState
+        })
     }
 
     async loadGameSessions() {
-        let sessions = await fetchGameSessions();
+        const {gameSessionId} = this.state;
+        const sessions = await fetchGameSessions();
+        if (gameSessionId) {
+            const currentSession = await fetchGameSession(gameSessionId);
+            this.setState({
+                currentSession: currentSession
+            })
+        }
         this.setState({
             gameSessions: sessions
         })
@@ -67,12 +91,14 @@ GameSessionOverviewListScreen.propTypes = {
     navigation: PropTypes.object.isRequired,
 };
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
     container: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        flex: 1
+    }, lastSessionContainer: {
+        marginBottom: '20@vs',
+    }, lastSessionContainerLabel: {
+        fontSize: '20@vs',
+        marginTop: '12@vs',
+        left: '30@s',
     }
 });

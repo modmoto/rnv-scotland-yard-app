@@ -79,16 +79,17 @@ const styles = ScaledSheet.create({
         borderRadius: '15@s',
         borderWidth: '1.50@s',
         borderColor: '#d6d7da',
+        height: '102@vs'
     }, gameName: {
         fontSize: '20@vs',
     }, details: {
         flex: 1,
-        paddingTop: '15@vs',
+        paddingTop: '10@vs',
         paddingLeft: '10@s',
         paddingRight: '10@s',
         paddingBottom: '0@vs',
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'space-between'
     }, mrxSummary: {
     }, policeSummary: {

@@ -6,7 +6,7 @@ import TicketBuyFAB from "./FAB/TicketBuyFAB";
 import GetOutOfVehicleFAB from "./FAB/GetOutOfVehicleFAB";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import BottomButtonBar from "./BottomButtonBar";
-import GameSessionOverviewListScreen from "../GameSession/GameSessionOverviewListScreen";
+import GameSessionOverviewListScreen from "../GameSessionOverviewList/GameSessionOverviewListScreen";
 import GameFinishedDialog from "./Dialog/GameFinishedDialog";
 import {NavigationActions} from "react-navigation";
 import MrxStationsDialog from "./Dialog/MrxStationsDialog";

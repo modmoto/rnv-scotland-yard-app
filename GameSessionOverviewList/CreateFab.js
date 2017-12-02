@@ -1,10 +1,11 @@
 import React from 'react';
 import ActionButton from 'react-native-action-button';
 import PropTypes from 'prop-types';
+import COLORS from "../StyledComponents/Colors";
 
 export default function CreateFab({onItemPressed}){
     return (
-        <ActionButton buttonColor="rgba(200, 200, 200,1)" onPress={onItemPressed}>
+        <ActionButton buttonColor={COLORS.LightColor()} onPress={onItemPressed}>
         </ActionButton>
     )
 }
