@@ -1,11 +1,12 @@
 import React from 'react';
-import {AsyncStorage, View} from "react-native";
+import {View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import Button from "../StyledComponents/Button";
 import TextInput from "../StyledComponents/TextInput";
 import MrxFullErrorDialog from "./MrxFullErrorDialog";
 import PoliceFullErrorDialog from "./PoliceFullErrorDialog";
+import {saveGameState} from "../Backend/ScotlandYardStorage";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -53,21 +54,9 @@ export default class GameSessionJoinScreen extends React.Component {
             return;
         }
 
-        await this.saveGameState(officer, "policeOfficer", gameSession);
+        await saveGameState(officer, "policeOfficer", gameSession);
 
         this.navigateToDetailPage();
-    }
-
-    async saveGameState(officer, playerRole, gameSession) {
-        try {
-            await AsyncStorage.setItem('gameState', JSON.stringify({
-                playerRole: playerRole,
-                playerId: officer.id,
-                gameSessionId: gameSession.id
-            }));
-        } catch (error) {
-            console.log('jaja');
-        }
     }
 
     async createMrXAndNavigateToDetailPage(playerName) {
@@ -82,7 +71,7 @@ export default class GameSessionJoinScreen extends React.Component {
             return;
         }
 
-        await this.saveGameState(mrX, 'mrX', gameSession);
+        await saveGameState(mrX, 'mrX', gameSession);
 
         this.navigateToDetailPage();
     }

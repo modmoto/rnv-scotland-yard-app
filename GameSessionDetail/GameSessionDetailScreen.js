@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, ScrollView, View, AsyncStorage} from "react-native";
+import {FlatList, ScrollView, View} from "react-native";
 import {fetchMrX, fetchPoliceOfficers} from "../Backend/RestAdapter";
 import {NavigationActions} from 'react-navigation'
 import Button from "../StyledComponents/Button";

@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsyncStorage, View} from "react-native";
+import {View} from "react-native";
 import {MapView} from "expo";
 import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./FAB/TicketBuyFAB";
@@ -17,6 +17,7 @@ import StationMarker from "./Marker/StationMarker";
 import CompleteMovementDialog from "./Dialog/CompleteMovementDialog";
 import StartMovementDialog from "./Dialog/StartMovementDialog";
 import SendingMovementDialog from "./Dialog/SendingMovementDialog";
+import {getGameState} from "../Backend/ScotlandYardStorage";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
@@ -46,9 +47,7 @@ export default class MapScreen extends React.Component {
     }
 
     async componentDidMount() {
-        const response = await AsyncStorage.getItem('gameState');
-        const gameState = await JSON.parse(response);
-
+        const gameState = await getGameState();
         this.setState({
             playerId: gameState.playerId,
             playerRole: gameState.playerRole,
