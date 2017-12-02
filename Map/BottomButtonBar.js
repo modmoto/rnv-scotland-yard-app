@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ScaledSheet, verticalScale} from "react-native-size-matters";
+import {ScaledSheet} from "react-native-size-matters";
 import {TouchableOpacity, View} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import COLORS from "../StyledComponents/Colors";

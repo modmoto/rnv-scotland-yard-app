@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from "react-native";
+import {AsyncStorage, View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import Button from "../StyledComponents/Button";
@@ -34,16 +34,17 @@ export default class GameSessionJoinScreen extends React.Component {
                 <Button title={'Mr-X'} onPress={() => this.createMrXAndNavigateToDetailPage(playerName)}/>
                 <Button title={'Polizist'}
                         onPress={() => this.createPoliceOfficerAndNavigateToDetailPage(playerName)}/>
-                
-                <MrxFullErrorDialog reference={(dialog) => this.mrxFullErrorDialog = dialog }/>
-                <PoliceFullErrorDialog reference={(dialog) => this.policeFullErrorDialog = dialog }/>
+
+                <MrxFullErrorDialog reference={(dialog) => this.mrxFullErrorDialog = dialog}/>
+                <PoliceFullErrorDialog reference={(dialog) => this.policeFullErrorDialog = dialog}/>
             </View>
         );
     }
 
     async createPoliceOfficerAndNavigateToDetailPage(playerName) {
         let playerLocation = await getLocationAsync();
-        let officer = await postPoliceOfficer(this.props.navigation.state.params.gameSession.id, {
+        const {gameSession} = this.props.navigation.state.params;
+        let officer = await postPoliceOfficer(gameSession.id, {
             name: playerName,
             startLocation: playerLocation.coords
         });
@@ -51,16 +52,28 @@ export default class GameSessionJoinScreen extends React.Component {
             this.policeFullErrorDialog.show();
             return;
         }
-        this.setState({
-            playerRole: 'policeOfficer',
-            playerId: officer.id
-        });
+
+        await this.saveGameState(officer, "policeOfficer", gameSession);
+
         this.navigateToDetailPage();
+    }
+
+    async saveGameState(officer, playerRole, gameSession) {
+        await AsyncStorage.setItem('@ScotlandYardStorage:gameState', JSON.stringify({
+            playerRole: playerRole,
+            playerId: officer.id,
+            gameSessionId: gameSession.id
+        }));
+        if (true) {
+            console.log('jea');
+        }
+
     }
 
     async createMrXAndNavigateToDetailPage(playerName) {
         let playerLocation = await getLocationAsync();
-        let mrX = await await postMrX(this.props.navigation.state.params.gameSession.id, {
+        const {gameSession} = this.props.navigation.state.params;
+        let mrX = await await postMrX(gameSession.id, {
             name: playerName,
             startLocation: playerLocation.coords
         });
@@ -68,23 +81,17 @@ export default class GameSessionJoinScreen extends React.Component {
             this.mrxFullErrorDialog.show();
             return;
         }
-        this.setState({
-            playerRole: 'mrX',
-            playerId: mrX.id
-        });
+
+        await this.saveGameState(mrX, 'mrX', gameSession);
+
         this.navigateToDetailPage();
     }
 
     navigateToDetailPage() {
         const {gameSession} = this.props.navigation.state.params;
-        const {playerId, playerRole} = this.state;
 
         this.props.navigation.navigate('GameSessionDetailScreen', {
             gameSession: gameSession,
-            player: {
-                id: playerId,
-                playerRole: playerRole
-            }
         });
     }
 }

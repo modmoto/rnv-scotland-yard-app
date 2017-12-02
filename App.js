@@ -1,6 +1,6 @@
 import React from 'react';
 import {StackNavigator} from 'react-navigation';
-import GameSessionDetailScreen from "./GameSession/GameSessionDetailScreen";
+import GameSessionDetailScreen from "./GameSessionDetail/GameSessionDetailScreen";
 import GameSessionJoinScreen from "./GameSessionJoin/GameSessionJoinScreen";
 import MapScreen from "./Map/MapScreen";
 import GameSessionOverviewListScreen from "./GameSession/GameSessionOverviewListScreen";
