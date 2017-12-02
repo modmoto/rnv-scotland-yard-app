@@ -40,21 +40,11 @@ export default class GameSessionDetailScreen extends React.Component {
     }
 
     async navigateToMapController() {
-        const {gameSession} = this.props.navigation.state.params;
-        const {response} = await AsyncStorage.getItem('gameState');
-        const player = await (response);
-        if (player) {
-            console.log('jeah');
-        }
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
                 NavigationActions.navigate({
                     routeName: 'MapScreen',
-                    params: {
-                        gameSession: gameSession,
-                        player: player
-                    }
                 })
             ]
         });

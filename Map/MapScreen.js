@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from "react-native";
+import {AsyncStorage, View} from "react-native";
 import {MapView} from "expo";
 import {fetchGameSession, fetchMrX, fetchPoliceOfficers, fetchStations, postPlayerMove} from "../Backend/RestAdapter";
 import TicketBuyFAB from "./FAB/TicketBuyFAB";
@@ -26,10 +26,11 @@ export default class MapScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        const {gameSession, player} = this.props.navigation.state.params;
+
         this.state = {
-            player: player,
-            gameSession: gameSession,
+            playerId: '',
+            playerRole: '',
+            gameSessionId: '',
             stations: [],
             mrX: null,
             policeOfficers: [],
@@ -45,13 +46,22 @@ export default class MapScreen extends React.Component {
     }
 
     async componentDidMount() {
+        const response = await AsyncStorage.getItem('gameState');
+        const gameState = await JSON.parse(response);
+
+        this.setState({
+            playerId: gameState.playerId,
+            playerRole: gameState.playerRole,
+            gameSessionId: gameState.gameSessionId
+        });
+
         await this.updateMapState();
     }
 
     async updateMapState() {
-        const {player, gameSession} = this.state;
+        const {gameSessionId} = this.state;
 
-        let gameSessionUpdated = await fetchGameSession(gameSession.id);
+        let gameSessionUpdated = await fetchGameSession(gameSessionId);
 
         if (gameSessionUpdated.gameSessionWinner !== 'None') {
             this.setState({
@@ -61,15 +71,12 @@ export default class MapScreen extends React.Component {
             return;
         }
 
-        let mrX = await fetchMrX(gameSession.id);
-        let policeOfficers = await fetchPoliceOfficers(gameSession.id);
+        let mrX = await fetchMrX(gameSessionId);
+        let policeOfficers = await fetchPoliceOfficers(gameSessionId);
 
         this.setState({
             mrX: mrX,
             policeOfficers: policeOfficers,
-            player: {
-                ...player
-            }
         });
 
         this.updateMapMarkers();
@@ -170,7 +177,7 @@ export default class MapScreen extends React.Component {
     }
 
     async endStationSelected(station) {
-        const {playerDrivingType, player, gameSession} = this.state;
+        const {playerDrivingType, playerId, gameSessionId} = this.state;
 
         this.completeMovementDialog.dismiss();
         this.sendingMovementDialog.show();
@@ -181,7 +188,7 @@ export default class MapScreen extends React.Component {
             VehicleType: playerDrivingType
         };
 
-        await postPlayerMove(gameSession.id, player.id, move);
+        await postPlayerMove(gameSessionId, playerId, move);
 
         this.sendingMovementDialog.dismiss();
         await this.updateMapState();
@@ -252,16 +259,16 @@ export default class MapScreen extends React.Component {
     }
 
     async getMrX() {
-        const {gameSession} = this.state;
-        return await fetchMrX(gameSession.id);
+        const {gameSessionId} = this.state;
+        return await fetchMrX(gameSessionId);
     }
 }
 
 const styles = ScaledSheet.create({
     container: {
-        flex:1,
+        flex: 1,
     },
     map: {
-        flex:1,
+        flex: 1,
     }
 });

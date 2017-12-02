@@ -59,11 +59,15 @@ export default class GameSessionJoinScreen extends React.Component {
     }
 
     async saveGameState(officer, playerRole, gameSession) {
-        await AsyncStorage.setItem('gameState', JSON.stringify({
-            playerRole: playerRole,
-            playerId: officer.id,
-            gameSessionId: gameSession.id
-        }));
+        try {
+            await AsyncStorage.setItem('gameState', JSON.stringify({
+                playerRole: playerRole,
+                playerId: officer.id,
+                gameSessionId: gameSession.id
+            }));
+        } catch (error) {
+            console.log('jaja');
+        }
     }
 
     async createMrXAndNavigateToDetailPage(playerName) {
