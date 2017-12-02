@@ -116,23 +116,20 @@ export default class MapScreen extends React.Component {
                                     onOkButtonPressed={() => this.navigateToHomeScreenAfterFinishingGame()}
                                     reference={(gameFinishedDialog) => {
                                         this.gameFinishedDialog = gameFinishedDialog;
-                                    }}
-                />
+                                    }}/>
 
                 <CompleteMovementDialog onRefresh={() => this.getStationsNearToPlayer()}
                                         onStationPressed={(station) => this.endStationSelected(station)}
                                         reference={(completeMovementDialog) => {
                                             this.completeMovementDialog = completeMovementDialog;
-                                        }}
-                />
+                                        }}/>
 
                 <StartMovementDialog onRefresh={() => this.getStationsNearToPlayer()}
                                      onStationPressed={() => this.playerSelectedStartStation()}
                                      playerDrivingType={playerDrivingType}
                                      reference={(startMovementDialog) => {
                                          this.startMovementDialog = startMovementDialog;
-                                     }}
-                />
+                                     }}/>
 
                 <SendingMovementDialog reference={(sendingMovementDialog) => {
                     this.sendingMovementDialog = sendingMovementDialog;
