@@ -9,7 +9,7 @@ import PoliceOfficerOverview from "./PoliceOfficerOverview";
 
 export default class GameSessionDetailScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: navigation.state.params.gameSession.name,
+        title: navigation.state.params.gameSession.name || 'Kein Name vorhanden',
     });
 
     constructor(props) {
@@ -41,7 +41,11 @@ export default class GameSessionDetailScreen extends React.Component {
 
     async navigateToMapController() {
         const {gameSession} = this.props.navigation.state.params;
-        const {player} = await AsyncStorage.getItem('@ScotlandYardStorage:gameState');
+        const {response} = await AsyncStorage.getItem('gameState');
+        const player = await (response);
+        if (player) {
+            console.log('jeah');
+        }
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [

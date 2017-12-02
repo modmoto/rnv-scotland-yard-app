@@ -9,7 +9,7 @@ import PoliceFullErrorDialog from "./PoliceFullErrorDialog";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
-        title: navigation.state.params.gameSession.name,
+        title: navigation.state.params.gameSession.name || 'Kein Name vorhanden',
     });
 
     constructor(props) {
@@ -59,15 +59,11 @@ export default class GameSessionJoinScreen extends React.Component {
     }
 
     async saveGameState(officer, playerRole, gameSession) {
-        await AsyncStorage.setItem('@ScotlandYardStorage:gameState', JSON.stringify({
+        await AsyncStorage.setItem('gameState', JSON.stringify({
             playerRole: playerRole,
             playerId: officer.id,
             gameSessionId: gameSession.id
         }));
-        if (true) {
-            console.log('jea');
-        }
-
     }
 
     async createMrXAndNavigateToDetailPage(playerName) {
