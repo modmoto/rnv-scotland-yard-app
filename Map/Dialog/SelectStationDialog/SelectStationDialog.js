@@ -1,10 +1,8 @@
 import React from 'react';
 import {ActivityIndicator, FlatList, RefreshControl, Text, View} from "react-native";
-import DialogContent from "react-native-dialog-component/src/components/DialogContent";
 import PropTypes from 'prop-types';
 import StationOverview from "./StationOverview";
-import {ScaleAnimation} from "react-native-dialog-component";
-import DialogComponent from "react-native-dialog-component/src/DialogComponent";
+import DefaultDialog from "../../../StyledComponents/DefaultDialog";
 
 export default class SelectStationDialog extends React.Component {
     constructor(props) {
@@ -24,10 +22,7 @@ export default class SelectStationDialog extends React.Component {
         const {selectableStations, refreshing} = this.state;
         const {title, reference} = this.props;
         return (
-            <DialogComponent title={title} ref={reference}
-                             animationDuration={200}
-                             ScaleAnimation={new ScaleAnimation()}>
-                <DialogContent>
+            <DefaultDialog title={title} reference={reference}>
                     <View>
                         {refreshing ? <ActivityIndicator/> :
                             <FlatList
@@ -40,8 +35,7 @@ export default class SelectStationDialog extends React.Component {
                                 renderItem={this.renderListItem}
                             />}
                     </View>
-                </DialogContent>
-            </DialogComponent>
+            </DefaultDialog>
         )
     }
 

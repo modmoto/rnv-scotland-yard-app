@@ -1,12 +1,10 @@
 import React from 'react';
 import {ActivityIndicator, FlatList, RefreshControl, Text, View} from "react-native";
-import DialogContent from "react-native-dialog-component/src/components/DialogContent";
 import PropTypes from 'prop-types';
 import {ScaledSheet} from "react-native-size-matters";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {convertVehicleToColor} from "../../util";
-import {ScaleAnimation} from "react-native-dialog-component";
-import DialogComponent from "react-native-dialog-component/src/DialogComponent";
+import DefaultDialog from "../../StyledComponents/DefaultDialog";
 
 export default class MrxStationsDialog extends React.Component {
 
@@ -27,25 +25,21 @@ export default class MrxStationsDialog extends React.Component {
         const {mrX, refreshing} = this.state;
         const {reference} = this.props;
         return (
-            <DialogComponent title={'Vergangene Bewegungen des MrX'} ref={reference}
-                             animationDuration={200}
-                             ScaleAnimation={new ScaleAnimation()}>
-                <DialogContent>
-                    <View>
-                        {refreshing ? <ActivityIndicator/> :
-                            <FlatList
-                                style={styles.container}
-                                refreshControl={<RefreshControl
-                                    refreshing={refreshing}
-                                    onRefresh={() => this._onRefresh()}
-                                />}
-                                data={mrX.usedVehicles}
-                                keyExtractor={this.keyExtractor}
-                                renderItem={this.renderListItem}
+            <DefaultDialog title={'Vergangene Bewegungen des MrX'} reference={reference}>
+                <View>
+                    {refreshing ? <ActivityIndicator/> :
+                        <FlatList
+                            style={styles.container}
+                            refreshControl={<RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={() => this._onRefresh()}
                             />}
-                    </View>
-                </DialogContent>
-            </DialogComponent>
+                            data={mrX.usedVehicles}
+                            keyExtractor={this.keyExtractor}
+                            renderItem={this.renderListItem}
+                        />}
+                </View>
+            </DefaultDialog>
         )
     }
 
