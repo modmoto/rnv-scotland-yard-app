@@ -18,12 +18,15 @@ import CompleteMovementDialog from "./Dialog/CompleteMovementDialog";
 import StartMovementDialog from "./Dialog/StartMovementDialog";
 import SendingMovementDialog from "./Dialog/SendingMovementDialog";
 import {getGameState} from "../Backend/ScotlandYardStorage";
+import AppConfig from "../AppConfig";
 
 export default class MapScreen extends React.Component {
     static navigationOptions = ({
             header: null
         }
     );
+
+    _searchRadius = AppConfig.SearchRadius();
 
     constructor(props) {
         super(props);
@@ -192,7 +195,7 @@ export default class MapScreen extends React.Component {
 
     async getStationsNearToPlayer(type) {
         let playerLocation = await getLocationAsync();
-        const stationsFetched = await fetchStations(playerLocation.coords, 700);
+        const stationsFetched = await fetchStations(playerLocation.coords, this._searchRadius);
         if (type) return this.filterStations(stationsFetched, type);
         else return stationsFetched;
     }

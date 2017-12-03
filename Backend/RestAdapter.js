@@ -1,5 +1,6 @@
-const BackendUrl = 'http://localhost:5000';
-//const BackendUrl = 'http://rnvscotlandyardrestapi.azurewebsites.net';
+import AppConfig from "../AppConfig";
+
+const BackendUrl = AppConfig.BackendUrl();
 
 export async function fetchGameSessions() {
     return await fetchJson('/game-sessions');
