@@ -18,6 +18,6 @@ export default function DefaultDialog({children, title, reference}) {
 }
 
 DefaultDialog.propTypes = {
-    title: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
     reference: PropTypes.func.isRequired,
 };

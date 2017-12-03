@@ -126,7 +126,7 @@ export default class MapScreen extends React.Component {
                                             this.completeMovementDialog = completeMovementDialog;
                                         }}/>
 
-                <StartMovementDialog onRefresh={() => this.getStationsNearToPlayer()}
+                <StartMovementDialog onRefresh={() => this.getStationsNearToPlayer(playerDrivingType)}
                                      onStationPressed={() => this.playerSelectedStartStation()}
                                      playerDrivingType={playerDrivingType}
                                      reference={(startMovementDialog) => {
