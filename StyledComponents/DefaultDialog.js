@@ -4,9 +4,9 @@ import DialogComponent from "react-native-dialog-component/src/DialogComponent";
 import DialogContent from "react-native-dialog-component/src/components/DialogContent";
 import {ScaleAnimation} from "react-native-dialog-component";
 
-export default function DefaultDialog({children, title, reference}) {
+export default function DefaultDialog({children, title, reference, onShown}) {
     return (
-        <DialogComponent title={title} ref={reference}
+        <DialogComponent onShown={async () => await onShown()} title={title} ref={reference}
                          animationDuration={200}
                          ScaleAnimation={new ScaleAnimation()}>
             <DialogContent>
@@ -20,4 +20,5 @@ export default function DefaultDialog({children, title, reference}) {
 DefaultDialog.propTypes = {
     title: PropTypes.string.isRequired,
     reference: PropTypes.func.isRequired,
+    onShown: PropTypes.func,
 };

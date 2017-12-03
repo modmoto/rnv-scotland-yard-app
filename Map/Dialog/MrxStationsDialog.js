@@ -25,7 +25,7 @@ export default class MrxStationsDialog extends React.Component {
         const {mrX, refreshing} = this.state;
         const {reference} = this.props;
         return (
-            <DefaultDialog title={'Vergangene Bewegungen des MrX'} reference={reference}>
+            <DefaultDialog onShown={() => this._onRefresh()} title={'Vergangene Bewegungen des MrX'} reference={reference}>
                 <View>
                     {refreshing ? <ActivityIndicator/> :
                         <FlatList

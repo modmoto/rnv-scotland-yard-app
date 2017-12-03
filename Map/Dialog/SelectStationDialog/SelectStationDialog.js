@@ -9,7 +9,7 @@ export default class SelectStationDialog extends React.Component {
         super(props);
 
         this.state = {
-            refreshing: false,
+            refreshing: true,
             selectableStations: []
         }
     }
@@ -22,7 +22,7 @@ export default class SelectStationDialog extends React.Component {
         const {selectableStations, refreshing} = this.state;
         const {title, reference} = this.props;
         return (
-            <DefaultDialog title={title} reference={reference}>
+            <DefaultDialog onShown={() => this._onRefresh()} title={title} reference={reference}>
                     <View>
                         {refreshing ? <ActivityIndicator/> :
                             <FlatList

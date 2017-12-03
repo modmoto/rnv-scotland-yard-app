@@ -108,9 +108,10 @@ export default class MapScreen extends React.Component {
                 {(playerIsInVehicle) ? <GetOutOfVehicleFAB
                         currentMovement={playerDrivingType}
                         onItemPressed={() => this.completeMovementDialog.show()}/> :
-                    <TicketBuyFAB onItemPressed={(item) => {
+                    <TicketBuyFAB onItemPressed={async (item) => {
                         this.playerSelectedDrivingType(item);
-                        this.startMovementDialog.show()
+                        //await this.refForUpdate._onRefresh();
+                        this.startMovementDialog.show();
                     }}/>}
                 <BottomButtonBar onItemPressed={(item) => this.handleBottomMenuClicks(item)}/>
 
