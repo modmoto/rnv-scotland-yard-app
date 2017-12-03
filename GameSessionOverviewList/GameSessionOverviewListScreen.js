@@ -36,7 +36,7 @@ export default class GameSessionOverviewListScreen extends React.Component {
                 {(currentSession) &&
                 <View style={styles.lastSessionContainer}>
                     <Text style={styles.lastSessionContainerLabel}>Aktuelles Spiel:</Text>
-                    <GameSessionOverview gameSession={currentSession} navigation={navigation}/>
+                    <GameSessionOverview gameSession={currentSession} navigation={navigation} navigationGoal={'MapScreen'}/>
                 </View>
                 }
                 {(currentSession) && <Text style={styles.lastSessionContainerLabel}>Spiele in deiner Nähe:</Text>}
@@ -59,7 +59,7 @@ export default class GameSessionOverviewListScreen extends React.Component {
 
     _renderItem = ({item}) => {
         const {navigation} = this.props;
-        return <GameSessionOverview gameSession={item} navigation={navigation}/>
+        return <GameSessionOverview gameSession={item} navigation={navigation} navigationGoal={'GameSessionJoinPage'}/>
     };
 
     _keyExtractor = (item, index) => item.id;

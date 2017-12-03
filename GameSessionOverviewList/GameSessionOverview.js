@@ -7,10 +7,10 @@ import COLORS from "../StyledComponents/Colors";
 
 export default class GameSessionOverviewListElement extends React.Component {
     render() {
-        const {gameSession, navigation} = this.props;
+        const {gameSession, navigation, navigationGoal} = this.props;
         return (
 
-            <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('GameSessionJoinPage', {
+            <TouchableOpacity style={styles.container} onPress={() => navigation.navigate(navigationGoal, {
                 gameSession: gameSession
             })}>
                 <Text style={styles.gameName}>{gameSession.name}</Text>
@@ -65,6 +65,7 @@ function PoliceSummary({officers, maxOfficers}) {
 GameSessionOverviewListElement.propTypes = {
     gameSession: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
+    navigationGoal: PropTypes.string.isRequired,
 };
 
 
