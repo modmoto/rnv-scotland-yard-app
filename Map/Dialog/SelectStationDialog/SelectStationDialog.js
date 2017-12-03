@@ -22,19 +22,23 @@ export default class SelectStationDialog extends React.Component {
         const {selectableStations, refreshing} = this.state;
         const {title, reference} = this.props;
         return (
-            <DefaultDialog onShown={() => this._onRefresh()} title={title} reference={reference}>
-                    <View>
-                        {refreshing ? <ActivityIndicator/> :
-                            <FlatList
-                                refreshControl={<RefreshControl
-                                    refreshing={refreshing}
-                                    onRefresh={() => this._onRefresh()}
-                                />}
-                                data={selectableStations}
-                                keyExtractor={this.keyExtractor}
-                                renderItem={this.renderListItem}
+            <DefaultDialog
+                onShown={() => this._onRefresh()}
+                onDismissed={() => this.setState({refreshing: true})}
+                title={title}
+                reference={reference}>
+                <View>
+                    {refreshing ? <ActivityIndicator/> :
+                        <FlatList
+                            refreshControl={<RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={() => this._onRefresh()}
                             />}
-                    </View>
+                            data={selectableStations}
+                            keyExtractor={this.keyExtractor}
+                            renderItem={this.renderListItem}
+                        />}
+                </View>
             </DefaultDialog>
         )
     }
