@@ -24,6 +24,8 @@ export default class GameSessionOverviewListScreen extends React.Component {
 
     async _onRefresh() {
         this.setState({refreshing: true});
+        const gameState = await getGameState();
+        this.setState({ ...gameState});
         await this.loadGameSessions();
         this.setState({refreshing: false});
     }
@@ -66,10 +68,6 @@ export default class GameSessionOverviewListScreen extends React.Component {
 
     async componentDidMount() {
         await this._onRefresh();
-        const gameState = await getGameState();
-        this.setState({
-            ...gameState
-        })
     }
 
     async loadGameSessions() {
