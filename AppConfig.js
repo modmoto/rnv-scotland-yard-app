@@ -7,6 +7,6 @@ export default class AppConfig {
     }
 
     static SearchRadius() {
-        return this.ReleaseMode ? 100 : 700;
+        return this.ReleaseMode ? 200 : 700;
     }
 }
