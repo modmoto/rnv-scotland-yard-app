@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, View} from "react-native";
+import {View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import Button from "../StyledComponents/Button";
