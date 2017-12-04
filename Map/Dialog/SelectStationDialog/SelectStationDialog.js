@@ -14,10 +14,6 @@ export default class SelectStationDialog extends React.Component {
         }
     }
 
-    async componentDidMount() {
-        await this._onRefresh();
-    }
-
     render() {
         const {selectableStations, refreshing} = this.state;
         const {title, reference} = this.props;

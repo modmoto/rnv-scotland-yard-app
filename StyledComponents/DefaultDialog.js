@@ -4,7 +4,7 @@ import DialogComponent from "react-native-dialog-component/src/DialogComponent";
 import DialogContent from "react-native-dialog-component/src/components/DialogContent";
 import {ScaleAnimation} from "react-native-dialog-component";
 
-export default function DefaultDialog({children, title, reference, onShown, onDismissed}) {
+export default function DefaultDialog({children, title, reference, onShown = ()=>{}, onDismissed = ()=>{}}) {
     return (
         <DialogComponent onShown={() => onShown()} onDismissed={() => onDismissed()} title={title} ref={reference}
                          animationDuration={200}

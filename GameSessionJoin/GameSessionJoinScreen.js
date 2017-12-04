@@ -6,7 +6,8 @@ import Button from "../StyledComponents/Button";
 import TextInput from "../StyledComponents/TextInput";
 import MrxFullErrorDialog from "./MrxFullErrorDialog";
 import PoliceFullErrorDialog from "./PoliceFullErrorDialog";
-import {saveGameState} from "../Backend/ScotlandYardStorage";
+import {getGameState, saveGameState} from "../Backend/ScotlandYardStorage";
+import LeaveActiveSessionDialog from "./LeaveActiveSessionDialog";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -22,6 +23,24 @@ export default class GameSessionJoinScreen extends React.Component {
         };
     }
 
+    async savePlayerAndGotToMapPage() {
+        const {gameSession} = this.props.navigation.state.params;
+        const {playerRole, playerName} = this.state;
+
+        let playerLocation = await getLocationAsync();
+        let player = await this.postPlayer(playerRole, gameSession, playerName, playerLocation);
+
+        if (player === null) {
+            if (playerRole === 'mrX') this.mrxFullErrorDialog.show();
+            if (playerRole === 'policeOfficer') this.policeFullErrorDialog.show();
+            return;
+        }
+
+        await saveGameState(player, playerRole, gameSession);
+
+        await this.navigateToDetailPage();
+    }
+
     render() {
         const {playerName} = this.state;
 
@@ -32,51 +51,53 @@ export default class GameSessionJoinScreen extends React.Component {
                     onChangeText={(text) => this.setState({playerName: text})}
                     value={this.state.playerName}
                 />
-                <Button title={'Mr-X'} onPress={() => this.createMrXAndNavigateToDetailPage(playerName)}/>
+                <Button title={'Mr-X'} onPress={() => this.tryCreatePlayerAndNavigateToDetailPage(playerName, 'mrX')}/>
                 <Button title={'Polizist'}
-                        onPress={() => this.createPoliceOfficerAndNavigateToDetailPage(playerName)}/>
+                        onPress={() => this.tryCreatePlayerAndNavigateToDetailPage(playerName, 'policeOfficer')}/>
 
                 <MrxFullErrorDialog reference={(dialog) => this.mrxFullErrorDialog = dialog}/>
                 <PoliceFullErrorDialog reference={(dialog) => this.policeFullErrorDialog = dialog}/>
+                <LeaveActiveSessionDialog
+                    reference={(leaveActiveSessionDialog) => this.leaveActiveSessionDialog = leaveActiveSessionDialog}
+                    onClickYes={() => this.savePlayerAndGotToMapPage()}/>
             </View>
         );
     }
 
-    async createPoliceOfficerAndNavigateToDetailPage(playerName) {
-        let playerLocation = await getLocationAsync();
-        const {gameSession} = this.props.navigation.state.params;
-        let officer = await postPoliceOfficer(gameSession.id, {
-            name: playerName,
-            startLocation: playerLocation.coords
-        });
-        if (officer === null) {
-            this.policeFullErrorDialog.show();
+    async tryCreatePlayerAndNavigateToDetailPage(playerName, playerRole) {
+
+        const gameState = await getGameState();
+        if (gameState) {
+            this.leaveActiveSessionDialog.show();
+
+            this.setState({
+                playerName: playerName,
+                playerRole: playerRole,
+            });
             return;
         }
 
-        await saveGameState(officer, "policeOfficer", gameSession);
-
-        this.navigateToDetailPage();
+        await this.savePlayerAndGotToMapPage();
     }
 
-    async createMrXAndNavigateToDetailPage(playerName) {
-        let playerLocation = await getLocationAsync();
-        const {gameSession} = this.props.navigation.state.params;
-        let mrX = await await postMrX(gameSession.id, {
-            name: playerName,
-            startLocation: playerLocation.coords
-        });
-        if (mrX === null) {
-            this.mrxFullErrorDialog.show();
-            return;
+    async postPlayer(playerRole, gameSession, playerName, playerLocation) {
+        let player = null;
+        if (playerRole === 'mrX') {
+            player = await await postMrX(gameSession.id, {
+                name: playerName,
+                startLocation: playerLocation.coords
+            });
         }
-
-        await saveGameState(mrX, 'mrX', gameSession);
-
-        this.navigateToDetailPage();
+        if (playerRole === 'policeOfficer') {
+            player = await await postPoliceOfficer(gameSession.id, {
+                name: playerName,
+                startLocation: playerLocation.coords
+            });
+        }
+        return player;
     }
 
-    navigateToDetailPage() {
+    async navigateToDetailPage() {
         const {gameSession} = this.props.navigation.state.params;
 
         this.props.navigation.navigate('GameSessionDetailScreen', {

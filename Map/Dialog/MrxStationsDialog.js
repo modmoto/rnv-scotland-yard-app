@@ -17,10 +17,6 @@ export default class MrxStationsDialog extends React.Component {
         }
     }
 
-    async componentDidMount() {
-        await this._onRefresh();
-    }
-
     render() {
         const {mrX, refreshing} = this.state;
         const {reference} = this.props;
