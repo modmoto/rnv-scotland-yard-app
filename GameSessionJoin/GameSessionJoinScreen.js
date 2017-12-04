@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from "react-native";
+import {ActivityIndicator, View} from "react-native";
 import {postMrX, postPoliceOfficer} from "../Backend/RestAdapter";
 import {getLocationAsync} from "../Location/LocationHelpers";
 import Button from "../StyledComponents/Button";
@@ -8,6 +8,7 @@ import MrxFullErrorDialog from "./MrxFullErrorDialog";
 import PoliceFullErrorDialog from "./PoliceFullErrorDialog";
 import {getGameState, saveGameState} from "../Backend/ScotlandYardStorage";
 import LeaveActiveSessionDialog from "./LeaveActiveSessionDialog";
+import StyledActivityIndicator from "../StyledComponents/StyledActivityIndicator";
 
 export default class GameSessionJoinScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
@@ -19,13 +20,15 @@ export default class GameSessionJoinScreen extends React.Component {
         this.state = {
             playerName: '',
             playerRole: '',
-            playerId: ''
+            playerId: '',
+            refreshing: false
         };
     }
 
     async savePlayerAndGotToMapPage() {
         const {gameSession} = this.props.navigation.state.params;
         const {playerRole, playerName} = this.state;
+        this.setState({refreshing: true});
 
         let playerLocation = await getLocationAsync();
         let player = await this.postPlayer(playerRole, gameSession, playerName, playerLocation);
@@ -38,28 +41,35 @@ export default class GameSessionJoinScreen extends React.Component {
 
         await saveGameState(player, playerRole, gameSession);
 
+        this.setState({refreshing: false});
+
         await this.navigateToDetailPage();
     }
 
     render() {
-        const {playerName} = this.state;
+        const {playerName, refreshing} = this.state;
 
         return (
             <View>
-                <TextInput
-                    placeholder={'Spielername'}
-                    onChangeText={(text) => this.setState({playerName: text})}
-                    value={this.state.playerName}
-                />
-                <Button title={'Mr-X'} onPress={() => this.tryCreatePlayerAndNavigateToDetailPage(playerName, 'mrX')}/>
-                <Button title={'Polizist'}
-                        onPress={() => this.tryCreatePlayerAndNavigateToDetailPage(playerName, 'policeOfficer')}/>
+                {(refreshing) ? <StyledActivityIndicator/> :
+                    <View>
+                        <TextInput
+                            placeholder={'Spielername'}
+                            onChangeText={(text) => this.setState({playerName: text})}
+                            value={this.state.playerName}
+                        />
+                        <Button title={'Mr-X'}
+                                onPress={() => this.tryCreatePlayerAndNavigateToDetailPage(playerName, 'mrX')}/>
+                        <Button title={'Polizist'}
+                                onPress={() => this.tryCreatePlayerAndNavigateToDetailPage(playerName, 'policeOfficer')}/>
 
-                <MrxFullErrorDialog reference={(dialog) => this.mrxFullErrorDialog = dialog}/>
-                <PoliceFullErrorDialog reference={(dialog) => this.policeFullErrorDialog = dialog}/>
-                <LeaveActiveSessionDialog
-                    reference={(leaveActiveSessionDialog) => this.leaveActiveSessionDialog = leaveActiveSessionDialog}
-                    onClickYes={() => this.savePlayerAndGotToMapPage()}/>
+                        <MrxFullErrorDialog reference={(dialog) => this.mrxFullErrorDialog = dialog}/>
+                        <PoliceFullErrorDialog reference={(dialog) => this.policeFullErrorDialog = dialog}/>
+                        <LeaveActiveSessionDialog
+                            reference={(leaveActiveSessionDialog) => this.leaveActiveSessionDialog = leaveActiveSessionDialog}
+                            onClickYes={() => this.savePlayerAndGotToMapPage()}/>
+                    </View>
+                }
             </View>
         );
     }
