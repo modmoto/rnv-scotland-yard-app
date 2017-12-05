@@ -9,7 +9,7 @@ import {ScaledSheet} from "react-native-size-matters";
 
 export default class GameSessionOverviewListScreen extends React.Component {
     static navigationOptions = () => ({
-        title: 'Spiele der letzten 24S Stunden',
+        title: 'Spiele der letzten 24 Stunden',
     });
 
     constructor(props) {
